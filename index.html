@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CodeRank Blanks: original question, then a fill-in-the-blanks twist</title>
+<style>
+:root{--bg:#eef2f0;--card:#fff;--tx:#16231f;--mut:#5b6b65;--bd:#d5dfda;--ac:#1f6f5c;--on:#fff;--ok:#15803d;--warn:#b45309;--bad:#c62828;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a17;--card:#16241f;--tx:#e6efe9;--mut:#9bb0a7;--bd:#28403a;--ac:#5fc4a3;--on:#08130f;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}}
+:root[data-theme="dark"]{--bg:#0f1a17;--card:#16241f;--tx:#e6efe9;--mut:#9bb0a7;--bd:#28403a;--ac:#5fc4a3;--on:#08130f;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:22px 16px 18px;border-bottom:1px solid var(--bd);background:var(--card);position:relative}
+header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:10px;background:repeating-conic-gradient(var(--ac) 0 25%,transparent 0 50%) 0 0/20px 20px;opacity:.85}
+.hd{max-width:900px;margin:auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
+h1{font:700 30px/1.1 Georgia,"Times New Roman",serif;margin:0}
+h1 span{display:block;font:400 14px system-ui,sans-serif;color:var(--mut);margin-top:6px;max-width:540px}
+h2{font:700 18px Georgia,serif;margin:0 0 10px}
+.score{font:700 34px Georgia,serif;color:var(--ac);line-height:1;text-align:right}
+.score small{font:400 13px system-ui,sans-serif;color:var(--mut);display:block}
+main{max-width:900px;margin:auto;padding:22px 16px 30px;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;min-width:0}
+.mut{color:var(--mut)}.sm{font-size:13px}
+label{display:block;font-weight:600;margin:0 0 4px}
+select{width:100%;box-sizing:border-box;font:14px system-ui,sans-serif;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:9px}
+textarea{width:100%;height:150px;box-sizing:border-box;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:10px;resize:vertical}
+.g3{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));align-items:end}
+button{font:600 14px system-ui,sans-serif;cursor:pointer}
+button.a{padding:10px 18px;border-radius:8px;border:1px solid var(--ac);background:var(--ac);color:var(--on)}
+button.b2{background:transparent;color:var(--tx);border-color:var(--bd)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.tm{font:700 38px Georgia,serif;color:var(--ac)}.tm.low{color:var(--bad)}
+.q{padding:12px;border:1px solid var(--bd);border-left:4px solid var(--ac);border-radius:8px;background:var(--bg);margin:8px 0}
+.code{overflow-x:auto;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;font:15px/1.9 ui-monospace,Menlo,Consolas,monospace}
+.ln{white-space:pre}
+.bl{font:700 14px ui-monospace,Menlo,Consolas,monospace;padding:2px 10px;margin:0 2px;border-radius:6px;border:1px dashed var(--mut);background:transparent;color:var(--mut)}
+.bl.act{border:2px solid var(--ac);color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
+.bl.done{border-style:solid;border-color:var(--ok);color:var(--ok)}
+.op{margin-top:12px;padding:12px;border:1px solid var(--bd);border-radius:8px;min-height:92px}
+.op h3{margin:0 0 8px;font:700 16px Georgia,serif}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts button{padding:8px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:600 15px ui-monospace,Menlo,Consolas,monospace}
+.opts button:hover{border-color:var(--ac)}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.warn{color:var(--bad)}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.big{font:700 22px Georgia,serif}
+.hide{display:none}
+</style></head><body>
+<header><div class="hd">
+<h1>CodeRank Blanks<span>Step 1: solve the original question. Step 2: a twist of the same concept as fill-in-the-blanks, one blank at a time.</span></h1>
+<div class="score"><span id="mr">1200</span><small>your Elo rating</small></div>
+</div></header>
+<main>
+<section class="card"><div class="g3">
+<div><label for="pp">Problem</label><select id="pp"></select></div>
+<div><button class="a" id="go">Start with the original question</button></div></div>
+<p class="mut sm">You type the original answer in JavaScript and it is tested. If it passes, the twist round starts. The twist is your solution rewritten for a new question with key parts blanked out. Blanks unlock one at a time and show their options only when active. Pasting into the editor costs 30 seconds and leaving this tab or window costs 15 seconds.</p></section>
+<section class="card hide" id="c1"><h2>Step 1: the original question</h2>
+<div class="tm" id="t1">5:00</div><p class="warn sm" id="w1"></p>
+<div class="q" id="q1"></div>
+<label for="ed">Your answer (JavaScript)</label>
+<textarea id="ed" spellcheck="false"></textarea>
+<div class="row"><button class="a" id="sub1">Run tests and submit</button><button class="a hide" id="nx">Continue to the twist round</button></div>
+<div id="r1" aria-live="polite" style="margin-top:10px"></div></section>
+<section class="card hide" id="c2"><h2>Step 2: the twist round (same concept, new question)</h2>
+<div class="tm" id="tm">3:00</div><p class="warn sm" id="pw"></p>
+<div class="q" id="tq"></div>
+<div class="code" id="code" aria-label="Code with blanks"></div>
+<div class="op" id="op" aria-live="polite"></div>
+<div class="row"><button class="a" id="sb" disabled>Submit answers</button><button class="a b2" id="demo">Demo: simulate a phone-relay cheater</button></div></section>
+<section class="card hide" id="oc"><h2>Result</h2><div id="out"></div></section>
+</main>
+<script>
+const BANK=[{"name":"Extreme value","rating":1000,"oq":"Write a function largest(nums) that returns the largest number in an array of integers.","ofn":"largest","oargs":"nums","otests":[[[[3,9,2,7,4]],9],[[[5,5,5]],5],[[[-5,-9,-1,-3]],-1],[[[8]],8]],"question":"A weather station logs daily temperatures (some are below zero). Complete the function so it returns the LOWEST temperature in the array.","lines":["function lowest(temps) {","  let low = temps[@1@];","  for (let i = @2@; i < temps.length; i++) {","    if (temps[i] @3@ low) {","      low = temps[i];","    }","  }","  return @4@;","}"],"options":[["0","1","temps.length","-1"],["1","2","temps.length - 1","temps.length"],["<",">","===","!=="],["low","temps[0]","i","temps.length"]]},{"name":"Two Sum","rating":1300,"oq":"Write a function twoSum(nums, target) that returns the indices [i, j] (with i < j) of the two numbers in the array that add up to target. Exactly one pair exists.","ofn":"twoSum","oargs":"nums, target","otests":[[[[2,7,11,15],9],[0,1]],[[[3,2,4],6],[1,2]],[[[3,3],6],[0,1]],[[[1,5,9,14,20],34],[3,4]]],"question":"A shop keeps item prices in an array. Complete the function so it returns the positions [i, j] (with i < j) of the two items whose prices add up exactly to the customer’s budget. Exactly one such pair exists.","lines":["function findPair(prices, budget) {","  for (let i = 0; i < prices.length; i++) {","    for (let j = @1@; j < @2@; j++) {","      if (prices[i] @3@ prices[j] === budget) {","        return [i, @4@];","      }","    }","  }","  return [-1, -1];","}"],"options":[["i + 1","i","0","i - 1"],["prices.length","prices.length - 1","i","prices[i]"],["+","-","*","/"],["j","i","budget","prices[j]"]]},{"name":"Counting characters","rating":1100,"oq":"Write a function countDigits(text) that returns how many characters of the text are digits (0 to 9).","ofn":"countDigits","oargs":"text","otests":[[["a1b22"],3],[["hello"],0],[["2026"],4],[["x9"],1]],"question":"A school app counts the vowels (a, e, i, o, u in any case) in a student’s name. Complete the function so it returns how many vowels the name contains.","lines":["function countVowels(word) {","  let count = @1@;","  for (let i = 0; i < word.@2@; i++) {","    const c = word[i].toLowerCase();","    if (\"aeiou\".@3@(c) @4@ 0) {","      count++;","    }","  }","  return count;","}"],"options":[["0","1","-1","word.length"],["length","length()","size","charAt(0)"],["indexOf","charAt","includes","length"],[">=",">","===","<"]]}];
+const $=id=>document.getElementById(id);
+const K=32,LPB=45,OLIM=300;
+//EVAL-START
+function evaluate(n,rate,prate,correct,changes,dwell,used,orig){const o={flags:[]},limit=LPB*n,frac=correct/n;
+let ts=Math.max(0,Math.min(1,1-used/limit));const per=used/n;
+if(per<3){ts=Math.min(ts,.5);o.flags.push("Too fast: "+per.toFixed(1)+" s per blank is quicker than reading and clicking allow")}
+const st=1-Math.min(1,changes/n);o.score=frac===1?.4+.4*ts+.2*st:.25*frac;
+const mean=dwell.reduce((a,b)=>a+b,0)/n,sd=Math.sqrt(dwell.reduce((a,b)=>a+(b-mean)**2,0)/n);
+if(n>=3&&mean>8&&sd/mean<.3)o.flags.push("Long, very regular pause on every blank (looks like relaying each blank to another device)");
+const ratio=used/Math.max(5,orig);if(frac===1&&ratio>2.5)o.flags.push("Twist took "+ratio.toFixed(1)+"x as long as the original");
+o.flags.forEach(()=>{o.score*=.5});o.exp=1/(1+10**((prate-rate)/400));o.d=Math.floor(K*(o.score-o.exp)+.5);
+o.verdict=frac<1?"Some blanks were wrong. Flag for review if the original was solved unusually fast.":o.flags.length?"Send for human review (never an automatic ban). Score was halved for each flag.":"Consistent with real understanding.";return o}
+//EVAL-END
+let rating=1200,O=null,S=null,t1=null,t2=null;
+BANK.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p.name+" (rating "+p.rating+")";$("pp").append(o)});
+const show=(id,v)=>$(id).classList.toggle("hide",!v);
+const mmss=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+/* ---------- step 1: original question ---------- */
+const el1=()=>(Date.now()-O.start)/1000+O.pen;
+function tick1(){const left=OLIM-el1();$("t1").textContent=mmss(Math.max(0,Math.ceil(left)));$("t1").className="tm"+(left<30?" low":"");if(left<=0)submitOrig(true)}
+$("go").onclick=()=>{clearInterval(t1);clearInterval(t2);S=null;const p=BANK[+$("pp").value];
+O={p,start:Date.now(),pen:0,running:true};
+$("q1").textContent=p.oq;$("ed").value="function "+p.ofn+"("+p.oargs+") {\n  \n}";$("w1").textContent="";$("r1").innerHTML="";
+$("nx").classList.add("hide");$("sub1").disabled=false;show("c1",true);show("c2",false);show("oc",false);tick1();t1=setInterval(tick1,250)};
+$("ed").addEventListener("paste",()=>{if(O&&O.running){O.pen+=30;$("w1").textContent="Suspicious activity (text pasted): 30 s cut from your timer. Total penalty: "+O.pen+" s."}});
+$("sub1").onclick=()=>submitOrig(false);
+function submitOrig(auto){if(!O||!O.running)return;const p=O.p;let pass=0,msg="";
+try{const f=new Function($("ed").value+"\nreturn "+p.ofn+";")();p.otests.forEach(t=>{let ok=false;try{ok=JSON.stringify(f(...JSON.parse(JSON.stringify(t[0]))))===JSON.stringify(t[1])}catch(e){}if(ok)pass++})}catch(e){msg="Code error: "+e.message+". "}
+const all=pass===p.otests.length;
+if(all){O.running=false;O.used=el1();clearInterval(t1);$("sub1").disabled=true;$("nx").classList.remove("hide");
+$("r1").innerHTML="<p class='ok'><b>All "+pass+" tests passed.</b> Original solved in "+Math.round(O.used)+" s (penalties included). Next comes the twist: the same concept in a new question.</p>"}
+else if(auto){O.running=false;clearInterval(t1);$("sub1").disabled=true;$("r1").innerHTML="<p class='bad'><b>Time is up.</b> The original was not solved, so there is no twist round.</p>"}
+else $("r1").innerHTML="<p class='bad'>"+msg+"<b>"+pass+" of "+p.otests.length+" tests passed.</b> Fix your code and submit again; the timer keeps running.</p>"}
+window.addEventListener("blur",()=>{if(O&&O.running){O.pen+=15;$("w1").textContent="Suspicious activity (left the page): 15 s cut from your timer. Total penalty: "+O.pen+" s."}
+else if(S&&S.running){S.pen+=15;$("pw").textContent="Suspicious activity (left the page): 15 s cut from your timer. Total penalty: "+S.pen+" s."}});
+/* ---------- step 2: fill-in-the-blanks twist ---------- */
+function used(){return (Date.now()-S.start)/1000+S.pen}
+function renderCode(){const c=$("code");c.innerHTML="";
+S.p.lines.forEach(line=>{const row=document.createElement("div");row.className="ln";let last=0,m;const re=/@(\d+)@/g;
+while((m=re.exec(line))){row.append(line.slice(last,m.index));const b=+m[1]-1,btn=document.createElement("button");
+btn.className="bl"+(S.chosen[b]>=0?" done":"")+(S.active===b?" act":"");
+btn.textContent=S.chosen[b]>=0?S.p.options[b][S.chosen[b]]:"[ "+(b+1)+" ]";
+btn.disabled=!S.running||!(S.chosen[b]>=0||b===S.active);btn.onclick=()=>openBlank(b);row.append(btn);last=m.index+m[0].length}
+row.append(line.slice(last)||" ");c.append(row)})}
+function renderOpts(){const op=$("op"),b=S.active,n=S.p.options.length;op.innerHTML="";
+if(b<0){op.innerHTML="<h3>All "+n+" blanks answered</h3><p class='mut'>Click a filled blank to change it, or submit your answers.</p>";return}
+const h=document.createElement("h3");h.textContent="Blank "+(b+1)+" of "+n+": choose one";op.append(h);
+const w=document.createElement("div");w.className="opts";
+S.order[b].forEach(k=>{const x=document.createElement("button");x.textContent=S.p.options[b][k];x.onclick=()=>choose(b,k);w.append(x)});op.append(w)}
+function openBlank(b){if(!S.running)return;S.active=b;S.activeAt=Date.now();renderCode();renderOpts()}
+function choose(b,k){if(S.chosen[b]>=0&&S.chosen[b]!==k)S.changes++;S.chosen[b]=k;S.dwell[b]=(Date.now()-S.activeAt)/1000;
+S.active=S.chosen.findIndex(x=>x<0);S.activeAt=Date.now();$("sb").disabled=S.active>=0;renderCode();renderOpts()}
+function tick(){const left=S.p.options.length*LPB-used(),s=Math.max(0,Math.ceil(left));
+$("tm").textContent=mmss(s);$("tm").className="tm"+(left<30?" low":"");if(left<=0)finish()}
+$("nx").onclick=()=>{const p=O.p,n=p.options.length;
+S={p,n,chosen:Array(n).fill(-1),dwell:Array(n).fill(0),order:p.options.map(o=>shuffle(o.map((_,i)=>i))),active:0,activeAt:Date.now(),start:Date.now(),pen:0,changes:0,running:true};
+$("tq").textContent=p.question;$("pw").textContent="";show("c2",true);show("oc",false);$("sb").disabled=true;$("demo").disabled=false;
+renderCode();renderOpts();tick();t2=setInterval(tick,250);$("c2").scrollIntoView({behavior:"smooth",block:"start"})};
+$("sb").onclick=()=>finish();
+$("demo").onclick=()=>{if(!S||!S.running)return;S.chosen.fill(0);S.dwell=S.dwell.map((_,i)=>[12,11,12,13][i%4]);finish({used:52,orig:20})};
+function finish(ov){if(!S||!S.running)return;S.running=false;clearInterval(t2);$("sb").disabled=true;$("demo").disabled=true;
+const p=S.p,n=S.n,correct=S.chosen.filter(x=>x===0).length,u=ov?ov.used:used(),orig=ov?ov.orig:O.used;
+const o=evaluate(n,rating,p.rating,correct,S.changes,S.dwell,u,orig);rating+=o.d;$("mr").textContent=rating;renderCode();
+let h="<p><b>"+correct+" of "+n+" blanks correct.</b> Twist time: "+Math.round(u)+" s (penalties: "+S.pen+" s). Original time: "+Math.round(orig)+" s.</p>"+
+"<p>Performance score: <b>"+o.score.toFixed(2)+"</b> (0.4 correct + 0.4 time + 0.2 steady answers, halved for each flag). Chance of success was "+Math.round(o.exp*100)+"%, so your Elo changes by <span class='big "+(o.d>=0?"ok":"bad")+"'>"+(o.d>=0?"+":"")+o.d+"</span></p>"+
+"<p class='"+(o.flags.length||correct<n?"bad":"ok")+"'><b>Verdict:</b> "+o.verdict+"</p>";
+if(o.flags.length)h+="<ul>"+o.flags.map(f=>"<li>"+f+"</li>").join("")+"</ul>";
+h+="<p class='mut sm'>Decision time per blank: "+S.dwell.map((d,i)=>(i+1)+") "+d.toFixed(1)+" s").join("  ")+"</p>";
+const wrong=S.chosen.map((c,i)=>c===0?"":"Blank "+(i+1)+": correct answer was "+p.options[i][0]).filter(Boolean);
+if(wrong.length)h+="<p class='sm'>"+wrong.join("<br>")+"</p>";
+$("out").innerHTML=h;show("oc",true);$("oc").scrollIntoView({behavior:"smooth",block:"nearest"})}
+</script></body></html>
