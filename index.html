@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CodeRank Blanks: original question, then a fill-in-the-blanks twist</title>
+<title>CodeRank C: 10 questions in C programming</title>
+<script src="https://cdn.jsdelivr.net/npm/JSCPP@2.0.9/dist/JSCPP.es5.min.js"></script>
 <style>
 :root{--bg:#eef2f0;--card:#fff;--tx:#16231f;--mut:#5b6b65;--bd:#d5dfda;--ac:#1f6f5c;--on:#fff;--ok:#15803d;--warn:#b45309;--bad:#c62828;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a17;--card:#16241f;--tx:#e6efe9;--mut:#9bb0a7;--bd:#28403a;--ac:#5fc4a3;--on:#08130f;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}}
@@ -10,69 +11,90 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 header{padding:22px 16px 18px;border-bottom:1px solid var(--bd);background:var(--card);position:relative}
 header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:10px;background:repeating-conic-gradient(var(--ac) 0 25%,transparent 0 50%) 0 0/20px 20px;opacity:.85}
-.hd{max-width:900px;margin:auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
+.hd{max-width:960px;margin:auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
 h1{font:700 30px/1.1 Georgia,"Times New Roman",serif;margin:0}
-h1 span{display:block;font:400 14px system-ui,sans-serif;color:var(--mut);margin-top:6px;max-width:540px}
+h1 span{display:block;font:400 14px system-ui,sans-serif;color:var(--mut);margin-top:6px;max-width:580px}
 h2{font:700 18px Georgia,serif;margin:0 0 10px}
 .score{font:700 34px Georgia,serif;color:var(--ac);line-height:1;text-align:right}
 .score small{font:400 13px system-ui,sans-serif;color:var(--mut);display:block}
-main{max-width:900px;margin:auto;padding:22px 16px 30px;display:grid;gap:14px}
+main{max-width:960px;margin:auto;padding:22px 16px 30px;display:grid;gap:14px}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;min-width:0}
 .mut{color:var(--mut)}.sm{font-size:13px}
-label{display:block;font-weight:600;margin:0 0 4px}
-select{width:100%;box-sizing:border-box;font:14px system-ui,sans-serif;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:9px}
-textarea{width:100%;height:150px;box-sizing:border-box;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:10px;resize:vertical}
-.g3{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));align-items:end}
+.grid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
+.qb{display:flex;flex-direction:column;gap:2px;text-align:left;padding:10px 12px;border:1px solid var(--bd);border-radius:8px;background:transparent;color:var(--tx);font:inherit;cursor:pointer}
+.qb span{font-size:13px;color:var(--mut)}.qb small{font-size:12px;color:var(--mut)}
+.qb.ok{border-color:var(--ok)}.qb.part{border-color:var(--warn)}.qb.cur{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
+.qb:disabled{opacity:.6;cursor:default}
 button{font:600 14px system-ui,sans-serif;cursor:pointer}
 button.a{padding:10px 18px;border-radius:8px;border:1px solid var(--ac);background:var(--ac);color:var(--on)}
 button.b2{background:transparent;color:var(--tx);border-color:var(--bd)}
 button:disabled{opacity:.45;cursor:default}
-button:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.rb{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 .tm{font:700 38px Georgia,serif;color:var(--ac)}.tm.low{color:var(--bad)}
-.q{padding:12px;border:1px solid var(--bd);border-left:4px solid var(--ac);border-radius:8px;background:var(--bg);margin:8px 0}
-.code{overflow-x:auto;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;font:15px/1.9 ui-monospace,Menlo,Consolas,monospace}
+.pen{border:1px solid var(--warn);border-radius:8px;padding:8px 10px;margin-top:6px}
+.pen b{color:var(--warn);font-size:18px}
+.bar{height:12px;background:var(--bg);border:1px solid var(--bd);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.bar i.Medium{background:var(--warn)}.bar i.High{background:var(--bad)}
+.lv{font:700 20px Georgia,serif;margin:6px 0 2px}
+.Low{color:var(--ok)}.Medium{color:var(--warn)}.High{color:var(--bad)}
+ul{margin:6px 0;padding-left:18px}
+.q{padding:12px;border:1px solid var(--bd);border-left:4px solid var(--ac);border-radius:8px;background:var(--bg);margin:8px 0;user-select:none;-webkit-user-select:none}
+textarea{width:100%;height:190px;box-sizing:border-box;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:10px;resize:vertical}
+.code{overflow-x:auto;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;font:14px/1.9 ui-monospace,Menlo,Consolas,monospace;user-select:none;-webkit-user-select:none}
 .ln{white-space:pre}
-.bl{font:700 14px ui-monospace,Menlo,Consolas,monospace;padding:2px 10px;margin:0 2px;border-radius:6px;border:1px dashed var(--mut);background:transparent;color:var(--mut)}
+.bl{font:700 13px ui-monospace,Menlo,Consolas,monospace;padding:2px 10px;margin:0 2px;border-radius:6px;border:1px dashed var(--mut);background:transparent;color:var(--mut)}
 .bl.act{border:2px solid var(--ac);color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
 .bl.done{border-style:solid;border-color:var(--ok);color:var(--ok)}
 .op{margin-top:12px;padding:12px;border:1px solid var(--bd);border-radius:8px;min-height:92px}
 .op h3{margin:0 0 8px;font:700 16px Georgia,serif}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
-.opts button{padding:8px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:600 15px ui-monospace,Menlo,Consolas,monospace}
+.opts button{padding:8px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:600 14px ui-monospace,Menlo,Consolas,monospace}
 .opts button:hover{border-color:var(--ac)}
 .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .warn{color:var(--bad)}.ok{color:var(--ok)}.bad{color:var(--bad)}
 .big{font:700 22px Georgia,serif}
+.flt{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:10px}
+select{padding:6px 8px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:7px 10px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
+tr.me td{background:color-mix(in srgb,var(--ac) 12%,transparent);font-weight:600}
 .hide{display:none}
 </style></head><body>
 <header><div class="hd">
-<h1>CodeRank Blanks<span>Step 1: solve the original question. Step 2: a twist of the same concept as fill-in-the-blanks, one blank at a time.</span></h1>
-<div class="score"><span id="mr">1200</span><small>your Elo rating</small></div>
+<h1>CodeRank C<span>10 questions in C programming. Step 1: type the initial question in C. Step 2: a twist of the same concept as C fill-in-the-blanks, one blank at a time.</span></h1>
+<div class="score"><span id="mr">400</span><small>your Elo rating (starts at 400)</small></div>
 </div></header>
 <main>
-<section class="card"><div class="g3">
-<div><label for="pp">Problem</label><select id="pp"></select></div>
-<div><button class="a" id="go">Start with the original question</button></div></div>
-<p class="mut sm">You type the original answer in JavaScript and it is tested. If it passes, the twist round starts. The twist is your solution rewritten for a new question with key parts blanked out. Blanks unlock one at a time and show their options only when active. Pasting into the editor costs 30 seconds and leaving this tab or window costs 15 seconds.</p></section>
-<section class="card hide" id="c1"><h2>Step 1: the original question</h2>
-<div class="tm" id="t1">5:00</div><p class="warn sm" id="w1"></p>
-<div class="q" id="q1"></div>
-<label for="ed">Your answer (JavaScript)</label>
+<section class="card"><h2>Choose a question</h2><div class="grid" id="grid"></div>
+<p class="mut sm" id="prog"></p>
+<p class="sm"><b>Penalty rules:</b> leaving the tab or window cuts 15 s from the timer, pasting or dropping text into the editor cuts 30 s, and copying text from the page cuts 10 s.</p></section>
+<section class="card hide" id="rb"><div class="rb">
+<div><div class="mut sm" id="stg"></div><div class="tm" id="tm">5:00</div>
+<div class="pen"><span class="sm">Time penalties this stage: </span><b id="pt">0 s</b><div class="warn sm" id="pw"></div></div></div>
+<div><div class="sm"><b>Integrity monitor</b> (live)</div><div class="bar"><i id="bf"></i></div><div class="lv" id="rl"></div><ul id="rs"></ul></div></div></section>
+<section class="card hide" id="c1"><h2 id="t1h"></h2>
+<div class="q"><div id="q1"></div><div class="mut sm" id="e1" style="margin-top:6px"></div></div>
+<label for="ed" class="sm"><b>Your answer in C</b> (read from stdin, print to stdout)</label>
 <textarea id="ed" spellcheck="false"></textarea>
 <div class="row"><button class="a" id="sub1">Run tests and submit</button><button class="a hide" id="nx">Continue to the twist round</button></div>
 <div id="r1" aria-live="polite" style="margin-top:10px"></div></section>
-<section class="card hide" id="c2"><h2>Step 2: the twist round (same concept, new question)</h2>
-<div class="tm" id="tm">3:00</div><p class="warn sm" id="pw"></p>
-<div class="q" id="tq"></div>
-<div class="code" id="code" aria-label="Code with blanks"></div>
+<section class="card hide" id="c2"><h2 id="t2h"></h2>
+<div class="q"><div id="q2"></div><div class="mut sm" id="e2" style="margin-top:6px"></div></div>
+<div class="code" id="code" aria-label="C code with blanks"></div>
 <div class="op" id="op" aria-live="polite"></div>
 <div class="row"><button class="a" id="sb" disabled>Submit answers</button><button class="a b2" id="demo">Demo: simulate a phone-relay cheater</button></div></section>
-<section class="card hide" id="oc"><h2>Result</h2><div id="out"></div></section>
+<section class="card hide" id="oc"><h2>Result</h2><div id="out"></div><div class="row"><button class="a" id="nxt">Next question</button></div></section>
+<section class="card"><h2>Leaderboard and skill filter</h2>
+<div class="flt"><label>Tier <select id="ft"><option>All</option><option>Master</option><option>Gold</option><option>Silver</option><option>Bronze</option></select></label>
+<label><input type="checkbox" id="ff"> Verified only (low risk)</label></div>
+<div class="tw"><table id="lb"></table></div></section>
 </main>
 <script>
-const BANK=[{"name":"Extreme value","rating":1000,"oq":"Write a function largest(nums) that returns the largest number in an array of integers.","ofn":"largest","oargs":"nums","otests":[[[[3,9,2,7,4]],9],[[[5,5,5]],5],[[[-5,-9,-1,-3]],-1],[[[8]],8]],"question":"A weather station logs daily temperatures (some are below zero). Complete the function so it returns the LOWEST temperature in the array.","lines":["function lowest(temps) {","  let low = temps[@1@];","  for (let i = @2@; i < temps.length; i++) {","    if (temps[i] @3@ low) {","      low = temps[i];","    }","  }","  return @4@;","}"],"options":[["0","1","temps.length","-1"],["1","2","temps.length - 1","temps.length"],["<",">","===","!=="],["low","temps[0]","i","temps.length"]]},{"name":"Two Sum","rating":1300,"oq":"Write a function twoSum(nums, target) that returns the indices [i, j] (with i < j) of the two numbers in the array that add up to target. Exactly one pair exists.","ofn":"twoSum","oargs":"nums, target","otests":[[[[2,7,11,15],9],[0,1]],[[[3,2,4],6],[1,2]],[[[3,3],6],[0,1]],[[[1,5,9,14,20],34],[3,4]]],"question":"A shop keeps item prices in an array. Complete the function so it returns the positions [i, j] (with i < j) of the two items whose prices add up exactly to the customer’s budget. Exactly one such pair exists.","lines":["function findPair(prices, budget) {","  for (let i = 0; i < prices.length; i++) {","    for (let j = @1@; j < @2@; j++) {","      if (prices[i] @3@ prices[j] === budget) {","        return [i, @4@];","      }","    }","  }","  return [-1, -1];","}"],"options":[["i + 1","i","0","i - 1"],["prices.length","prices.length - 1","i","prices[i]"],["+","-","*","/"],["j","i","budget","prices[j]"]]},{"name":"Counting characters","rating":1100,"oq":"Write a function countDigits(text) that returns how many characters of the text are digits (0 to 9).","ofn":"countDigits","oargs":"text","otests":[[["a1b22"],3],[["hello"],0],[["2026"],4],[["x9"],1]],"question":"A school app counts the vowels (a, e, i, o, u in any case) in a student’s name. Complete the function so it returns how many vowels the name contains.","lines":["function countVowels(word) {","  let count = @1@;","  for (let i = 0; i < word.@2@; i++) {","    const c = word[i].toLowerCase();","    if (\"aeiou\".@3@(c) @4@ 0) {","      count++;","    }","  }","  return count;","}"],"options":[["0","1","-1","word.length"],["length","length()","size","charAt(0)"],["indexOf","charAt","includes","length"],[">=",">","===","<"]]}];
+const BANK=[{"name":"Sum of two numbers","rating":300,"oq":"Two friends collect stickers. Read how many stickers each friend has and print the total number of stickers.","oex":["2 5","7"],"otests":[["2 5\n","7"],["10 15\n","25"],["0 9\n","9"],["100 250\n","350"]],"q":"Read two integers and print their sum.","ex":["3 4","7"],"lines":["#include <stdio.h>","","int main() {","    int a, b;","    scanf(@1@, @2@, &b);","    printf(\"%d\\n\", a @3@ b);","    return 0;","}"],"options":[["\"%d %d\"","\"%f %f\"","\"%d\"","\"%c %c\""],["&a","a","*a","&&a"],["+","-","*","/"]]},{"name":"Even or odd","rating":350,"oq":"Read an integer. Print Yes if it is an even number, otherwise print No.","oex":["8","Yes"],"otests":[["8\n","Yes"],["3\n","No"],["0\n","Yes"],["21\n","No"]],"q":"Read an integer n. Print Even if n is divisible by 2, otherwise print Odd.","ex":["7","Odd"],"lines":["#include <stdio.h>","","int main() {","    int n;","    scanf(\"%d\", &n);","    if (n @1@ 2 == 0) {","        printf(\"@2@\\n\");","    } else {","        printf(\"@3@\\n\");","    }","    return @4@;","}"],"options":[["%","/","*","&"],["Even","even","EVEN","Yes"],["Odd","odd","ODD","No"],["0","1","-1","n"]]},{"name":"Largest of three","rating":400,"oq":"Read the heights of three students. Print the height of the tallest student.","oex":["150 162 158","162"],"otests":[["150 162 158\n","162"],["170 165 160\n","170"],["140 141 142\n","142"],["155 155 155\n","155"]],"q":"Read three integers. Print the largest of them.","ex":["3 9 5","9"],"lines":["#include <stdio.h>","","int main() {","    int a, b, c, max;","    scanf(\"%d %d %d\", &a, &b, &c);","    max = @1@;","    if (b @2@ max) max = b;","    if (@3@) max = c;","    printf(\"%d\\n\", @4@);","    return 0;","}"],"options":[["a","b","c","0"],[">","<","==","<="],["c > max","c < max","c == max","c != max"],["max","a * 2","b + c","max + 1"]]},{"name":"Sum from 1 to n","rating":450,"oq":"A saver puts 1 rupee on day 1, 2 rupees on day 2, 3 rupees on day 3, and so on. Read the number of days n and print the total saved after n days.","oex":["3","6"],"otests":[["3\n","6"],["10\n","55"],["1\n","1"],["20\n","210"]],"q":"Read n. Print the sum of all whole numbers from 1 to n.","ex":["5","15"],"lines":["#include <stdio.h>","","int main() {","    int n, i, sum = 0;","    scanf(\"%d\", &n);","    for (i = @1@; i <= @2@; i++) {","        sum @3@ i;","    }","    printf(\"%@4@\\n\", sum);","    return 0;","}"],"options":[["1","2","3","4"],["n","n - 1","n + 1","sum"],["+=","-=","*=","="],["d","f","c","s"]]},{"name":"Factorial","rating":500,"oq":"Read n (0 to 15). Print the number of ways to arrange n different books on a shelf.","oex":["4","24"],"otests":[["4\n","24"],["0\n","1"],["6\n","720"],["12\n","479001600"]],"q":"Read n (0 to 15). Print n factorial (n!).","ex":["5","120"],"lines":["#include <stdio.h>","","int main() {","    int n, i;","    long long f = 1;","    scanf(\"%d\", &n);","    for (i = @1@; i <= @2@; i++) {","        f @3@ i;","    }","    printf(\"%@4@\\n\", f);","    return 0;","}"],"options":[["1","3","0","5"],["n","n - 1","n + 1","n * 2"],["*=","+=","-=","/="],["lld","d","f","c"]]},{"name":"Reverse a number","rating":550,"oq":"Read a ticket number (a positive integer). Print the number you get by reading it from right to left, ignoring leading zeros.","oex":["4321","1234"],"otests":[["4321\n","1234"],["7\n","7"],["2500\n","52"],["120\n","21"]],"q":"Read a positive integer. Print its digits in reverse order as a number (for 1000 the answer is 1).","ex":["1234","4321"],"lines":["#include <stdio.h>","","int main() {","    int n, rev = 0;","    scanf(\"%d\", &n);","    while (n @1@ 0) {","        rev = rev * @2@ + n @3@ 10;","        n = n @4@ 10;","    }","    printf(\"%d\\n\", rev);","    return 0;","}"],"options":[["!=","==","<","<="],["10","1","2","100"],["%","&","|","^"],["/","-",">>","<<"]]},{"name":"Count vowels","rating":600,"oq":"Read one word made of letters and digits. Print how many of its characters are digits.","oex":["a1b22","3"],"otests":[["a1b22\n","3"],["hello\n","0"],["2026\n","4"],["x9\n","1"]],"q":"Read one word (letters only). Print how many vowels (a, e, i, o, u in any case) it contains.","ex":["banana","3"],"lines":["#include <stdio.h>","#include <ctype.h>","","int main() {","    char s[100];","    int i, count = 0;","    scanf(\"%s\", s);","    for (i = 0; s[i] @1@ '\\0'; i++) {","        char c = tolower(s[i]);","        if (c == 'a' || c == 'e' || c == @2@ || c == 'o' || c == 'u')","            count@3@;","    }","    printf(\"%@4@\\n\", count);","    return 0;","}"],"options":[["!=","==","<","<="],["'i'","'I'","'y'","'a'"],["++","--","+= 2","= 1"],["d","s","f","c"]]},{"name":"Linear search","rating":650,"oq":"Read n and then n integers. Print the position (counting from 0) of the largest value. If it appears more than once, print the first position.","oex":["5 / 3 9 2 7 4","1"],"otests":[["5\n3 9 2 7 4\n","1"],["3\n5 5 5\n","0"],["4\n-5 -9 -1 -3\n","2"],["1\n8\n","0"]],"q":"Read n, then n integers, then a value x. Print the position (counting from 0) of the first x, or -1 if x is not present.","ex":["5 / 4 8 15 16 23 / 15","2"],"lines":["#include <stdio.h>","","int main() {","    int n, x, i, a[100], pos = @1@;","    scanf(\"%d\", &n);","    for (i = 0; i < n; i++) scanf(\"%d\", &a[@2@]);","    scanf(\"%d\", &x);","    for (i = 0; i < @3@; i++) {","        if (a[i] == x) {","            pos = i;","            @4@;","        }","    }","    printf(\"%d\\n\", pos);","    return 0;","}"],"options":[["-1","0","1","9"],["i","n - 1","j","i + 1"],["n","n - 2","n / 2","2"],["break","continue","return 1","exit"]]},{"name":"Palindrome word","rating":700,"oq":"Read one word. Print Same if its first letter and last letter are the same, otherwise print Different.","oex":["level","Same"],"otests":[["level\n","Same"],["hello\n","Different"],["a\n","Same"],["code\n","Different"]],"q":"Read one word. Print Yes if it reads the same forwards and backwards, otherwise print No.","ex":["level","Yes"],"lines":["#include <stdio.h>","#include <string.h>","","int main() {","    char s[100];","    int i, j, ok = 1;","    scanf(\"%s\", s);","    j = @1@(s) - 1;","    for (i = 0; i < j; i++, @2@) {","        if (s[i] @3@ s[j]) {","            ok = @4@;","        }","    }","    printf(\"%s\\n\", ok ? \"Yes\" : \"No\");","    return 0;","}"],"options":[["strlen","strcmp","strcpy","sizeof"],["j--","j -= 2","j","i"],["!=","==","<",">"],["0","1","-1","2"]]},{"name":"Bubble sort","rating":800,"oq":"Read n and then n integers. Print them in decreasing order (largest first), separated by spaces.","oex":["5 / 5 1 4 2 8","8 5 4 2 1"],"otests":[["5\n5 1 4 2 8\n","8 5 4 2 1"],["3\n1 2 3\n","3 2 1"],["2\n1 2\n","2 1"],["4\n9 9 1 1\n","9 9 1 1"],["1\n7\n","7"]],"q":"Read n, then n integers. Print them in increasing order, separated by spaces.","ex":["5 / 5 1 4 2 8","1 2 4 5 8"],"lines":["#include <stdio.h>","","int main() {","    int n, i, j, t, a[100];","    scanf(\"%d\", &n);","    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);","    for (i = 0; i < n - 1; i++) {","        for (j = 0; j < @1@; j++) {","            if (a[j] @2@ a[j + 1]) {","                t = a[j];","                a[j] = a[j + 1];","                a[j + 1] = @3@;","            }","        }","    }","    for (i = 0; i < n; i++) printf(\"%d \", a[@4@]);","    printf(\"\\n\");","    return 0;","}"],"options":[["n - 1","n - 2","n / 2","1"],[">","<","==","!="],["t","a[j]","a[j + 1]","a[i]"],["i","j","n","n - 3"]]}];
 const $=id=>document.getElementById(id);
-const K=32,LPB=45,OLIM=300;
+const K=32,LPB=45,START=400,OLIM=300;
 //EVAL-START
 function evaluate(n,rate,prate,correct,changes,dwell,used,orig){const o={flags:[]},limit=LPB*n,frac=correct/n;
 let ts=Math.max(0,Math.min(1,1-used/limit));const per=used/n;
@@ -80,33 +102,79 @@ if(per<3){ts=Math.min(ts,.5);o.flags.push("Too fast: "+per.toFixed(1)+" s per bl
 const st=1-Math.min(1,changes/n);o.score=frac===1?.4+.4*ts+.2*st:.25*frac;
 const mean=dwell.reduce((a,b)=>a+b,0)/n,sd=Math.sqrt(dwell.reduce((a,b)=>a+(b-mean)**2,0)/n);
 if(n>=3&&mean>8&&sd/mean<.3)o.flags.push("Long, very regular pause on every blank (looks like relaying each blank to another device)");
-const ratio=used/Math.max(5,orig);if(frac===1&&ratio>2.5)o.flags.push("Twist took "+ratio.toFixed(1)+"x as long as the original");
+const ratio=used/Math.max(5,orig);if(frac===1&&ratio>2.5)o.flags.push("Twist took "+ratio.toFixed(1)+"x as long as the initial question");
 o.flags.forEach(()=>{o.score*=.5});o.exp=1/(1+10**((prate-rate)/400));o.d=Math.floor(K*(o.score-o.exp)+.5);
-o.verdict=frac<1?"Some blanks were wrong. Flag for review if the original was solved unusually fast.":o.flags.length?"Send for human review (never an automatic ban). Score was halved for each flag.":"Consistent with real understanding.";return o}
+o.verdict=frac<1?"Some blanks were wrong.":o.flags.length?"Send for human review (never an automatic ban). Score was halved for each flag.":"Consistent with real understanding.";return o}
 //EVAL-END
-let rating=1200,O=null,S=null,t1=null,t2=null;
-BANK.forEach((p,i)=>{const o=document.createElement("option");o.value=i;o.textContent=p.name+" (rating "+p.rating+")";$("pp").append(o)});
+let rating=START,O=null,S=null,tmr=null,I=null,myRisk=0;const res=Array(BANK.length).fill(null);
+const U=[{n:"Aarav",r:780,s:9,k:0},{n:"Meera",r:640,s:8,k:0},{n:"Kiran",r:810,s:4,k:2},{n:"Divya",r:520,s:6,k:0},{n:"Rohit",r:410,s:3,k:1}];
+const RISK=["Low","Medium","High"],tier=r=>r<400?"Bronze":r<500?"Silver":r<650?"Gold":"Master",lvl=s=>s>=60?"High":s>=30?"Medium":"Low";
 const show=(id,v)=>$(id).classList.toggle("hide",!v);
 const mmss=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-/* ---------- step 1: original question ---------- */
+const inc=c=>c.replace(/#include\s*<(\w+)\.h>/g,"#include <c$1>");
+function runC(code,inp){let out="";try{JSCPP.run(inc(code),inp,{stdio:{write:s=>{out+=s}},maxTimeout:3000});return{out:out.replace(/[ \t]+$/gm,"").trim()}}catch(e){return{err:String(e&&e.message||e)}}}
+/* ---------- integrity monitor ---------- */
+function ir(){let sc=0;const w=[];
+if(I.paste){sc+=40;w.push("Text pasted or dropped into the editor")}
+if(I.copy){sc+=Math.min(30,15*I.copy);w.push("Copied text from the page "+I.copy+" time(s)")}
+if(I.leave){sc+=Math.min(30,10*I.leave);w.push("Left the page "+I.leave+" time(s)")}
+if(I.keys>40&&I.ints.length){const m=avg(I.ints),sd=Math.sqrt(avg(I.ints.map(x=>(x-m)**2)));
+if(m>0&&sd/m<.45){sc+=15;w.push("Unnaturally even typing rhythm")}
+if(I.bs/I.keys<.03){sc+=10;w.push("Almost no corrections while typing")}
+if(I.pauses>=1&&I.ints.filter(x=>x<90).length/I.ints.length>.6){sc+=15;w.push("Long pause, then fast burst of typing")}}
+sc=Math.min(100,sc);return{sc,w,l:lvl(sc)}}
+function updI(){const r=ir();$("bf").style.width=Math.max(r.sc,3)+"%";$("bf").className=r.l;$("rl").className="lv "+r.l;$("rl").textContent="Risk: "+r.l+" ("+r.sc+"/100)";
+$("rs").innerHTML=r.w.length?r.w.map(x=>"<li>"+x+"</li>").join(""):"<li class='mut'>No suspicious signals yet.</li>"}
+const cur=()=>O&&O.running?O:(S&&S.running?S:null);
+const busy=()=>!!(O&&res[O.i]==null);
+function penalize(sec,why,kind){const st=cur();if(!st)return;st.pen+=sec;I[kind]++;
+$("pt").textContent=st.pen+" s";$("pw").textContent="Suspicious activity ("+why+"): "+sec+" s cut from your timer.";updI();tick()}
+window.addEventListener("blur",()=>penalize(15,"left the page","leave"));
+document.addEventListener("copy",e=>{if(e.target&&e.target.id==="ed")return;penalize(10,"text copied from the page","copy")});
+$("ed").addEventListener("paste",()=>penalize(30,"text pasted into the editor","paste"));
+$("ed").addEventListener("drop",e=>{e.preventDefault();penalize(30,"text dropped into the editor","paste")});
+$("ed").addEventListener("keydown",e=>{if(!O||!O.running)return;const n=Date.now();if(I.last){const g=n-I.last;I.ints.push(g);if(g>6000)I.pauses++}I.last=n;
+if(e.key==="Backspace"||e.key==="Delete")I.bs++;else if(e.key.length===1||e.key==="Enter")I.keys++;updI()});
+/* ---------- grid, leaderboard ---------- */
+function renderGrid(){const g=$("grid");g.innerHTML="";
+BANK.forEach((p,i)=>{const b=document.createElement("button"),r=res[i];
+b.className="qb"+(r?(r.full?" ok":" part"):"")+((O&&O.i===i)?" cur":"");b.disabled=!!r||busy();
+const t=document.createElement("b");t.textContent="Q"+(i+1);const n=document.createElement("span");n.textContent=p.name;
+const m=document.createElement("small");m.textContent=r?(r.d>=0?"+":"")+r.d+" Elo":"rating "+p.rating;b.append(t,n,m);b.onclick=()=>start(i);g.append(b)});
+$("prog").textContent="Played "+res.filter(Boolean).length+" of "+BANK.length+". Fully correct: "+res.filter(r=>r&&r.full).length+". Each question can be played once."}
+function lb(){const t=$("ft").value,v=$("ff").checked,me={n:"You",r:rating,s:res.filter(r=>r&&r.full).length,k:myRisk,me:1};
+const rows=[...U,me].filter(u=>(t==="All"||tier(u.r)===t)&&(!v||u.k===0)).sort((a,b)=>b.r-a.r);
+$("lb").innerHTML="<tr><th>#</th><th>Name</th><th>Rating</th><th>Tier</th><th>Solved</th><th>Integrity</th></tr>"+rows.map((u,i)=>"<tr"+(u.me?" class='me'":"")+"><td>"+(i+1)+"</td><td>"+u.n+"</td><td>"+u.r+"</td><td>"+tier(u.r)+"</td><td>"+u.s+"</td><td class='"+RISK[u.k]+"'>"+RISK[u.k]+"</td></tr>").join("")}
+$("ft").onchange=lb;$("ff").onchange=lb;
+/* ---------- timer ---------- */
+function tick(){const st=cur();if(!st)return;const left=st.limit-((Date.now()-st.start)/1000+st.pen);
+$("tm").textContent=mmss(Math.max(0,Math.ceil(left)));$("tm").className="tm"+(left<30?" low":"");
+if(left<=0){if(st===O)origTimeout();else finish()}}
 const el1=()=>(Date.now()-O.start)/1000+O.pen;
-function tick1(){const left=OLIM-el1();$("t1").textContent=mmss(Math.max(0,Math.ceil(left)));$("t1").className="tm"+(left<30?" low":"");if(left<=0)submitOrig(true)}
-$("go").onclick=()=>{clearInterval(t1);clearInterval(t2);S=null;const p=BANK[+$("pp").value];
-O={p,start:Date.now(),pen:0,running:true};
-$("q1").textContent=p.oq;$("ed").value="function "+p.ofn+"("+p.oargs+") {\n  \n}";$("w1").textContent="";$("r1").innerHTML="";
-$("nx").classList.add("hide");$("sub1").disabled=false;show("c1",true);show("c2",false);show("oc",false);tick1();t1=setInterval(tick1,250)};
-$("ed").addEventListener("paste",()=>{if(O&&O.running){O.pen+=30;$("w1").textContent="Suspicious activity (text pasted): 30 s cut from your timer. Total penalty: "+O.pen+" s."}});
-$("sub1").onclick=()=>submitOrig(false);
-function submitOrig(auto){if(!O||!O.running)return;const p=O.p;let pass=0,msg="";
-try{const f=new Function($("ed").value+"\nreturn "+p.ofn+";")();p.otests.forEach(t=>{let ok=false;try{ok=JSON.stringify(f(...JSON.parse(JSON.stringify(t[0]))))===JSON.stringify(t[1])}catch(e){}if(ok)pass++})}catch(e){msg="Code error: "+e.message+". "}
-const all=pass===p.otests.length;
-if(all){O.running=false;O.used=el1();clearInterval(t1);$("sub1").disabled=true;$("nx").classList.remove("hide");
-$("r1").innerHTML="<p class='ok'><b>All "+pass+" tests passed.</b> Original solved in "+Math.round(O.used)+" s (penalties included). Next comes the twist: the same concept in a new question.</p>"}
-else if(auto){O.running=false;clearInterval(t1);$("sub1").disabled=true;$("r1").innerHTML="<p class='bad'><b>Time is up.</b> The original was not solved, so there is no twist round.</p>"}
-else $("r1").innerHTML="<p class='bad'>"+msg+"<b>"+pass+" of "+p.otests.length+" tests passed.</b> Fix your code and submit again; the timer keeps running.</p>"}
-window.addEventListener("blur",()=>{if(O&&O.running){O.pen+=15;$("w1").textContent="Suspicious activity (left the page): 15 s cut from your timer. Total penalty: "+O.pen+" s."}
-else if(S&&S.running){S.pen+=15;$("pw").textContent="Suspicious activity (left the page): 15 s cut from your timer. Total penalty: "+S.pen+" s."}});
+/* ---------- step 1: initial question in C ---------- */
+function start(i){if(res[i]||busy())return;clearInterval(tmr);const p=BANK[i];
+I={paste:0,copy:0,leave:0,keys:0,bs:0,last:0,ints:[],pauses:0};S=null;
+O={i,p,start:Date.now(),pen:0,running:true,limit:OLIM};
+$("t1h").textContent="Question "+(i+1)+" of "+BANK.length+", step 1: the initial question";$("q1").textContent=p.oq;$("e1").textContent="Example input: "+p.oex[0]+"   |   Example output: "+p.oex[1];
+$("ed").value="#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n";$("r1").innerHTML="";$("nx").classList.add("hide");$("sub1").disabled=false;
+$("stg").textContent="Step 1 of 2: initial question (time limit "+mmss(OLIM)+")";$("pt").textContent="0 s";$("pw").textContent="";
+show("rb",true);show("c1",true);show("c2",false);show("oc",false);renderGrid();updI();tick();tmr=setInterval(tick,250);
+$("rb").scrollIntoView({behavior:"smooth",block:"start"})}
+function origTimeout(){O.running=false;clearInterval(tmr);$("sub1").disabled=true;const p=O.p;
+const ex=1/(1+10**((p.rating-rating)/400)),d0=Math.floor(32*(0-ex)+.5),nr=Math.max(0,rating+d0),d=nr-rating;rating=nr;$("mr").textContent=rating;
+res[O.i]={full:false,d};renderGrid();lb();
+$("r1").innerHTML="<p class='bad'><b>Time is up.</b> The initial question was not solved, so there is no twist round.</p>";
+$("out").innerHTML="<p class='bad'><b>Initial question not solved.</b> Your Elo changes by <span class='big bad'>"+d+"</span> and is now <b>"+rating+"</b>.</p>";
+$("nxt").classList.toggle("hide",!res.some(r=>!r));show("oc",true)}
+$("sub1").onclick=()=>{if(!O||!O.running)return;const p=O.p;
+if(typeof JSCPP==="undefined"){O.running=false;O.used=el1();O.unchecked=true;clearInterval(tmr);$("sub1").disabled=true;$("nx").classList.remove("hide");
+$("r1").innerHTML="<p class='warn'>The in-browser C interpreter could not be loaded (check your internet connection), so this answer was <b>not checked</b>. You can still continue to the twist round.</p>";return}
+let pass=0,first=null;p.otests.forEach(t=>{const r=runC($("ed").value,t[0]);const ok=!r.err&&r.out===t[1];if(ok)pass++;else if(!first)first={i:t[0],e:t[1],g:r.err?"Error: "+r.err:r.out}});
+if(pass===p.otests.length){O.running=false;O.used=el1();clearInterval(tmr);$("sub1").disabled=true;$("nx").classList.remove("hide");
+$("r1").innerHTML="<p class='ok'><b>All "+pass+" tests passed.</b> Initial question solved in "+Math.round(O.used)+" s (penalties included). Next comes the twist: the same concept in a new question.</p>"}
+else $("r1").innerHTML="<p class='bad'><b>"+pass+" of "+p.otests.length+" tests passed.</b> First failing input: <code>"+first.i.replace(/\n/g," / ")+"</code> expected <code>"+first.e+"</code>, got <code>"+(first.g||"(no output)").replace(/</g,"&lt;")+"</code>. Fix your code and submit again; the timer keeps running.</p>"};
 /* ---------- step 2: fill-in-the-blanks twist ---------- */
 function used(){return (Date.now()-S.start)/1000+S.pen}
 function renderCode(){const c=$("code");c.innerHTML="";
@@ -124,23 +192,30 @@ S.order[b].forEach(k=>{const x=document.createElement("button");x.textContent=S.
 function openBlank(b){if(!S.running)return;S.active=b;S.activeAt=Date.now();renderCode();renderOpts()}
 function choose(b,k){if(S.chosen[b]>=0&&S.chosen[b]!==k)S.changes++;S.chosen[b]=k;S.dwell[b]=(Date.now()-S.activeAt)/1000;
 S.active=S.chosen.findIndex(x=>x<0);S.activeAt=Date.now();$("sb").disabled=S.active>=0;renderCode();renderOpts()}
-function tick(){const left=S.p.options.length*LPB-used(),s=Math.max(0,Math.ceil(left));
-$("tm").textContent=mmss(s);$("tm").className="tm"+(left<30?" low":"");if(left<=0)finish()}
 $("nx").onclick=()=>{const p=O.p,n=p.options.length;
-S={p,n,chosen:Array(n).fill(-1),dwell:Array(n).fill(0),order:p.options.map(o=>shuffle(o.map((_,i)=>i))),active:0,activeAt:Date.now(),start:Date.now(),pen:0,changes:0,running:true};
-$("tq").textContent=p.question;$("pw").textContent="";show("c2",true);show("oc",false);$("sb").disabled=true;$("demo").disabled=false;
-renderCode();renderOpts();tick();t2=setInterval(tick,250);$("c2").scrollIntoView({behavior:"smooth",block:"start"})};
+S={i:O.i,p,n,chosen:Array(n).fill(-1),dwell:Array(n).fill(0),order:p.options.map(o=>shuffle(o.map((_,k)=>k))),active:0,activeAt:Date.now(),start:Date.now(),pen:0,changes:0,running:true,limit:n*LPB};
+$("t2h").textContent="Question "+(S.i+1)+" of "+BANK.length+", step 2: the twist round (same concept, new question)";$("q2").textContent=p.q;$("e2").textContent="Example input: "+p.ex[0]+"   |   Example output: "+p.ex[1];
+$("stg").textContent="Step 2 of 2: twist round ("+mmss(S.limit)+" for "+n+" blanks)";$("pt").textContent="0 s";$("pw").textContent="";
+show("c2",true);show("oc",false);$("sb").disabled=true;$("demo").disabled=false;renderCode();renderOpts();updI();tick();clearInterval(tmr);tmr=setInterval(tick,250);
+$("c2").scrollIntoView({behavior:"smooth",block:"start"})};
 $("sb").onclick=()=>finish();
-$("demo").onclick=()=>{if(!S||!S.running)return;S.chosen.fill(0);S.dwell=S.dwell.map((_,i)=>[12,11,12,13][i%4]);finish({used:52,orig:20})};
-function finish(ov){if(!S||!S.running)return;S.running=false;clearInterval(t2);$("sb").disabled=true;$("demo").disabled=true;
+$("demo").onclick=()=>{if(!S||!S.running)return;S.chosen.fill(0);S.dwell=S.dwell.map((_,k)=>[12,11,12,13][k%4]);finish({used:55,orig:20})};
+function finish(ov){if(!S||!S.running)return;S.running=false;clearInterval(tmr);$("sb").disabled=true;$("demo").disabled=true;
 const p=S.p,n=S.n,correct=S.chosen.filter(x=>x===0).length,u=ov?ov.used:used(),orig=ov?ov.orig:O.used;
-const o=evaluate(n,rating,p.rating,correct,S.changes,S.dwell,u,orig);rating+=o.d;$("mr").textContent=rating;renderCode();
-let h="<p><b>"+correct+" of "+n+" blanks correct.</b> Twist time: "+Math.round(u)+" s (penalties: "+S.pen+" s). Original time: "+Math.round(orig)+" s.</p>"+
-"<p>Performance score: <b>"+o.score.toFixed(2)+"</b> (0.4 correct + 0.4 time + 0.2 steady answers, halved for each flag). Chance of success was "+Math.round(o.exp*100)+"%, so your Elo changes by <span class='big "+(o.d>=0?"ok":"bad")+"'>"+(o.d>=0?"+":"")+o.d+"</span></p>"+
+const o=evaluate(n,rating,p.rating,correct,S.changes,S.dwell,u,orig);const nr=Math.max(0,rating+o.d);o.d=nr-rating;rating=nr;$("mr").textContent=rating;
+const r=ir(),lv=lvl(r.sc+30*o.flags.length);myRisk=Math.max(myRisk,RISK.indexOf(lv));
+res[S.i]={full:correct===n,d:o.d};renderGrid();renderCode();lb();
+let h="<p><b>"+correct+" of "+n+" blanks correct.</b> Twist time: "+Math.round(u)+" s (penalties this stage: "+S.pen+" s). Initial question time: "+Math.round(orig)+" s"+(O&&O.unchecked&&!ov?" (answer not checked)":"")+".</p>"+
+"<p>Performance score: <b>"+o.score.toFixed(2)+"</b> (0.4 correct + 0.4 time + 0.2 steady answers, halved for each flag). Chance of success was "+Math.round(o.exp*100)+"%, so your Elo changes by <span class='big "+(o.d>=0?"ok":"bad")+"'>"+(o.d>=0?"+":"")+o.d+"</span> and is now <b>"+rating+"</b>.</p>"+
 "<p class='"+(o.flags.length||correct<n?"bad":"ok")+"'><b>Verdict:</b> "+o.verdict+"</p>";
-if(o.flags.length)h+="<ul>"+o.flags.map(f=>"<li>"+f+"</li>").join("")+"</ul>";
-h+="<p class='mut sm'>Decision time per blank: "+S.dwell.map((d,i)=>(i+1)+") "+d.toFixed(1)+" s").join("  ")+"</p>";
-const wrong=S.chosen.map((c,i)=>c===0?"":"Blank "+(i+1)+": correct answer was "+p.options[i][0]).filter(Boolean);
+h+="<p><b>Integrity for this question: <span class='"+lv+"'>"+lv+"</span></b></p>";
+const why=[...r.w,...o.flags];h+=why.length?"<ul>"+why.map(f=>"<li>"+f+"</li>").join("")+"</ul>":"";
+h+="<p class='mut sm'>Decision time per blank: "+S.dwell.map((d,k)=>(k+1)+") "+d.toFixed(1)+" s").join("  ")+"</p>";
+const wrong=S.chosen.map((c,k)=>c===0?"":"Blank "+(k+1)+": correct answer was "+p.options[k][0]).filter(Boolean);
 if(wrong.length)h+="<p class='sm'>"+wrong.join("<br>")+"</p>";
-$("out").innerHTML=h;show("oc",true);$("oc").scrollIntoView({behavior:"smooth",block:"nearest"})}
+const left=res.filter(x=>!x).length;
+if(!left)h+="<p><b>All "+BANK.length+" questions played.</b> Fully correct: "+res.filter(x=>x.full).length+". Final Elo: "+rating+" ("+tier(rating)+").</p>";
+$("nxt").classList.toggle("hide",!left);$("out").innerHTML=h;show("oc",true);$("oc").scrollIntoView({behavior:"smooth",block:"nearest"})}
+$("nxt").onclick=()=>{show("rb",false);show("c1",false);show("c2",false);show("oc",false);const i=res.findIndex(r=>!r);if(i>=0)start(i)};
+renderGrid();lb();
 </script></body></html>
