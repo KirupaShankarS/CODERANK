@@ -140,10 +140,10 @@
 </head>
 <body id="app-body" class="min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200">
 
-    <!-- Top Penalty Toast Banner -->
+    <!-- Top Penalty / System Toast Banner -->
     <div id="penalty-toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 -translate-y-4 transition-all duration-300">
-        <div class="bg-rose-950/95 border border-rose-500 text-rose-100 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 glow-rose">
-            <i class="fa-solid fa-triangle-exclamation text-rose-400 text-lg animate-bounce"></i>
+        <div id="penalty-toast-box" class="bg-rose-950/95 border border-rose-500 text-rose-100 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 glow-rose">
+            <i id="penalty-toast-icon" class="fa-solid fa-triangle-exclamation text-rose-400 text-lg animate-bounce"></i>
             <div>
                 <div id="penalty-toast-title" class="font-bold text-sm tracking-wide uppercase">INTEGRITY VIOLATION DETECTED</div>
                 <div id="penalty-toast-desc" class="text-xs text-rose-300 font-mono">-15s deducted from stage timer</div>
@@ -164,7 +164,7 @@
                         <h1 class="font-extrabold text-lg sm:text-xl tracking-tight text-white">CodeRank <span class="text-emerald-400">C</span></h1>
                         <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold">Pro Edition</span>
                     </div>
-                    <p class="text-xs text-slate-400 hidden sm:block">10-Question Competitive C Gauntlet • Two-Stage Mastery & Live Integrity Engine</p>
+                    <p class="text-xs text-slate-400 hidden sm:block">10-Question Competitive C Gauntlet • Left: Code Workbench | Right: Question &amp; Telemetry</p>
                 </div>
             </div>
 
@@ -176,12 +176,12 @@
                 </button>
                 <button onclick="switchMainView('leaderboard')" id="tab-leaderboard" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200">
                     <i class="fa-solid fa-trophy"></i>
-                    <span>Leaderboard & Skills</span>
+                    <span>Leaderboard &amp; Skills</span>
                 </button>
             </div>
 
             <!-- Live Player Stats HUD -->
-            <div class="flex items-center gap-2.5 sm:gap-4">
+            <div class="flex items-center gap-2.5 sm:gap-3">
                 <!-- Progress Counter -->
                 <div class="hidden md:flex items-center gap-2 bg-slatepanel border border-slate-800 px-3 py-1.5 rounded-xl">
                     <i class="fa-solid fa-check-double text-cyan-400 text-xs"></i>
@@ -214,167 +214,46 @@
                     <i id="icon-audio" class="fa-solid fa-volume-high text-xs"></i>
                 </button>
 
-                <!-- Reset Button -->
-                <button onclick="openResetModal()" class="w-9 h-9 rounded-xl bg-slatepanel border border-slate-800 hover:border-rose-500/50 hover:text-rose-400 flex items-center justify-center text-slate-400 transition" title="Reset Gauntlet Progress">
+                <!-- Prominent Reset All Button -->
+                <button onclick="openResetModal()" class="px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 hover:text-rose-200 font-mono font-bold text-xs flex items-center gap-2 transition shadow-sm" title="Reset All Questions to Unsolved & Restore 400 Elo">
                     <i class="fa-solid fa-rotate-right text-xs"></i>
+                    <span>Reset All</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Question Selector Bar -->
-    <section id="question-bar-section" class="bg-slatepanel/70 border-b border-slate-800/80 px-4 lg:px-8 py-2.5">
-        <div class="max-w-[1600px] mx-auto flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar" id="question-selector-bar">
-            <!-- Dynamically populated 10 question pills -->
-        </div>
-    </section>
-
     <!-- MAIN CONTENT CONTAINER -->
-    <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 lg:px-8 py-5">
+    <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 lg:px-8 py-4">
 
-        <!-- VIEW 1: GAUNTLET ARENA -->
-        <div id="view-arena" class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        <!-- VIEW 1: SIDE-BY-SIDE GAUNTLET ARENA (LEFT: Answer Code Workbench | RIGHT: Questions & Controls) -->
+        <div id="view-arena" class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
 
-            <!-- LEFT COLUMN (4 Cols): Problem Spec + Timer + Live Integrity Monitor -->
-            <div class="lg:col-span-4 flex flex-col gap-5">
-
-                <!-- 5:00 Timer & Integrity Status Card -->
-                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg relative overflow-hidden">
-                    <div class="flex items-center justify-between mb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Stage Timer</span>
-                            <button onclick="togglePauseTimer()" id="btn-timer-pause" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
-                                <i class="fa-solid fa-pause mr-1"></i>Pause
-                            </button>
-                        </div>
-                        <!-- Live Integrity Status Pill -->
-                        <div id="integrity-status-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono font-semibold">
-                            <span id="integrity-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <span id="integrity-status-text">INTEGRITY: SECURE</span>
-                        </div>
-                    </div>
-
-                    <!-- Countdown Display -->
-                    <div class="flex items-baseline justify-between my-1">
-                        <div id="timer-display" class="font-mono font-extrabold text-3xl sm:text-4xl text-white tracking-tight">05:00</div>
-                        <div class="text-right">
-                            <div class="text-[11px] text-slate-400 font-mono">Penalties This Question</div>
-                            <div id="penalty-total-badge" class="text-xs font-mono font-bold text-slate-300">0s deducted (0 violations)</div>
-                        </div>
-                    </div>
-
-                    <!-- Progress Bar -->
-                    <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden mt-2">
-                        <div id="timer-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-500" style="width: 100%"></div>
-                    </div>
-                </div>
-
-                <!-- Problem Description Card -->
-                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col gap-4">
-                    <div class="flex items-start justify-between gap-2">
-                        <div>
-                            <div class="flex items-center gap-2 mb-1">
-                                <span id="prob-number" class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Q1</span>
-                                <span id="prob-skill-tag" class="font-mono text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Pointers</span>
-                                <span id="prob-elo-tag" class="font-mono text-xs px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">Target Elo: 400</span>
-                            </div>
-                            <h2 id="prob-title" class="text-lg font-bold text-white">Pointer Swap</h2>
-                        </div>
-                        <span id="prob-status-badge" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">Unsolved</span>
-                    </div>
-
-                    <p id="prob-desc" class="text-sm text-slate-300 leading-relaxed"></p>
-
-                    <!-- Function Signature & Constraints -->
-                    <div class="bg-obsidian/80 border border-slate-800/90 rounded-xl p-3.5 space-y-2">
-                        <div class="text-[11px] font-mono uppercase text-slate-400">Required Signature / Prototype</div>
-                        <pre id="prob-signature" class="font-mono text-xs text-emerald-300 overflow-x-auto"></pre>
-                    </div>
-
-                    <!-- Sample Test Cases -->
-                    <div>
-                        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
-                            <i class="fa-solid fa-vial text-cyan-400"></i>
-                            <span>Verification Test Suite (3 Cases)</span>
-                        </div>
-                        <div id="prob-testcases" class="space-y-2">
-                            <!-- Populated dynamically -->
-                        </div>
-                    </div>
-                    <!-- Live Integrity Monitor Panel -->
-                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-shield-halved text-emerald-400 text-sm"></i>
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Live Anti-Cheat & Malpractice Engine</h3>
-                        </div>
-                        <div id="tab-switch-counter-pill" class="px-2 py-0.5 rounded-full bg-obsidian border border-slate-700 text-[10px] font-mono text-amber-300 font-bold">
-                            Tab Switches: 0 / 5
-                        </div>
-                    </div>
-
-                    <!-- Rule Matrix -->
-                    <div class="grid grid-cols-3 gap-2 mb-3 text-center">
-                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
-                            <div class="text-[10px] text-slate-400">Tab Switch</div>
-                            <div class="font-mono font-bold text-[11px] text-rose-400">-15s (&gt;5: -10 ELO)</div>
-                        </div>
-                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
-                            <div class="text-[10px] text-slate-400">Paste / Drop</div>
-                            <div class="font-mono font-bold text-[11px] text-rose-400">-30s Timer</div>
-                        </div>
-                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
-                            <div class="text-[10px] text-slate-400">Copy Question</div>
-                            <div class="font-mono font-bold text-[11px] text-rose-400">-10 ELO &amp; -10s</div>
-                        </div>
-                    </div>
-
-                    <!-- Simulate Penalty Test Controls -->
-                    <div class="flex flex-wrap items-center gap-1.5 mb-3">
-                        <span class="text-[11px] text-slate-400 mr-1">Simulate:</span>
-                        <button onclick="handleTabSwitchViolation('Simulated Tab Switch')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
-                            Tab Switch (-15s / &gt;5: -10 ELO)
-                        </button>
-                        <button onclick="handleCopyQuestionViolation('Simulated Question Copy')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
-                            Copy Question (-10 ELO)
-                        </button>
-                        <button onclick="triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Simulated Code Paste/Drop (-30s)', 0)" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
-                            Paste (-30s)
-                        </button>
-                    </div>
-
-                    <!-- Live Violation Log -->
-                    <div class="bg-obsidian border border-slate-800 rounded-xl p-2.5 max-h-28 overflow-y-auto font-mono text-[11px] space-y-1" id="integrity-log">
-                        <div class="text-slate-500">[SYSTEM] Integrity monitor armed. Watching tab focus, clipboard & drag events...</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT COLUMN (8 Cols): Two-Stage Interactive Workbench -->
-            <div class="lg:col-span-8 flex flex-col gap-5">
+            <!-- LEFT SIDE (7 Cols on md+): Answer Code Workbench (Stage 1 Editor + Stage 2 Twist) -->
+            <div class="md:col-span-7 flex flex-col gap-4 md:sticky md:top-20">
 
                 <!-- Stage Switcher Header -->
-                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3">
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-lg">
                     <div class="flex items-center gap-2">
-                        <button onclick="setStageView(1)" id="btn-stage-1" class="px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                        <button onclick="setStageView(1)" id="btn-stage-1" class="px-3.5 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
                             <span class="w-5 h-5 rounded-full bg-emerald-500 text-obsidian flex items-center justify-center font-extrabold text-[11px]">1</span>
-                            <span>STAGE 1: Initial C Implementation</span>
+                            <span>STAGE 1: Answer C Code</span>
                             <i id="stage1-check" class="fa-solid fa-circle-check text-emerald-400 hidden"></i>
                         </button>
 
                         <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
 
-                        <button onclick="setStageView(2)" id="btn-stage-2" class="px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-slate-800/70 text-slate-400 border border-slate-700/70">
+                        <button onclick="setStageView(2)" id="btn-stage-2" class="px-3.5 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-slate-800/70 text-slate-400 border border-slate-700/70">
                             <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-extrabold text-[11px]">2</span>
-                            <span>STAGE 2: The Twist (Sequential Blanks)</span>
+                            <span>STAGE 2: The Twist (Blanks)</span>
                             <i id="stage2-lock-icon" class="fa-solid fa-lock text-[11px] text-slate-500"></i>
                         </button>
                     </div>
 
                     <div class="flex items-center gap-2">
-                        <button onclick="loadReferenceStarter()" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center gap-1.5" title="Reset Editor to Starter Template">
+                        <button onclick="loadReferenceStarter()" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center gap-1.5" title="Reset Current Question Editor to Starter Template">
                             <i class="fa-solid fa-rotate-left"></i>
-                            <span>Reset Template</span>
+                            <span>Reset Code</span>
                         </button>
                         <button onclick="fillSolutionHint()" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition flex items-center gap-1.5" title="Inspect Concept Hint">
                             <i class="fa-regular fa-lightbulb"></i>
@@ -395,10 +274,10 @@
                             <span class="text-[11px] font-mono text-emerald-400/80 hidden sm:inline">• Auto-Indent &amp; Smart Braces Active</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="text-[11px] font-mono text-slate-400 hidden md:inline">Enter: Auto-Index • Tab: 4 spaces</span>
+                            <span class="text-[11px] font-mono text-slate-400 hidden lg:inline">Enter: Auto-Index • Tab: 4 spaces</span>
                             <button onclick="runStage1Verification()" id="btn-run-stage1" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-obsidian font-mono font-bold text-xs shadow-lg transition flex items-center gap-2">
                                 <i class="fa-solid fa-play"></i>
-                                <span>Run & Verify Stage 1</span>
+                                <span>Run &amp; Verify Stage 1</span>
                             </button>
                         </div>
                     </div>
@@ -412,7 +291,7 @@
                             </div>
                             <h3 class="text-base sm:text-lg font-extrabold text-white mb-1">Read the Initial Problem Statement First</h3>
                             <p class="text-xs text-slate-300 max-w-md mb-5 leading-relaxed">
-                                Review the problem specification, function prototype, and 3 verification test cases on the left. Your <strong>05:00 stage timer</strong> will remain paused until you click Start below.
+                                Review the problem specification, function prototype, and 3 verification test cases on the <strong>right side panel</strong>. Your <strong>05:00 stage timer</strong> will remain paused until you click Start below.
                             </p>
                             <button onclick="beginCodingSession()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-obsidian font-mono font-extrabold text-xs sm:text-sm shadow-xl glow-emerald transition transform hover:scale-105 flex items-center gap-2.5">
                                 <i class="fa-solid fa-bolt"></i>
@@ -420,7 +299,7 @@
                             </button>
                         </div>
 
-                        <div class="code-editor-wrapper flex bg-obsidian/95 min-h-[270px] max-h-[360px] overflow-y-auto p-4" id="editor-scroll-container">
+                        <div class="code-editor-wrapper flex bg-obsidian/95 min-h-[320px] max-h-[420px] overflow-y-auto p-4" id="editor-scroll-container">
                             <div id="editor-line-numbers" class="line-numbers font-mono select-none">1</div>
                             <textarea id="c-code-editor" class="c-editor flex-1 pl-4 font-mono" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" disabled></textarea>
                         </div>
@@ -442,12 +321,12 @@
                         <div class="flex items-center justify-between mb-2">
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-terminal text-emerald-400 text-xs"></i>
-                                <span class="font-mono text-xs font-bold uppercase tracking-wider text-slate-300">C Verification & Test Output</span>
+                                <span class="font-mono text-xs font-bold uppercase tracking-wider text-slate-300">C Verification &amp; Test Output</span>
                             </div>
                             <span id="compiler-exec-time" class="font-mono text-[11px] text-slate-400">Ready</span>
                         </div>
-                        <div id="stage1-console" class="font-mono text-xs text-slate-400 bg-slatepanel/90 border border-slate-800/90 rounded-xl p-3.5 min-h-[110px] space-y-2">
-                            <div class="text-slate-500">// Write your C solution above and click "Run & Verify Stage 1" to execute against 3 test cases.</div>
+                        <div id="stage1-console" class="font-mono text-xs text-slate-400 bg-slatepanel/90 border border-slate-800/90 rounded-xl p-3.5 min-h-[115px] space-y-2">
+                            <div class="text-slate-500">// Write your C solution above and click "Run &amp; Verify Stage 1" to execute against 3 test cases.</div>
                         </div>
                     </div>
                 </div>
@@ -538,6 +417,141 @@
                                 <i class="fa-solid fa-arrow-right"></i>
                             </button>
                         </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE (5 Cols on md+): Question Selector Grid + Problem Statement + Timer & Integrity Monitor -->
+            <div class="md:col-span-5 flex flex-col gap-4">
+
+                <!-- 10-Question Selector Matrix Card (Right Side Top) -->
+                <div id="question-bar-section" class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg">
+                    <div class="flex items-center justify-between mb-2.5">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-emerald-400 text-xs"></i>
+                            <span class="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">Gauntlet Questions (1–10)</span>
+                        </div>
+                        <button onclick="openResetModal()" class="text-[11px] font-mono text-rose-400 hover:text-rose-300 flex items-center gap-1 transition">
+                            <i class="fa-solid fa-rotate-right text-[10px]"></i>
+                            <span>Reset All to Unsolved</span>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2" id="question-selector-bar">
+                        <!-- Dynamically populated 10 question pills -->
+                    </div>
+                </div>
+
+                <!-- Problem Description & Specification Card (Right Side Middle) -->
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col gap-4">
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-1.5 mb-1.5">
+                                <span id="prob-number" class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Q1 / 10</span>
+                                <span id="prob-skill-tag" class="font-mono text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Pointers</span>
+                                <span id="prob-elo-tag" class="font-mono text-xs px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">Target Elo: 400</span>
+                            </div>
+                            <h2 id="prob-title" class="text-lg font-bold text-white">Pointer Swap</h2>
+                        </div>
+                        <span id="prob-status-badge" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700 shrink-0">Unsolved</span>
+                    </div>
+
+                    <p id="prob-desc" class="text-sm text-slate-300 leading-relaxed"></p>
+
+                    <!-- Function Signature & Constraints -->
+                    <div class="bg-obsidian/80 border border-slate-800/90 rounded-xl p-3.5 space-y-1.5">
+                        <div class="text-[11px] font-mono uppercase text-slate-400">Required C Prototype</div>
+                        <pre id="prob-signature" class="font-mono text-xs text-emerald-300 overflow-x-auto"></pre>
+                    </div>
+
+                    <!-- Sample Test Cases -->
+                    <div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-vial text-cyan-400"></i>
+                            <span>Verification Test Suite (3 Cases)</span>
+                        </div>
+                        <div id="prob-testcases" class="space-y-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5:00 Timer & Integrity Status Card -->
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Stage Timer</span>
+                            <button onclick="togglePauseTimer()" id="btn-timer-pause" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                <i class="fa-solid fa-pause mr-1"></i>Pause
+                            </button>
+                        </div>
+                        <!-- Live Integrity Status Pill -->
+                        <div id="integrity-status-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono font-semibold">
+                            <span id="integrity-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span id="integrity-status-text">INTEGRITY: SECURE</span>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Display -->
+                    <div class="flex items-baseline justify-between my-1">
+                        <div id="timer-display" class="font-mono font-extrabold text-3xl sm:text-4xl text-white tracking-tight">05:00</div>
+                        <div class="text-right">
+                            <div class="text-[11px] text-slate-400 font-mono">Penalties This Question</div>
+                            <div id="penalty-total-badge" class="text-xs font-mono font-bold text-slate-300">0s deducted (0 violations)</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden mt-2">
+                        <div id="timer-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-500" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <!-- Live Integrity Monitor Panel -->
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-emerald-400 text-sm"></i>
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Live Anti-Cheat &amp; Malpractice Engine</h3>
+                        </div>
+                        <div id="tab-switch-counter-pill" class="px-2 py-0.5 rounded-full bg-obsidian border border-slate-700 text-[10px] font-mono text-amber-300 font-bold">
+                            Tab Switches: 0 / 5
+                        </div>
+                    </div>
+
+                    <!-- Rule Matrix -->
+                    <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
+                            <div class="text-[10px] text-slate-400">Tab Switch</div>
+                            <div class="font-mono font-bold text-[11px] text-rose-400">-15s (&gt;5: -10 ELO)</div>
+                        </div>
+                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
+                            <div class="text-[10px] text-slate-400">Paste / Drop</div>
+                            <div class="font-mono font-bold text-[11px] text-rose-400">-30s Timer</div>
+                        </div>
+                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
+                            <div class="text-[10px] text-slate-400">Copy Question</div>
+                            <div class="font-mono font-bold text-[11px] text-rose-400">-10 ELO &amp; -10s</div>
+                        </div>
+                    </div>
+
+                    <!-- Simulate Penalty Test Controls -->
+                    <div class="flex flex-wrap items-center gap-1.5 mb-3">
+                        <span class="text-[11px] text-slate-400 mr-1">Simulate:</span>
+                        <button onclick="handleTabSwitchViolation('Simulated Tab Switch')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Tab Switch (-15s / &gt;5: -10 ELO)
+                        </button>
+                        <button onclick="handleCopyQuestionViolation('Simulated Question Copy')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Copy Question (-10 ELO)
+                        </button>
+                        <button onclick="triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Simulated Code Paste/Drop (-30s)', 0)" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Paste (-30s)
+                        </button>
+                    </div>
+
+                    <!-- Live Violation Log -->
+                    <div class="bg-obsidian border border-slate-800 rounded-xl p-2.5 max-h-28 overflow-y-auto font-mono text-[11px] space-y-1" id="integrity-log">
+                        <div class="text-slate-500">[SYSTEM] Integrity monitor armed. Watching tab focus, clipboard &amp; drag events...</div>
                     </div>
                 </div>
 
@@ -1539,6 +1553,10 @@
 
             // Show floating toast
             const toast = document.getElementById('penalty-toast');
+            const toastBox = document.getElementById('penalty-toast-box');
+            const toastIcon = document.getElementById('penalty-toast-icon');
+            toastBox.className = "bg-rose-950/95 border border-rose-500 text-rose-100 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 glow-rose";
+            toastIcon.className = "fa-solid fa-triangle-exclamation text-rose-400 text-lg animate-bounce";
             document.getElementById('penalty-toast-title').textContent = eloDeduction > 0
                 ? `MALPRACTICE PENALTY: -${eloDeduction} ELO`
                 : `INTEGRITY PENALTY: ${code}`;
@@ -1558,6 +1576,23 @@
             entry.className = eloDeduction > 0 ? "text-rose-300 font-bold bg-rose-950/60 px-1.5 py-0.5 rounded" : "text-rose-400 font-semibold";
             entry.textContent = `[${timestamp}] ${code}: ${reasonText}`;
             logEl.prepend(entry);
+        }
+
+        function showSystemResetToast() {
+            const toast = document.getElementById('penalty-toast');
+            const toastBox = document.getElementById('penalty-toast-box');
+            const toastIcon = document.getElementById('penalty-toast-icon');
+            toastBox.className = "bg-emerald-950/95 border border-emerald-500 text-emerald-100 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 glow-emerald";
+            toastIcon.className = "fa-solid fa-rotate-right text-emerald-400 text-lg";
+            document.getElementById('penalty-toast-title').textContent = "ALL PROGRESS & ELO RESET";
+            document.getElementById('penalty-toast-desc').textContent = "All 10 questions restored to Unsolved • Elo rating reset to 400";
+            toast.classList.remove('opacity-0', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', '-translate-y-4');
+            }, 3000);
         }
 
         function updatePenaltyBadgeUI() {
@@ -1644,27 +1679,30 @@
 
                 const btn = document.createElement('button');
                 btn.onclick = () => selectQuestion(idx);
+                btn.title = `Q${q.id}: ${q.title} (${q.skill})`;
 
-                let borderClass = "border-slate-800 bg-obsidian/70 text-slate-400 hover:border-slate-700";
-                let statusIcon = `<span class="w-2 h-2 rounded-full bg-slate-600"></span>`;
+                let borderClass = "border-slate-800 bg-obsidian/80 text-slate-400 hover:border-slate-700";
+                let statusIcon = `<span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>`;
 
                 if (isFullDone) {
-                    borderClass = "border-emerald-500/40 bg-emerald-500/10 text-emerald-300";
-                    statusIcon = `<i class="fa-solid fa-circle-check text-emerald-400 text-[11px]"></i>`;
+                    borderClass = "border-emerald-500/40 bg-emerald-500/15 text-emerald-300";
+                    statusIcon = `<i class="fa-solid fa-circle-check text-emerald-400 text-[10px]"></i>`;
                 } else if (isHalfDone) {
-                    borderClass = "border-cyan-500/40 bg-cyan-500/10 text-cyan-300";
-                    statusIcon = `<i class="fa-solid fa-circle-half-stroke text-cyan-400 text-[11px]"></i>`;
+                    borderClass = "border-cyan-500/40 bg-cyan-500/15 text-cyan-300";
+                    statusIcon = `<i class="fa-solid fa-circle-half-stroke text-cyan-400 text-[10px]"></i>`;
                 }
 
                 if (isActive) {
-                    borderClass += " ring-2 ring-emerald-400/70 text-white";
+                    borderClass += " ring-2 ring-emerald-400/80 text-white";
                 }
 
-                btn.className = `flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-mono whitespace-nowrap transition-all ${borderClass}`;
+                btn.className = `flex flex-col items-start justify-between p-2 rounded-xl border text-xs font-mono transition-all ${borderClass}`;
                 btn.innerHTML = `
-                    ${statusIcon}
-                    <span class="font-bold">Q${q.id}</span>
-                    <span class="text-[11px] opacity-80">${q.skill}</span>
+                    <div class="flex items-center justify-between w-full">
+                        <span class="font-extrabold text-[11px]">Q${q.id}</span>
+                        ${statusIcon}
+                    </div>
+                    <span class="text-[10px] opacity-75 truncate w-full text-left mt-0.5">${q.skill}</span>
                 `;
                 bar.appendChild(btn);
             });
@@ -2167,19 +2205,16 @@
         function switchMainView(view) {
             const arena = document.getElementById('view-arena');
             const lb = document.getElementById('view-leaderboard');
-            const qBar = document.getElementById('question-bar-section');
             const tabArena = document.getElementById('tab-arena');
             const tabLb = document.getElementById('tab-leaderboard');
 
             if (view === 'arena') {
                 arena.classList.remove('hidden');
-                qBar.classList.remove('hidden');
                 lb.classList.add('hidden');
                 tabArena.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30";
                 tabLb.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200";
             } else {
                 arena.classList.add('hidden');
-                qBar.classList.add('hidden');
                 lb.classList.remove('hidden');
                 tabLb.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30";
                 tabArena.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200";
@@ -2299,6 +2334,7 @@
         }
 
         function confirmResetProgress() {
+            if (timerInterval) clearInterval(timerInterval);
             localStorage.removeItem(STORAGE_KEY);
             state = {
                 elo: 400,
@@ -2314,10 +2350,24 @@
             };
             initDefaultProgress();
             closeResetModal();
+
+            // Clear editor delta & reset HUD
+            document.getElementById('hud-elo-delta').classList.add('hidden');
             updateHUD();
             updateTabSwitchCounterUI();
+
+            // Select Q1 in fresh unsolved state (timer paused at 05:00 with Read-First overlay)
             selectQuestion(0);
-            document.getElementById('integrity-log').innerHTML = `<div class="text-slate-500">[SYSTEM] Progress reset. Integrity monitor re-armed at 400 Elo.</div>`;
+            document.getElementById('integrity-log').innerHTML = `<div class="text-slate-500">[SYSTEM] All 10 questions reset to Unsolved. Elo restored to 400. Timer waiting at 05:00.</div>`;
+
+            // If user was on leaderboard view, refresh it too
+            if (!document.getElementById('view-leaderboard').classList.contains('hidden')) {
+                renderSkillMasteryGrid();
+                renderLeaderboard();
+            }
+
+            playSynthSound('pass');
+            showSystemResetToast();
         }
 
         function escapeHtml(str) {
