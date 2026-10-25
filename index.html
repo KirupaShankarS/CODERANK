@@ -1,221 +1,2126 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CodeRank C: 10 questions in C programming</title>
-<script src="https://cdn.jsdelivr.net/npm/JSCPP@2.0.9/dist/JSCPP.es5.min.js"></script>
-<style>
-:root{--bg:#eef2f0;--card:#fff;--tx:#16231f;--mut:#5b6b65;--bd:#d5dfda;--ac:#1f6f5c;--on:#fff;--ok:#15803d;--warn:#b45309;--bad:#c62828;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a17;--card:#16241f;--tx:#e6efe9;--mut:#9bb0a7;--bd:#28403a;--ac:#5fc4a3;--on:#08130f;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}}
-:root[data-theme="dark"]{--bg:#0f1a17;--card:#16241f;--tx:#e6efe9;--mut:#9bb0a7;--bd:#28403a;--ac:#5fc4a3;--on:#08130f;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{padding:22px 16px 18px;border-bottom:1px solid var(--bd);background:var(--card);position:relative}
-header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:10px;background:repeating-conic-gradient(var(--ac) 0 25%,transparent 0 50%) 0 0/20px 20px;opacity:.85}
-.hd{max-width:960px;margin:auto;display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between}
-h1{font:700 30px/1.1 Georgia,"Times New Roman",serif;margin:0}
-h1 span{display:block;font:400 14px system-ui,sans-serif;color:var(--mut);margin-top:6px;max-width:580px}
-h2{font:700 18px Georgia,serif;margin:0 0 10px}
-.score{font:700 34px Georgia,serif;color:var(--ac);line-height:1;text-align:right}
-.score small{font:400 13px system-ui,sans-serif;color:var(--mut);display:block}
-main{max-width:960px;margin:auto;padding:22px 16px 30px;display:grid;gap:14px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px;min-width:0}
-.mut{color:var(--mut)}.sm{font-size:13px}
-.grid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
-.qb{display:flex;flex-direction:column;gap:2px;text-align:left;padding:10px 12px;border:1px solid var(--bd);border-radius:8px;background:transparent;color:var(--tx);font:inherit;cursor:pointer}
-.qb span{font-size:13px;color:var(--mut)}.qb small{font-size:12px;color:var(--mut)}
-.qb.ok{border-color:var(--ok)}.qb.part{border-color:var(--warn)}.qb.cur{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
-.qb:disabled{opacity:.6;cursor:default}
-button{font:600 14px system-ui,sans-serif;cursor:pointer}
-button.a{padding:10px 18px;border-radius:8px;border:1px solid var(--ac);background:var(--ac);color:var(--on)}
-button.b2{background:transparent;color:var(--tx);border-color:var(--bd)}
-button:disabled{opacity:.45;cursor:default}
-button:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
-.rb{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-.tm{font:700 38px Georgia,serif;color:var(--ac)}.tm.low{color:var(--bad)}
-.pen{border:1px solid var(--warn);border-radius:8px;padding:8px 10px;margin-top:6px}
-.pen b{color:var(--warn);font-size:18px}
-.bar{height:12px;background:var(--bg);border:1px solid var(--bd);border-radius:99px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
-.bar i.Medium{background:var(--warn)}.bar i.High{background:var(--bad)}
-.lv{font:700 20px Georgia,serif;margin:6px 0 2px}
-.Low{color:var(--ok)}.Medium{color:var(--warn)}.High{color:var(--bad)}
-ul{margin:6px 0;padding-left:18px}
-.q{padding:12px;border:1px solid var(--bd);border-left:4px solid var(--ac);border-radius:8px;background:var(--bg);margin:8px 0;user-select:none;-webkit-user-select:none}
-textarea{width:100%;height:190px;box-sizing:border-box;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:10px;resize:vertical}
-.code{overflow-x:auto;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:12px;font:14px/1.9 ui-monospace,Menlo,Consolas,monospace;user-select:none;-webkit-user-select:none}
-.ln{white-space:pre}
-.bl{font:700 13px ui-monospace,Menlo,Consolas,monospace;padding:2px 10px;margin:0 2px;border-radius:6px;border:1px dashed var(--mut);background:transparent;color:var(--mut)}
-.bl.act{border:2px solid var(--ac);color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
-.bl.done{border-style:solid;border-color:var(--ok);color:var(--ok)}
-.op{margin-top:12px;padding:12px;border:1px solid var(--bd);border-radius:8px;min-height:92px}
-.op h3{margin:0 0 8px;font:700 16px Georgia,serif}
-.opts{display:flex;flex-wrap:wrap;gap:8px}
-.opts button{padding:8px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:600 14px ui-monospace,Menlo,Consolas,monospace}
-.opts button:hover{border-color:var(--ac)}
-.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.warn{color:var(--bad)}.ok{color:var(--ok)}.bad{color:var(--bad)}
-.big{font:700 22px Georgia,serif}
-.flt{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:10px}
-select{padding:6px 8px;border-radius:6px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font:inherit}
-.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{padding:7px 10px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}
-tr.me td{background:color-mix(in srgb,var(--ac) 12%,transparent);font-weight:600}
-.hide{display:none}
-</style></head><body>
-<header><div class="hd">
-<h1>CodeRank C<span>10 questions in C programming. Step 1: type the initial question in C. Step 2: a twist of the same concept as C fill-in-the-blanks, one blank at a time.</span></h1>
-<div class="score"><span id="mr">400</span><small>your Elo rating (starts at 400)</small></div>
-</div></header>
-<main>
-<section class="card"><h2>Choose a question</h2><div class="grid" id="grid"></div>
-<p class="mut sm" id="prog"></p>
-<p class="sm"><b>Penalty rules:</b> leaving the tab or window cuts 15 s from the timer, pasting or dropping text into the editor cuts 30 s, and copying text from the page cuts 10 s.</p></section>
-<section class="card hide" id="rb"><div class="rb">
-<div><div class="mut sm" id="stg"></div><div class="tm" id="tm">5:00</div>
-<div class="pen"><span class="sm">Time penalties this stage: </span><b id="pt">0 s</b><div class="warn sm" id="pw"></div></div></div>
-<div><div class="sm"><b>Integrity monitor</b> (live)</div><div class="bar"><i id="bf"></i></div><div class="lv" id="rl"></div><ul id="rs"></ul></div></div></section>
-<section class="card hide" id="c1"><h2 id="t1h"></h2>
-<div class="q"><div id="q1"></div><div class="mut sm" id="e1" style="margin-top:6px"></div></div>
-<label for="ed" class="sm"><b>Your answer in C</b> (read from stdin, print to stdout)</label>
-<textarea id="ed" spellcheck="false"></textarea>
-<div class="row"><button class="a" id="sub1">Run tests and submit</button><button class="a hide" id="nx">Continue to the twist round</button></div>
-<div id="r1" aria-live="polite" style="margin-top:10px"></div></section>
-<section class="card hide" id="c2"><h2 id="t2h"></h2>
-<div class="q"><div id="q2"></div><div class="mut sm" id="e2" style="margin-top:6px"></div></div>
-<div class="code" id="code" aria-label="C code with blanks"></div>
-<div class="op" id="op" aria-live="polite"></div>
-<div class="row"><button class="a" id="sb" disabled>Submit answers</button><button class="a b2" id="demo">Demo: simulate a phone-relay cheater</button></div></section>
-<section class="card hide" id="oc"><h2>Result</h2><div id="out"></div><div class="row"><button class="a" id="nxt">Next question</button></div></section>
-<section class="card"><h2>Leaderboard and skill filter</h2>
-<div class="flt"><label>Tier <select id="ft"><option>All</option><option>Master</option><option>Gold</option><option>Silver</option><option>Bronze</option></select></label>
-<label><input type="checkbox" id="ff"> Verified only (low risk)</label></div>
-<div class="tw"><table id="lb"></table></div></section>
-</main>
-<script>
-const BANK=[{"name":"Sum of two numbers","rating":300,"oq":"Two friends collect stickers. Read how many stickers each friend has and print the total number of stickers.","oex":["2 5","7"],"otests":[["2 5\n","7"],["10 15\n","25"],["0 9\n","9"],["100 250\n","350"]],"q":"Read two integers and print their sum.","ex":["3 4","7"],"lines":["#include <stdio.h>","","int main() {","    int a, b;","    scanf(@1@, @2@, &b);","    printf(\"%d\\n\", a @3@ b);","    return 0;","}"],"options":[["\"%d %d\"","\"%f %f\"","\"%d\"","\"%c %c\""],["&a","a","*a","&&a"],["+","-","*","/"]]},{"name":"Even or odd","rating":350,"oq":"Read an integer. Print Yes if it is an even number, otherwise print No.","oex":["8","Yes"],"otests":[["8\n","Yes"],["3\n","No"],["0\n","Yes"],["21\n","No"]],"q":"Read an integer n. Print Even if n is divisible by 2, otherwise print Odd.","ex":["7","Odd"],"lines":["#include <stdio.h>","","int main() {","    int n;","    scanf(\"%d\", &n);","    if (n @1@ 2 == 0) {","        printf(\"@2@\\n\");","    } else {","        printf(\"@3@\\n\");","    }","    return @4@;","}"],"options":[["%","/","*","&"],["Even","even","EVEN","Yes"],["Odd","odd","ODD","No"],["0","1","-1","n"]]},{"name":"Largest of three","rating":400,"oq":"Read the heights of three students. Print the height of the tallest student.","oex":["150 162 158","162"],"otests":[["150 162 158\n","162"],["170 165 160\n","170"],["140 141 142\n","142"],["155 155 155\n","155"]],"q":"Read three integers. Print the largest of them.","ex":["3 9 5","9"],"lines":["#include <stdio.h>","","int main() {","    int a, b, c, max;","    scanf(\"%d %d %d\", &a, &b, &c);","    max = @1@;","    if (b @2@ max) max = b;","    if (@3@) max = c;","    printf(\"%d\\n\", @4@);","    return 0;","}"],"options":[["a","b","c","0"],[">","<","==","<="],["c > max","c < max","c == max","c != max"],["max","a * 2","b + c","max + 1"]]},{"name":"Sum from 1 to n","rating":450,"oq":"A saver puts 1 rupee on day 1, 2 rupees on day 2, 3 rupees on day 3, and so on. Read the number of days n and print the total saved after n days.","oex":["3","6"],"otests":[["3\n","6"],["10\n","55"],["1\n","1"],["20\n","210"]],"q":"Read n. Print the sum of all whole numbers from 1 to n.","ex":["5","15"],"lines":["#include <stdio.h>","","int main() {","    int n, i, sum = 0;","    scanf(\"%d\", &n);","    for (i = @1@; i <= @2@; i++) {","        sum @3@ i;","    }","    printf(\"%@4@\\n\", sum);","    return 0;","}"],"options":[["1","2","3","4"],["n","n - 1","n + 1","sum"],["+=","-=","*=","="],["d","f","c","s"]]},{"name":"Factorial","rating":500,"oq":"Read n (0 to 15). Print the number of ways to arrange n different books on a shelf.","oex":["4","24"],"otests":[["4\n","24"],["0\n","1"],["6\n","720"],["12\n","479001600"]],"q":"Read n (0 to 15). Print n factorial (n!).","ex":["5","120"],"lines":["#include <stdio.h>","","int main() {","    int n, i;","    long long f = 1;","    scanf(\"%d\", &n);","    for (i = @1@; i <= @2@; i++) {","        f @3@ i;","    }","    printf(\"%@4@\\n\", f);","    return 0;","}"],"options":[["1","3","0","5"],["n","n - 1","n + 1","n * 2"],["*=","+=","-=","/="],["lld","d","f","c"]]},{"name":"Reverse a number","rating":550,"oq":"Read a ticket number (a positive integer). Print the number you get by reading it from right to left, ignoring leading zeros.","oex":["4321","1234"],"otests":[["4321\n","1234"],["7\n","7"],["2500\n","52"],["120\n","21"]],"q":"Read a positive integer. Print its digits in reverse order as a number (for 1000 the answer is 1).","ex":["1234","4321"],"lines":["#include <stdio.h>","","int main() {","    int n, rev = 0;","    scanf(\"%d\", &n);","    while (n @1@ 0) {","        rev = rev * @2@ + n @3@ 10;","        n = n @4@ 10;","    }","    printf(\"%d\\n\", rev);","    return 0;","}"],"options":[["!=","==","<","<="],["10","1","2","100"],["%","&","|","^"],["/","-",">>","<<"]]},{"name":"Count vowels","rating":600,"oq":"Read one word made of letters and digits. Print how many of its characters are digits.","oex":["a1b22","3"],"otests":[["a1b22\n","3"],["hello\n","0"],["2026\n","4"],["x9\n","1"]],"q":"Read one word (letters only). Print how many vowels (a, e, i, o, u in any case) it contains.","ex":["banana","3"],"lines":["#include <stdio.h>","#include <ctype.h>","","int main() {","    char s[100];","    int i, count = 0;","    scanf(\"%s\", s);","    for (i = 0; s[i] @1@ '\\0'; i++) {","        char c = tolower(s[i]);","        if (c == 'a' || c == 'e' || c == @2@ || c == 'o' || c == 'u')","            count@3@;","    }","    printf(\"%@4@\\n\", count);","    return 0;","}"],"options":[["!=","==","<","<="],["'i'","'I'","'y'","'a'"],["++","--","+= 2","= 1"],["d","s","f","c"]]},{"name":"Linear search","rating":650,"oq":"Read n and then n integers. Print the position (counting from 0) of the largest value. If it appears more than once, print the first position.","oex":["5 / 3 9 2 7 4","1"],"otests":[["5\n3 9 2 7 4\n","1"],["3\n5 5 5\n","0"],["4\n-5 -9 -1 -3\n","2"],["1\n8\n","0"]],"q":"Read n, then n integers, then a value x. Print the position (counting from 0) of the first x, or -1 if x is not present.","ex":["5 / 4 8 15 16 23 / 15","2"],"lines":["#include <stdio.h>","","int main() {","    int n, x, i, a[100], pos = @1@;","    scanf(\"%d\", &n);","    for (i = 0; i < n; i++) scanf(\"%d\", &a[@2@]);","    scanf(\"%d\", &x);","    for (i = 0; i < @3@; i++) {","        if (a[i] == x) {","            pos = i;","            @4@;","        }","    }","    printf(\"%d\\n\", pos);","    return 0;","}"],"options":[["-1","0","1","9"],["i","n - 1","j","i + 1"],["n","n - 2","n / 2","2"],["break","continue","return 1","exit"]]},{"name":"Palindrome word","rating":700,"oq":"Read one word. Print Same if its first letter and last letter are the same, otherwise print Different.","oex":["level","Same"],"otests":[["level\n","Same"],["hello\n","Different"],["a\n","Same"],["code\n","Different"]],"q":"Read one word. Print Yes if it reads the same forwards and backwards, otherwise print No.","ex":["level","Yes"],"lines":["#include <stdio.h>","#include <string.h>","","int main() {","    char s[100];","    int i, j, ok = 1;","    scanf(\"%s\", s);","    j = @1@(s) - 1;","    for (i = 0; i < j; i++, @2@) {","        if (s[i] @3@ s[j]) {","            ok = @4@;","        }","    }","    printf(\"%s\\n\", ok ? \"Yes\" : \"No\");","    return 0;","}"],"options":[["strlen","strcmp","strcpy","sizeof"],["j--","j -= 2","j","i"],["!=","==","<",">"],["0","1","-1","2"]]},{"name":"Bubble sort","rating":800,"oq":"Read n and then n integers. Print them in decreasing order (largest first), separated by spaces.","oex":["5 / 5 1 4 2 8","8 5 4 2 1"],"otests":[["5\n5 1 4 2 8\n","8 5 4 2 1"],["3\n1 2 3\n","3 2 1"],["2\n1 2\n","2 1"],["4\n9 9 1 1\n","9 9 1 1"],["1\n7\n","7"]],"q":"Read n, then n integers. Print them in increasing order, separated by spaces.","ex":["5 / 5 1 4 2 8","1 2 4 5 8"],"lines":["#include <stdio.h>","","int main() {","    int n, i, j, t, a[100];","    scanf(\"%d\", &n);","    for (i = 0; i < n; i++) scanf(\"%d\", &a[i]);","    for (i = 0; i < n - 1; i++) {","        for (j = 0; j < @1@; j++) {","            if (a[j] @2@ a[j + 1]) {","                t = a[j];","                a[j] = a[j + 1];","                a[j + 1] = @3@;","            }","        }","    }","    for (i = 0; i < n; i++) printf(\"%d \", a[@4@]);","    printf(\"\\n\");","    return 0;","}"],"options":[["n - 1","n - 2","n / 2","1"],[">","<","==","!="],["t","a[j]","a[j + 1]","a[i]"],["i","j","n","n - 3"]]}];
-const $=id=>document.getElementById(id);
-const K=32,LPB=45,START=400,OLIM=300;
-//EVAL-START
-function evaluate(n,rate,prate,correct,changes,dwell,used,orig){const o={flags:[]},limit=LPB*n,frac=correct/n;
-let ts=Math.max(0,Math.min(1,1-used/limit));const per=used/n;
-if(per<3){ts=Math.min(ts,.5);o.flags.push("Too fast: "+per.toFixed(1)+" s per blank is quicker than reading and clicking allow")}
-const st=1-Math.min(1,changes/n);o.score=frac===1?.4+.4*ts+.2*st:.25*frac;
-const mean=dwell.reduce((a,b)=>a+b,0)/n,sd=Math.sqrt(dwell.reduce((a,b)=>a+(b-mean)**2,0)/n);
-if(n>=3&&mean>8&&sd/mean<.3)o.flags.push("Long, very regular pause on every blank (looks like relaying each blank to another device)");
-const ratio=used/Math.max(5,orig);if(frac===1&&ratio>2.5)o.flags.push("Twist took "+ratio.toFixed(1)+"x as long as the initial question");
-o.flags.forEach(()=>{o.score*=.5});o.exp=1/(1+10**((prate-rate)/400));o.d=Math.floor(K*(o.score-o.exp)+.5);
-o.verdict=frac<1?"Some blanks were wrong.":o.flags.length?"Send for human review (never an automatic ban). Score was halved for each flag.":"Consistent with real understanding.";return o}
-//EVAL-END
-let rating=START,O=null,S=null,tmr=null,I=null,myRisk=0;const res=Array(BANK.length).fill(null);
-const U=[{n:"Aarav",r:780,s:9,k:0},{n:"Meera",r:640,s:8,k:0},{n:"Kiran",r:810,s:4,k:2},{n:"Divya",r:520,s:6,k:0},{n:"Rohit",r:410,s:3,k:1}];
-const RISK=["Low","Medium","High"],tier=r=>r<400?"Bronze":r<500?"Silver":r<650?"Gold":"Master",lvl=s=>s>=60?"High":s>=30?"Medium":"Low";
-const show=(id,v)=>$(id).classList.toggle("hide",!v);
-const mmss=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
-const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-const inc=c=>c.replace(/#include\s*<(\w+)\.h>/g,"#include <c$1>");
-function runC(code,inp){let out="";try{JSCPP.run(inc(code),inp,{stdio:{write:s=>{out+=s}},maxTimeout:3000});return{out:out.replace(/[ \t]+$/gm,"").trim()}}catch(e){return{err:String(e&&e.message||e)}}}
-/* ---------- integrity monitor ---------- */
-function ir(){let sc=0;const w=[];
-if(I.paste){sc+=40;w.push("Text pasted or dropped into the editor")}
-if(I.copy){sc+=Math.min(30,15*I.copy);w.push("Copied text from the page "+I.copy+" time(s)")}
-if(I.leave){sc+=Math.min(30,10*I.leave);w.push("Left the page "+I.leave+" time(s)")}
-if(I.keys>40&&I.ints.length){const m=avg(I.ints),sd=Math.sqrt(avg(I.ints.map(x=>(x-m)**2)));
-if(m>0&&sd/m<.45){sc+=15;w.push("Unnaturally even typing rhythm")}
-if(I.bs/I.keys<.03){sc+=10;w.push("Almost no corrections while typing")}
-if(I.pauses>=1&&I.ints.filter(x=>x<90).length/I.ints.length>.6){sc+=15;w.push("Long pause, then fast burst of typing")}}
-sc=Math.min(100,sc);return{sc,w,l:lvl(sc)}}
-function updI(){const r=ir();$("bf").style.width=Math.max(r.sc,3)+"%";$("bf").className=r.l;$("rl").className="lv "+r.l;$("rl").textContent="Risk: "+r.l+" ("+r.sc+"/100)";
-$("rs").innerHTML=r.w.length?r.w.map(x=>"<li>"+x+"</li>").join(""):"<li class='mut'>No suspicious signals yet.</li>"}
-const cur=()=>O&&O.running?O:(S&&S.running?S:null);
-const busy=()=>!!(O&&res[O.i]==null);
-function penalize(sec,why,kind){const st=cur();if(!st)return;st.pen+=sec;I[kind]++;
-$("pt").textContent=st.pen+" s";$("pw").textContent="Suspicious activity ("+why+"): "+sec+" s cut from your timer.";updI();tick()}
-window.addEventListener("blur",()=>penalize(15,"left the page","leave"));
-document.addEventListener("copy",e=>{if(e.target&&e.target.id==="ed")return;penalize(10,"text copied from the page","copy")});
-$("ed").addEventListener("paste",()=>penalize(30,"text pasted into the editor","paste"));
-$("ed").addEventListener("drop",e=>{e.preventDefault();penalize(30,"text dropped into the editor","paste")});
-$("ed").addEventListener("keydown",e=>{if(!O||!O.running)return;const n=Date.now();if(I.last){const g=n-I.last;I.ints.push(g);if(g>6000)I.pauses++}I.last=n;
-if(e.key==="Backspace"||e.key==="Delete")I.bs++;else if(e.key.length===1||e.key==="Enter")I.keys++;updI()});
-/* ---------- grid, leaderboard ---------- */
-function renderGrid(){const g=$("grid");g.innerHTML="";
-BANK.forEach((p,i)=>{const b=document.createElement("button"),r=res[i];
-b.className="qb"+(r?(r.full?" ok":" part"):"")+((O&&O.i===i)?" cur":"");b.disabled=!!r||busy();
-const t=document.createElement("b");t.textContent="Q"+(i+1);const n=document.createElement("span");n.textContent=p.name;
-const m=document.createElement("small");m.textContent=r?(r.d>=0?"+":"")+r.d+" Elo":"rating "+p.rating;b.append(t,n,m);b.onclick=()=>start(i);g.append(b)});
-$("prog").textContent="Played "+res.filter(Boolean).length+" of "+BANK.length+". Fully correct: "+res.filter(r=>r&&r.full).length+". Each question can be played once."}
-function lb(){const t=$("ft").value,v=$("ff").checked,me={n:"You",r:rating,s:res.filter(r=>r&&r.full).length,k:myRisk,me:1};
-const rows=[...U,me].filter(u=>(t==="All"||tier(u.r)===t)&&(!v||u.k===0)).sort((a,b)=>b.r-a.r);
-$("lb").innerHTML="<tr><th>#</th><th>Name</th><th>Rating</th><th>Tier</th><th>Solved</th><th>Integrity</th></tr>"+rows.map((u,i)=>"<tr"+(u.me?" class='me'":"")+"><td>"+(i+1)+"</td><td>"+u.n+"</td><td>"+u.r+"</td><td>"+tier(u.r)+"</td><td>"+u.s+"</td><td class='"+RISK[u.k]+"'>"+RISK[u.k]+"</td></tr>").join("")}
-$("ft").onchange=lb;$("ff").onchange=lb;
-/* ---------- timer ---------- */
-function tick(){const st=cur();if(!st)return;const left=st.limit-((Date.now()-st.start)/1000+st.pen);
-$("tm").textContent=mmss(Math.max(0,Math.ceil(left)));$("tm").className="tm"+(left<30?" low":"");
-if(left<=0){if(st===O)origTimeout();else finish()}}
-const el1=()=>(Date.now()-O.start)/1000+O.pen;
-/* ---------- step 1: initial question in C ---------- */
-function start(i){if(res[i]||busy())return;clearInterval(tmr);const p=BANK[i];
-I={paste:0,copy:0,leave:0,keys:0,bs:0,last:0,ints:[],pauses:0};S=null;
-O={i,p,start:Date.now(),pen:0,running:true,limit:OLIM};
-$("t1h").textContent="Question "+(i+1)+" of "+BANK.length+", step 1: the initial question";$("q1").textContent=p.oq;$("e1").textContent="Example input: "+p.oex[0]+"   |   Example output: "+p.oex[1];
-$("ed").value="#include <stdio.h>\n\nint main() {\n    \n    return 0;\n}\n";$("r1").innerHTML="";$("nx").classList.add("hide");$("sub1").disabled=false;
-$("stg").textContent="Step 1 of 2: initial question (time limit "+mmss(OLIM)+")";$("pt").textContent="0 s";$("pw").textContent="";
-show("rb",true);show("c1",true);show("c2",false);show("oc",false);renderGrid();updI();tick();tmr=setInterval(tick,250);
-$("rb").scrollIntoView({behavior:"smooth",block:"start"})}
-function origTimeout(){O.running=false;clearInterval(tmr);$("sub1").disabled=true;const p=O.p;
-const ex=1/(1+10**((p.rating-rating)/400)),d0=Math.floor(32*(0-ex)+.5),nr=Math.max(0,rating+d0),d=nr-rating;rating=nr;$("mr").textContent=rating;
-res[O.i]={full:false,d};renderGrid();lb();
-$("r1").innerHTML="<p class='bad'><b>Time is up.</b> The initial question was not solved, so there is no twist round.</p>";
-$("out").innerHTML="<p class='bad'><b>Initial question not solved.</b> Your Elo changes by <span class='big bad'>"+d+"</span> and is now <b>"+rating+"</b>.</p>";
-$("nxt").classList.toggle("hide",!res.some(r=>!r));show("oc",true)}
-$("sub1").onclick=()=>{if(!O||!O.running)return;const p=O.p;
-if(typeof JSCPP==="undefined"){O.running=false;O.used=el1();O.unchecked=true;clearInterval(tmr);$("sub1").disabled=true;$("nx").classList.remove("hide");
-$("r1").innerHTML="<p class='warn'>The in-browser C interpreter could not be loaded (check your internet connection), so this answer was <b>not checked</b>. You can still continue to the twist round.</p>";return}
-let pass=0,first=null;p.otests.forEach(t=>{const r=runC($("ed").value,t[0]);const ok=!r.err&&r.out===t[1];if(ok)pass++;else if(!first)first={i:t[0],e:t[1],g:r.err?"Error: "+r.err:r.out}});
-if(pass===p.otests.length){O.running=false;O.used=el1();clearInterval(tmr);$("sub1").disabled=true;$("nx").classList.remove("hide");
-$("r1").innerHTML="<p class='ok'><b>All "+pass+" tests passed.</b> Initial question solved in "+Math.round(O.used)+" s (penalties included). Next comes the twist: the same concept in a new question.</p>"}
-else $("r1").innerHTML="<p class='bad'><b>"+pass+" of "+p.otests.length+" tests passed.</b> First failing input: <code>"+first.i.replace(/\n/g," / ")+"</code> expected <code>"+first.e+"</code>, got <code>"+(first.g||"(no output)").replace(/</g,"&lt;")+"</code>. Fix your code and submit again; the timer keeps running.</p>"};
-/* ---------- step 2: fill-in-the-blanks twist ---------- */
-function used(){return (Date.now()-S.start)/1000+S.pen}
-function renderCode(){const c=$("code");c.innerHTML="";
-S.p.lines.forEach(line=>{const row=document.createElement("div");row.className="ln";let last=0,m;const re=/@(\d+)@/g;
-while((m=re.exec(line))){row.append(line.slice(last,m.index));const b=+m[1]-1,btn=document.createElement("button");
-btn.className="bl"+(S.chosen[b]>=0?" done":"")+(S.active===b?" act":"");
-btn.textContent=S.chosen[b]>=0?S.p.options[b][S.chosen[b]]:"[ "+(b+1)+" ]";
-btn.disabled=!S.running||!(S.chosen[b]>=0||b===S.active);btn.onclick=()=>openBlank(b);row.append(btn);last=m.index+m[0].length}
-row.append(line.slice(last)||" ");c.append(row)})}
-function renderOpts(){const op=$("op"),b=S.active,n=S.p.options.length;op.innerHTML="";
-if(b<0){op.innerHTML="<h3>All "+n+" blanks answered</h3><p class='mut'>Click a filled blank to change it, or submit your answers.</p>";return}
-const h=document.createElement("h3");h.textContent="Blank "+(b+1)+" of "+n+": choose one";op.append(h);
-const w=document.createElement("div");w.className="opts";
-S.order[b].forEach(k=>{const x=document.createElement("button");x.textContent=S.p.options[b][k];x.onclick=()=>choose(b,k);w.append(x)});op.append(w)}
-function openBlank(b){if(!S.running)return;S.active=b;S.activeAt=Date.now();renderCode();renderOpts()}
-function choose(b,k){if(S.chosen[b]>=0&&S.chosen[b]!==k)S.changes++;S.chosen[b]=k;S.dwell[b]=(Date.now()-S.activeAt)/1000;
-S.active=S.chosen.findIndex(x=>x<0);S.activeAt=Date.now();$("sb").disabled=S.active>=0;renderCode();renderOpts()}
-$("nx").onclick=()=>{const p=O.p,n=p.options.length;
-S={i:O.i,p,n,chosen:Array(n).fill(-1),dwell:Array(n).fill(0),order:p.options.map(o=>shuffle(o.map((_,k)=>k))),active:0,activeAt:Date.now(),start:Date.now(),pen:0,changes:0,running:true,limit:n*LPB};
-$("t2h").textContent="Question "+(S.i+1)+" of "+BANK.length+", step 2: the twist round (same concept, new question)";$("q2").textContent=p.q;$("e2").textContent="Example input: "+p.ex[0]+"   |   Example output: "+p.ex[1];
-$("stg").textContent="Step 2 of 2: twist round ("+mmss(S.limit)+" for "+n+" blanks)";$("pt").textContent="0 s";$("pw").textContent="";
-show("c2",true);show("oc",false);$("sb").disabled=true;$("demo").disabled=false;renderCode();renderOpts();updI();tick();clearInterval(tmr);tmr=setInterval(tick,250);
-$("c2").scrollIntoView({behavior:"smooth",block:"start"})};
-$("sb").onclick=()=>finish();
-$("demo").onclick=()=>{if(!S||!S.running)return;S.chosen.fill(0);S.dwell=S.dwell.map((_,k)=>[12,11,12,13][k%4]);finish({used:55,orig:20})};
-function finish(ov){if(!S||!S.running)return;S.running=false;clearInterval(tmr);$("sb").disabled=true;$("demo").disabled=true;
-const p=S.p,n=S.n,correct=S.chosen.filter(x=>x===0).length,u=ov?ov.used:used(),orig=ov?ov.orig:O.used;
-const o=evaluate(n,rating,p.rating,correct,S.changes,S.dwell,u,orig);const nr=Math.max(0,rating+o.d);o.d=nr-rating;rating=nr;$("mr").textContent=rating;
-const r=ir(),lv=lvl(r.sc+30*o.flags.length);myRisk=Math.max(myRisk,RISK.indexOf(lv));
-res[S.i]={full:correct===n,d:o.d};renderGrid();renderCode();lb();
-let h="<p><b>"+correct+" of "+n+" blanks correct.</b> Twist time: "+Math.round(u)+" s (penalties this stage: "+S.pen+" s). Initial question time: "+Math.round(orig)+" s"+(O&&O.unchecked&&!ov?" (answer not checked)":"")+".</p>"+
-"<p>Performance score: <b>"+o.score.toFixed(2)+"</b> (0.4 correct + 0.4 time + 0.2 steady answers, halved for each flag). Chance of success was "+Math.round(o.exp*100)+"%, so your Elo changes by <span class='big "+(o.d>=0?"ok":"bad")+"'>"+(o.d>=0?"+":"")+o.d+"</span> and is now <b>"+rating+"</b>.</p>"+
-"<p class='"+(o.flags.length||correct<n?"bad":"ok")+"'><b>Verdict:</b> "+o.verdict+"</p>";
-h+="<p><b>Integrity for this question: <span class='"+lv+"'>"+lv+"</span></b></p>";
-const why=[...r.w,...o.flags];h+=why.length?"<ul>"+why.map(f=>"<li>"+f+"</li>").join("")+"</ul>":"";
-h+="<p class='mut sm'>Decision time per blank: "+S.dwell.map((d,k)=>(k+1)+") "+d.toFixed(1)+" s").join("  ")+"</p>";
-const wrong=S.chosen.map((c,k)=>c===0?"":"Blank "+(k+1)+": correct answer was "+p.options[k][0]).filter(Boolean);
-if(wrong.length)h+="<p class='sm'>"+wrong.join("<br>")+"</p>";
-const left=res.filter(x=>!x).length;
-if(!left)h+="<p><b>All "+BANK.length+" questions played.</b> Fully correct: "+res.filter(x=>x.full).length+". Final Elo: "+rating+" ("+tier(rating)+").</p>";
-$("nxt").classList.toggle("hide",!left);$("out").innerHTML=h;show("oc",true);$("oc").scrollIntoView({behavior:"smooth",block:"nearest"})}
-$("nxt").onclick=()=>{show("rb",false);show("c1",false);show("c2",false);show("oc",false);const i=res.findIndex(r=>!r);if(i>=0)start(i)};
-renderGrid();lb();
-</script></body></html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeRank C: Pro Edition — Competitive C Gauntlet</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        obsidian: '#07090e',
+                        slatepanel: '#0f141f',
+                        slatecard: '#161d2b',
+                        neon: {
+                            emerald: '#10b981',
+                            cyan: '#06b6d4',
+                            amber: '#f59e0b',
+                            rose: '#f43f5e',
+                            purple: '#8b5cf6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #07090e;
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.06) 0%, transparent 35%),
+                radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 35%),
+                linear-gradient(to bottom, rgba(15, 20, 31, 0.4) 1px, transparent 1px),
+                linear-gradient(to right, rgba(15, 20, 31, 0.4) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+        }
+
+        /* Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #263147;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+
+        /* Code Editor Styling */
+        .code-editor-wrapper {
+            position: relative;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+        .line-numbers {
+            user-select: none;
+            text-align: right;
+            color: #475569;
+            padding-right: 12px;
+            border-right: 1px solid #1e293b;
+        }
+        textarea.c-editor {
+            background: transparent;
+            color: #f8fafc;
+            caret-color: #10b981;
+            resize: none;
+            outline: none;
+            tab-size: 4;
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: auto;
+        }
+
+        /* Pulse & Glow Effects */
+        .glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+        }
+        .glow-rose {
+            box-shadow: 0 0 25px rgba(244, 63, 94, 0.45);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+        }
+
+        @keyframes PenaltyFlash {
+            0%, 100% { background-color: rgba(244, 63, 94, 0); }
+            25% { background-color: rgba(244, 63, 94, 0.18); }
+            50% { background-color: rgba(244, 63, 94, 0.06); }
+            75% { background-color: rgba(244, 63, 94, 0.14); }
+        }
+        .penalty-screen-flash {
+            animation: PenaltyFlash 0.8s ease-out;
+        }
+
+        .blank-slot {
+            display: inline-block;
+            padding: 1px 8px;
+            margin: 0 2px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .blank-active {
+            background: rgba(6, 182, 212, 0.2);
+            border: 1px solid #06b6d4;
+            color: #22d3ee;
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+        }
+        .blank-solved {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #34d399;
+        }
+        .blank-locked {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px dashed #475569;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body id="app-body" class="min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200">
+
+    <!-- Top Penalty Toast Banner -->
+    <div id="penalty-toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 -translate-y-4 transition-all duration-300">
+        <div class="bg-rose-950/95 border border-rose-500 text-rose-100 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 glow-rose">
+            <i class="fa-solid fa-triangle-exclamation text-rose-400 text-lg animate-bounce"></i>
+            <div>
+                <div id="penalty-toast-title" class="font-bold text-sm tracking-wide uppercase">INTEGRITY VIOLATION DETECTED</div>
+                <div id="penalty-toast-desc" class="text-xs text-rose-300 font-mono">-15s deducted from stage timer</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Player HUD -->
+    <header class="sticky top-0 z-30 backdrop-blur-md bg-obsidian/90 border-b border-slate-800/80 px-4 lg:px-8 py-3">
+        <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-4">
+            <!-- Brand Title -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/40 flex items-center justify-center shadow-inner">
+                    <span class="font-mono font-extrabold text-xl bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">C_</span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <h1 class="font-extrabold text-lg sm:text-xl tracking-tight text-white">CodeRank <span class="text-emerald-400">C</span></h1>
+                        <span class="text-[11px] font-mono uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold">Pro Edition</span>
+                    </div>
+                    <p class="text-xs text-slate-400 hidden sm:block">10-Question Competitive C Gauntlet • Two-Stage Mastery & Live Integrity Engine</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="flex items-center bg-slatepanel p-1 rounded-xl border border-slate-800">
+                <button onclick="switchMainView('arena')" id="tab-arena" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>Gauntlet Arena</span>
+                </button>
+                <button onclick="switchMainView('leaderboard')" id="tab-leaderboard" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Leaderboard & Skills</span>
+                </button>
+            </div>
+
+            <!-- Live Player Stats HUD -->
+            <div class="flex items-center gap-2.5 sm:gap-4">
+                <!-- Progress Counter -->
+                <div class="hidden md:flex items-center gap-2 bg-slatepanel border border-slate-800 px-3 py-1.5 rounded-xl">
+                    <i class="fa-solid fa-check-double text-cyan-400 text-xs"></i>
+                    <div class="text-xs">
+                        <span class="text-slate-400">Solved:</span>
+                        <span id="hud-solved" class="font-mono font-bold text-white ml-1">0/10</span>
+                    </div>
+                </div>
+
+                <!-- Streak Badge -->
+                <div class="flex items-center gap-2 bg-slatepanel border border-slate-800 px-3 py-1.5 rounded-xl" title="Current Question Streak">
+                    <i class="fa-solid fa-fire text-amber-400 text-xs"></i>
+                    <span id="hud-streak" class="font-mono font-bold text-xs text-amber-300">0</span>
+                </div>
+
+                <!-- Elo Rating & Tier Badge -->
+                <div class="flex items-center gap-2.5 bg-gradient-to-r from-slatepanel to-slatecard border border-slate-700/80 px-3.5 py-1.5 rounded-xl shadow">
+                    <div class="text-right">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400">ELO</span>
+                            <span id="hud-elo" class="font-mono font-extrabold text-sm sm:text-base text-emerald-400">400</span>
+                            <span id="hud-elo-delta" class="text-[11px] font-mono font-bold hidden"></span>
+                        </div>
+                        <div id="hud-rank-tier" class="text-[10px] font-semibold text-cyan-300 leading-none">Bronze Coder</div>
+                    </div>
+                </div>
+
+                <!-- Audio Synth Toggle -->
+                <button onclick="toggleAudio()" id="btn-audio" class="w-9 h-9 rounded-xl bg-slatepanel border border-slate-800 hover:border-slate-700 flex items-center justify-center text-emerald-400 transition" title="Toggle Synth Sound Effects">
+                    <i id="icon-audio" class="fa-solid fa-volume-high text-xs"></i>
+                </button>
+
+                <!-- Reset Button -->
+                <button onclick="openResetModal()" class="w-9 h-9 rounded-xl bg-slatepanel border border-slate-800 hover:border-rose-500/50 hover:text-rose-400 flex items-center justify-center text-slate-400 transition" title="Reset Gauntlet Progress">
+                    <i class="fa-solid fa-rotate-right text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Question Selector Bar -->
+    <section id="question-bar-section" class="bg-slatepanel/70 border-b border-slate-800/80 px-4 lg:px-8 py-2.5">
+        <div class="max-w-[1600px] mx-auto flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar" id="question-selector-bar">
+            <!-- Dynamically populated 10 question pills -->
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 lg:px-8 py-5">
+
+        <!-- VIEW 1: GAUNTLET ARENA -->
+        <div id="view-arena" class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+            <!-- LEFT COLUMN (4 Cols): Problem Spec + Timer + Live Integrity Monitor -->
+            <div class="lg:col-span-4 flex flex-col gap-5">
+
+                <!-- 5:00 Timer & Integrity Status Card -->
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono uppercase tracking-wider text-slate-400">Stage Timer</span>
+                            <button onclick="togglePauseTimer()" id="btn-timer-pause" class="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+                                <i class="fa-solid fa-pause mr-1"></i>Pause
+                            </button>
+                        </div>
+                        <!-- Live Integrity Status Pill -->
+                        <div id="integrity-status-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono font-semibold">
+                            <span id="integrity-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span id="integrity-status-text">INTEGRITY: SECURE</span>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Display -->
+                    <div class="flex items-baseline justify-between my-1">
+                        <div id="timer-display" class="font-mono font-extrabold text-3xl sm:text-4xl text-white tracking-tight">05:00</div>
+                        <div class="text-right">
+                            <div class="text-[11px] text-slate-400 font-mono">Penalties This Question</div>
+                            <div id="penalty-total-badge" class="text-xs font-mono font-bold text-slate-300">0s deducted (0 violations)</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden mt-2">
+                        <div id="timer-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-500" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <!-- Problem Description Card -->
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-5 shadow-lg flex flex-col gap-4">
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span id="prob-number" class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Q1</span>
+                                <span id="prob-skill-tag" class="font-mono text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Pointers</span>
+                                <span id="prob-elo-tag" class="font-mono text-xs px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">Target Elo: 400</span>
+                            </div>
+                            <h2 id="prob-title" class="text-lg font-bold text-white">Pointer Swap</h2>
+                        </div>
+                        <span id="prob-status-badge" class="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700">Unsolved</span>
+                    </div>
+
+                    <p id="prob-desc" class="text-sm text-slate-300 leading-relaxed"></p>
+
+                    <!-- Function Signature & Constraints -->
+                    <div class="bg-obsidian/80 border border-slate-800/90 rounded-xl p-3.5 space-y-2">
+                        <div class="text-[11px] font-mono uppercase text-slate-400">Required Signature / Prototype</div>
+                        <pre id="prob-signature" class="font-mono text-xs text-emerald-300 overflow-x-auto"></pre>
+                    </div>
+
+                    <!-- Sample Test Cases -->
+                    <div>
+                        <div class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-vial text-cyan-400"></i>
+                            <span>Verification Test Suite (3 Cases)</span>
+                        </div>
+                        <div id="prob-testcases" class="space-y-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Integrity Monitor Panel -->
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-emerald-400 text-sm"></i>
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Live Anti-Cheat & Integrity Engine</h3>
+                        </div>
+                        <span class="text-[10px] font-mono text-slate-400">ACTIVE</span>
+                    </div>
+
+                    <!-- Rule Matrix -->
+                    <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
+                            <div class="text-[10px] text-slate-400">Tab / Blur</div>
+                            <div class="font-mono font-bold text-xs text-rose-400">-15s</div>
+                        </div>
+                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
+                            <div class="text-[10px] text-slate-400">Paste / Drop</div>
+                            <div class="font-mono font-bold text-xs text-rose-400">-30s</div>
+                        </div>
+                        <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
+                            <div class="text-[10px] text-slate-400">Page Copy</div>
+                            <div class="font-mono font-bold text-xs text-rose-400">-10s</div>
+                        </div>
+                    </div>
+
+                    <!-- Simulate Penalty Test Controls -->
+                    <div class="flex flex-wrap items-center gap-1.5 mb-3">
+                        <span class="text-[11px] text-slate-400 mr-1">Simulate Test:</span>
+                        <button onclick="triggerIntegrityPenalty('TAB_SWITCH', 15, 'Simulated Tab/Window Blur (-15s)')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Tab Blur (-15s)
+                        </button>
+                        <button onclick="triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Simulated Code Paste/Drop (-30s)')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Paste (-30s)
+                        </button>
+                        <button onclick="triggerIntegrityPenalty('COPY_DETECTED', 10, 'Simulated Page Copy (-10s)')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Copy (-10s)
+                        </button>
+                    </div>
+
+                    <!-- Live Violation Log -->
+                    <div class="bg-obsidian border border-slate-800 rounded-xl p-2.5 max-h-28 overflow-y-auto font-mono text-[11px] space-y-1" id="integrity-log">
+                        <div class="text-slate-500">[SYSTEM] Integrity monitor armed. Watching tab focus, clipboard & drag events...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN (8 Cols): Two-Stage Interactive Workbench -->
+            <div class="lg:col-span-8 flex flex-col gap-5">
+
+                <!-- Stage Switcher Header -->
+                <div class="bg-slatepanel border border-slate-800 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <button onclick="setStageView(1)" id="btn-stage-1" class="px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500 text-obsidian flex items-center justify-center font-extrabold text-[11px]">1</span>
+                            <span>STAGE 1: Initial C Implementation</span>
+                            <i id="stage1-check" class="fa-solid fa-circle-check text-emerald-400 hidden"></i>
+                        </button>
+
+                        <i class="fa-solid fa-arrow-right text-slate-600 text-xs"></i>
+
+                        <button onclick="setStageView(2)" id="btn-stage-2" class="px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-slate-800/70 text-slate-400 border border-slate-700/70">
+                            <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-extrabold text-[11px]">2</span>
+                            <span>STAGE 2: The Twist (Sequential Blanks)</span>
+                            <i id="stage2-lock-icon" class="fa-solid fa-lock text-[11px] text-slate-500"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="loadReferenceStarter()" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center gap-1.5" title="Reset Editor to Starter Template">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Reset Template</span>
+                        </button>
+                        <button onclick="fillSolutionHint()" class="text-xs font-mono px-3 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition flex items-center gap-1.5" title="Inspect Concept Hint">
+                            <i class="fa-regular fa-lightbulb"></i>
+                            <span>Concept Hint</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STAGE 1 WORKBENCH: C Code Editor & Compiler Simulation -->
+                <div id="stage-1-panel" class="bg-slatepanel border border-slate-800 rounded-2xl shadow-xl overflow-hidden flex flex-col">
+                    <!-- IDE Toolbar -->
+                    <div class="bg-obsidian/90 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                            <span id="editor-filename" class="ml-2 font-mono text-xs text-slate-300">solution_q1.c</span>
+                            <span class="text-[11px] font-mono text-slate-500 hidden sm:inline">• GCC C11 Standard (-O2 -Wall)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-mono text-slate-400 hidden md:inline">Tab key inserts 4 spaces</span>
+                            <button onclick="runStage1Verification()" id="btn-run-stage1" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-obsidian font-mono font-bold text-xs shadow-lg transition flex items-center gap-2">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Run & Verify Stage 1</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Line-Numbered Code Editor -->
+                    <div class="code-editor-wrapper flex bg-obsidian/95 min-h-[270px] max-h-[360px] overflow-y-auto p-4">
+                        <div id="editor-line-numbers" class="line-numbers font-mono select-none">1</div>
+                        <textarea id="c-code-editor" class="c-editor flex-1 pl-4 font-mono" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+                    </div>
+
+                    <!-- Stage 1 Hint Drawer (Hidden by default) -->
+                    <div id="stage1-hint-box" class="hidden bg-cyan-950/30 border-t border-cyan-500/30 px-4 py-3 text-xs text-cyan-200 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold uppercase font-mono text-cyan-400 mr-2">[Hint]:</span>
+                            <span id="stage1-hint-text"></span>
+                        </div>
+                        <button onclick="document.getElementById('stage1-hint-box').classList.add('hidden')" class="text-cyan-400 hover:text-white ml-3">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <!-- Compiler & Test Case Output Console -->
+                    <div class="border-t border-slate-800 bg-obsidian/90 p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-terminal text-emerald-400 text-xs"></i>
+                                <span class="font-mono text-xs font-bold uppercase tracking-wider text-slate-300">C Verification & Test Output</span>
+                            </div>
+                            <span id="compiler-exec-time" class="font-mono text-[11px] text-slate-400">Ready</span>
+                        </div>
+                        <div id="stage1-console" class="font-mono text-xs text-slate-400 bg-slatepanel/90 border border-slate-800/90 rounded-xl p-3.5 min-h-[110px] space-y-2">
+                            <div class="text-slate-500">// Write your C solution above and click "Run & Verify Stage 1" to execute against 3 test cases.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STAGE 2 WORKBENCH: The Twist (Sequential Fill-in-the-Blanks) -->
+                <div id="stage-2-panel" class="hidden bg-slatepanel border border-slate-800 rounded-2xl shadow-xl overflow-hidden flex flex-col">
+                    <!-- Stage 2 Banner -->
+                    <div class="bg-gradient-to-r from-cyan-950/60 via-slatepanel to-emerald-950/60 border-b border-slate-800 p-4 flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-mono text-[11px] font-bold uppercase">STAGE 2 • THE TWIST</span>
+                                <h3 id="twist-title" class="font-bold text-white text-base">XOR Bitwise Swap (Zero Temp Memory)</h3>
+                            </div>
+                            <p id="twist-desc" class="text-xs text-slate-300 mt-1">Complete each missing C expression sequentially, one blank at a time.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-mono text-slate-400">Blanks Progress:</span>
+                            <span id="twist-progress-badge" class="font-mono font-bold text-xs px-2.5 py-1 rounded-lg bg-obsidian border border-slate-700 text-cyan-300">0 / 3</span>
+                        </div>
+                    </div>
+
+                    <!-- Twist Code Template Display -->
+                    <div class="p-5 bg-obsidian/95 border-b border-slate-800">
+                        <div class="text-[11px] font-mono uppercase text-slate-400 mb-2 flex items-center justify-between">
+                            <span>Twist C Code Blueprint (Fill highlighted active blank)</span>
+                            <span class="text-cyan-400">Sequential One-at-a-Time Lock</span>
+                        </div>
+                        <pre id="twist-code-display" class="font-mono text-xs sm:text-sm leading-relaxed text-slate-200 overflow-x-auto p-4 rounded-xl bg-slatepanel/70 border border-slate-800/90"></pre>
+                    </div>
+
+                    <!-- Sequential Blank Input Controls -->
+                    <div class="p-5 flex flex-col gap-4">
+                        <div id="twist-active-controls" class="bg-obsidian/80 border border-slate-800 rounded-xl p-4">
+                            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <div class="flex items-center gap-2">
+                                    <span id="active-blank-badge" class="px-2.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-mono text-xs font-bold">BLANK #1</span>
+                                    <span id="active-blank-prompt" class="text-xs text-slate-300 font-medium">Enter the exact C expression for Blank #1:</span>
+                                </div>
+                                <button onclick="showTwistBlankHint()" class="text-xs font-mono text-amber-300 hover:text-amber-200 flex items-center gap-1">
+                                    <i class="fa-regular fa-lightbulb"></i>
+                                    <span>Show Blank Hint</span>
+                                </button>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-2.5 mt-3">
+                                <input type="text" id="twist-blank-input" placeholder="Type C token/expression (e.g. *a ^ *b) and press Enter..." 
+                                    class="flex-1 bg-slatepanel border border-slate-700 focus:border-cyan-400 rounded-xl px-4 py-2.5 font-mono text-sm text-white outline-none transition"
+                                    onkeydown="if(event.key === 'Enter') verifyCurrentTwistBlank()">
+                                <button onclick="verifyCurrentTwistBlank()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-obsidian font-mono font-bold text-xs shadow-lg transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-check"></i>
+                                    <span>Verify Blank</span>
+                                </button>
+                            </div>
+
+                            <div id="twist-feedback-msg" class="mt-2.5 text-xs font-mono hidden"></div>
+                        </div>
+
+                        <!-- Completed Blanks Summary Trail -->
+                        <div>
+                            <div class="text-[11px] font-mono uppercase text-slate-400 mb-2">Sequential Blank Steps</div>
+                            <div id="twist-steps-list" class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUESTION COMPLETED & ELO BREAKDOWN BANNER (Appears when Stage 1 + Stage 2 pass) -->
+                <div id="completion-card" class="hidden bg-gradient-to-br from-emerald-950/70 via-slatepanel to-cyan-950/60 border border-emerald-500/50 rounded-2xl p-5 shadow-2xl glow-emerald">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400 flex items-center justify-center text-emerald-300 text-2xl">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">Two-Stage Mastery Complete!</div>
+                                <h3 id="completion-title" class="text-lg font-extrabold text-white">Question Cleared</h3>
+                                <p id="completion-metrics" class="text-xs font-mono text-slate-300 mt-0.5"></p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="text-right bg-obsidian/80 border border-slate-800 px-4 py-2 rounded-xl">
+                                <div class="text-[10px] font-mono uppercase text-slate-400">Elo Rating Adjustment</div>
+                                <div id="completion-elo-change" class="font-mono font-extrabold text-lg text-emerald-400">+28 ELO</div>
+                            </div>
+                            <button onclick="goToNextQuestion()" class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-obsidian font-mono font-extrabold text-xs shadow-lg transition flex items-center gap-2">
+                                <span>Next Challenge</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- VIEW 2: INTERACTIVE LEADERBOARD & SKILL MASTERY -->
+        <div id="view-leaderboard" class="hidden space-y-6">
+            <!-- User Skill Mastery Breakdown -->
+            <div class="bg-slatepanel border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-cyan-400"></i>
+                            <span>Your C Domain Mastery & Telemetry</span>
+                        </h2>
+                        <p class="text-xs text-slate-400">Live breakdown across core systems programming pillars based on completed stages.</p>
+                    </div>
+                    <div class="flex items-center gap-3 font-mono text-xs">
+                        <span class="px-3 py-1.5 rounded-xl bg-obsidian border border-slate-800 text-slate-300">Integrity Score: <strong id="telemetry-integrity" class="text-emerald-400">100%</strong></span>
+                        <span class="px-3 py-1.5 rounded-xl bg-obsidian border border-slate-800 text-slate-300">Total Penalties: <strong id="telemetry-penalties" class="text-rose-400">0s</strong></span>
+                    </div>
+                </div>
+                <div id="skill-mastery-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Live Competitive Leaderboard -->
+            <div class="bg-slatepanel border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-5">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-ranking-star text-amber-400"></i>
+                            <span>Global CodeRank C Standings</span>
+                        </h2>
+                        <p class="text-xs text-slate-400">Filter competitors by specialized C domain tag or search handle.</p>
+                    </div>
+
+                    <!-- Skill Tag Filter Pills & Search -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <div id="leaderboard-skill-filters" class="flex flex-wrap gap-1.5">
+                            <button onclick="setLeaderboardSkillFilter('All')" data-skill="All" class="lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">All</button>
+                            <button onclick="setLeaderboardSkillFilter('Pointers')" data-skill="Pointers" class="lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-obsidian text-slate-400 border border-slate-800 hover:text-white">Pointers</button>
+                            <button onclick="setLeaderboardSkillFilter('Memory')" data-skill="Memory" class="lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-obsidian text-slate-400 border border-slate-800 hover:text-white">Memory</button>
+                            <button onclick="setLeaderboardSkillFilter('Bit Manipulation')" data-skill="Bit Manipulation" class="lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-obsidian text-slate-400 border border-slate-800 hover:text-white">Bitwise</button>
+                            <button onclick="setLeaderboardSkillFilter('Structs')" data-skill="Structs" class="lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-obsidian text-slate-400 border border-slate-800 hover:text-white">Structs</button>
+                            <button onclick="setLeaderboardSkillFilter('Data Structures')" data-skill="Data Structures" class="lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-obsidian text-slate-400 border border-slate-800 hover:text-white">Data Structures</button>
+                        </div>
+
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass text-slate-500 text-xs absolute left-3 top-1/2 -translate-y-1/2"></i>
+                            <input type="text" id="leaderboard-search" oninput="renderLeaderboard()" placeholder="Search handle..." class="bg-obsidian border border-slate-800 focus:border-emerald-400 rounded-xl pl-8 pr-3 py-1.5 text-xs font-mono text-white outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-[11px] font-mono uppercase text-slate-400">
+                                <th class="py-3 px-4">Rank</th>
+                                <th class="py-3 px-4">Developer Handle</th>
+                                <th class="py-3 px-4">Tier</th>
+                                <th class="py-3 px-4">Specialty Tag</th>
+                                <th class="py-3 px-4">Gauntlet Solved</th>
+                                <th class="py-3 px-4">Integrity</th>
+                                <th class="py-3 px-4 text-right">Elo Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-tbody" class="divide-y divide-slate-800/60 font-mono text-xs">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Reset Confirmation Custom Modal (No alert/confirm used) -->
+    <div id="reset-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slatepanel border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <div class="flex items-center gap-3 text-rose-400 mb-3">
+                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+                <h3 class="text-base font-bold text-white">Reset CodeRank C Progress?</h3>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed mb-5">
+                This will reset your Elo rating back to <strong>400</strong>, clear all 10 question completions, and wipe your current violation logs.
+            </p>
+            <div class="flex items-center justify-end gap-2.5">
+                <button onclick="closeResetModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-mono text-slate-300">Cancel</button>
+                <button onclick="confirmResetProgress()" class="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-obsidian font-mono font-bold text-xs">Confirm Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /********************************************************************
+         * 1. AUTHENTIC 10-QUESTION C GAUNTLET DATASET (STAGE 1 + STAGE 2)
+         ********************************************************************/
+        const QUESTIONS = [
+            {
+                id: 1,
+                title: "Pointer Swap",
+                skill: "Pointers",
+                elo: 400,
+                description: "Implement `void swap_ints(int *a, int *b)` so that the integer values pointed to by `a` and `b` are exchanged in-place using pointer dereferencing.",
+                signature: "void swap_ints(int *a, int *b);",
+                starterCode: `#include <stdio.h>\n\nvoid swap_ints(int *a, int *b) {\n    // Write your C pointer swap implementation:\n    int temp = *a;\n    *a = *b;\n    *b = temp;\n}`,
+                emptyTemplate: `#include <stdio.h>\n\nvoid swap_ints(int *a, int *b) {\n    // Exchange values pointed to by a and b\n    \n}`,
+                hintStage1: "Dereference `a` with `*a` to save its value in a temporary `int`, assign `*a = *b;`, then set `*b` to the temporary variable.",
+                testCases: [
+                    { input: "a = 14, b = 99", expected: "a = 99, b = 14" },
+                    { input: "a = -5, b = 42", expected: "a = 42, b = -5" },
+                    { input: "a = 0, b = 0", expected: "a = 0, b = 0" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasDerefA = /\*\s*a/.test(clean);
+                    const hasDerefB = /\*\s*b/.test(clean);
+                    const hasAssign = /\*\s*a\s*=/.test(clean) && /\*\s*b\s*=/.test(clean);
+                    const hasTempOrXor = /(int\s+\w+\s*=\s*\*\s*[ab])|(\^=)/.test(clean);
+                    return {
+                        passed: hasDerefA && hasDerefB && hasAssign && hasTempOrXor,
+                        error: (!hasDerefA || !hasDerefB) ? "Must dereference both pointers `*a` and `*b`." :
+                               (!hasAssign) ? "Both `*a` and `*b` must be assigned new values." :
+                               "Missing temporary holder or valid XOR swap sequence."
+                    };
+                },
+                twist: {
+                    title: "XOR Bitwise Swap (Zero Temp Variable)",
+                    description: "Now perform the swap without allocating a temporary variable, using bitwise XOR (`^=`) with guard check `a != b`.",
+                    codeTemplate: `void swap_xor(int *a, int *b) {\n    if ([BLANK_1]) {\n        *a ^= [BLANK_2];\n        *b ^= *a;\n        [BLANK_3] ^= *b;\n    }\n}`,
+                    blanks: [
+                        {
+                            prompt: "Guard condition to ensure `a` and `b` don't point to the same address:",
+                            accepted: ["a != b", "b != a", "*a != *b"],
+                            displayAnswer: "a != b",
+                            hint: "Compare pointer addresses: `a != b`"
+                        },
+                        {
+                            prompt: "Dereference the second pointer to XOR into `*a`:",
+                            accepted: ["*b", "(*b)"],
+                            displayAnswer: "*b",
+                            hint: "Dereference pointer b: `*b`"
+                        },
+                        {
+                            prompt: "Final target on the left-hand side of `^= *b` to restore original `*b` into `*a`:",
+                            accepted: ["*a", "(*a)"],
+                            displayAnswer: "*a",
+                            hint: "Dereference pointer a: `*a`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 2,
+                title: "Array Reversal In-Place",
+                skill: "Arrays",
+                elo: 450,
+                description: "Implement `void reverse_array(int *arr, int n)` to reverse an integer array of length `n` in-place using a two-index or two-pointer loop.",
+                signature: "void reverse_array(int *arr, int n);",
+                starterCode: `#include <stdio.h>\n\nvoid reverse_array(int *arr, int n) {\n    int left = 0, right = n - 1;\n    while (left < right) {\n        int tmp = arr[left];\n        arr[left] = arr[right];\n        arr[right] = tmp;\n        left++;\n        right--;\n    }\n}`,
+                emptyTemplate: `#include <stdio.h>\n\nvoid reverse_array(int *arr, int n) {\n    // Reverse elements of arr[0..n-1] in-place\n    \n}`,
+                hintStage1: "Loop while `left < right` (or `i < n / 2`), swapping `arr[i]` and `arr[n - 1 - i]`.",
+                testCases: [
+                    { input: "arr = [1, 2, 3, 4, 5], n = 5", expected: "[5, 4, 3, 2, 1]" },
+                    { input: "arr = [10, 20, 30, 40], n = 4", expected: "[40, 30, 20, 10]" },
+                    { input: "arr = [99], n = 1", expected: "[99]" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasLoop = /\b(for|while)\s*\(/.test(clean);
+                    const hasIndexing = /arr\s*\[|\*\s*\(\s*arr|\*\s*left|\*\s*right/.test(clean);
+                    const hasBound = /n\s*-\s*1|n\s*\/\s*2/.test(clean);
+                    return {
+                        passed: hasLoop && hasIndexing && hasBound,
+                        error: !hasLoop ? "Requires a `while` or `for` iteration loop." :
+                               !hasBound ? "Make sure you reference `n - 1` or `n / 2` for symmetric bounds." :
+                               "Must read and write elements of `arr`."
+                    };
+                },
+                twist: {
+                    title: "Pure Pointer-Walk Array Reversal",
+                    description: "Rewrite the array reversal using raw pointer arithmetic (`int *lo` and `int *hi`) without square bracket indexing.",
+                    codeTemplate: `void reverse_ptr(int *arr, int n) {\n    int *lo = arr;\n    int *hi = [BLANK_1];\n    while ([BLANK_2]) {\n        int tmp = *lo;\n        *lo++ = [BLANK_3];\n        *hi-- = tmp;\n    }\n}`,
+                    blanks: [
+                        {
+                            prompt: "Pointer expression pointing to the last element of `arr`: ",
+                            accepted: ["arr + n - 1", "arr + (n - 1)", "&arr[n - 1]", "&arr[n-1]"],
+                            displayAnswer: "arr + n - 1",
+                            hint: "Base pointer plus offset to last element: `arr + n - 1`"
+                        },
+                        {
+                            prompt: "Loop continuation condition comparing the two pointers:",
+                            accepted: ["lo < hi", "hi > lo"],
+                            displayAnswer: "lo < hi",
+                            hint: "Continue while low pointer address is less than high pointer: `lo < hi`"
+                        },
+                        {
+                            prompt: "Dereferenced value assigned into `*lo++`:",
+                            accepted: ["*hi", "(*hi)"],
+                            displayAnswer: "*hi",
+                            hint: "Dereference the high pointer: `*hi`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 3,
+                title: "Custom strlen Implementation",
+                skill: "Strings",
+                elo: 500,
+                description: "Write `size_t my_strlen(const char *s)` to compute the length of a null-terminated C string without calling `<string.h>` library functions.",
+                signature: "size_t my_strlen(const char *s);",
+                starterCode: `#include <stddef.h>\n\nsize_t my_strlen(const char *s) {\n    size_t len = 0;\n    while (s[len] != '\\0') {\n        len++;\n    }\n    return len;\n}`,
+                emptyTemplate: `#include <stddef.h>\n\nsize_t my_strlen(const char *s) {\n    // Count characters until the null terminator '\\0'\n    \n}`,
+                hintStage1: "Increment a counter `len` while `s[len] != '\\0'` (or `*s != '\\0'`), then `return len;`.",
+                testCases: [
+                    { input: "s = \"CodeRank\"", expected: "8" },
+                    { input: "s = \"\"", expected: "0" },
+                    { input: "s = \"C11_Kernel\"", expected: "10" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    if (/\bstrlen\s*\(/.test(clean)) {
+                        return { passed: false, error: "Calling standard library `strlen()` is forbidden." };
+                    }
+                    const hasLoop = /\b(while|for)\s*\(/.test(clean);
+                    const hasReturn = /\breturn\b/.test(clean);
+                    return {
+                        passed: hasLoop && hasReturn,
+                        error: "Must iterate through the string until `'\\0'` and `return` the length."
+                    };
+                },
+                twist: {
+                    title: "K&R Idiomatic Pointer-Subtraction strlen",
+                    description: "Implement `strlen` without an integer counter variable by advancing a walker pointer `p` and subtracting `s`.",
+                    codeTemplate: `size_t kr_strlen(const char *s) {\n    const char *p = [BLANK_1];\n    while ([BLANK_2]) {\n        p++;\n    }\n    return (size_t)([BLANK_3]);\n}`,
+                    blanks: [
+                        {
+                            prompt: "Initialize pointer `p` to the start of the string:",
+                            accepted: ["s"],
+                            displayAnswer: "s",
+                            hint: "Start at `s`"
+                        },
+                        {
+                            prompt: "Condition checking that the character pointed to by `p` is non-null:",
+                            accepted: ["*p", "*p != '\\0'", "*p != 0"],
+                            displayAnswer: "*p != '\\0'",
+                            hint: "Dereference `p`: `*p` or `*p != '\\0'`"
+                        },
+                        {
+                            prompt: "Pointer difference expression giving the exact byte count:",
+                            accepted: ["p - s", "(p - s)"],
+                            displayAnswer: "p - s",
+                            hint: "Subtract start pointer from end pointer: `p - s`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 4,
+                title: "Bitwise Power of Two Check",
+                skill: "Bit Manipulation",
+                elo: 550,
+                description: "Implement `int is_power_of_two(unsigned int n)` that returns `1` if `n` is an exact power of two (1, 2, 4, 8, ...), and `0` otherwise, in O(1) bitwise time.",
+                signature: "int is_power_of_two(unsigned int n);",
+                starterCode: `int is_power_of_two(unsigned int n) {\n    if (n == 0) return 0;\n    return (n & (n - 1)) == 0;\n}`,
+                emptyTemplate: `int is_power_of_two(unsigned int n) {\n    // Return 1 if n > 0 and has only a single set bit, else 0\n    \n}`,
+                hintStage1: "A positive number `n` is a power of two iff `(n & (n - 1)) == 0`.",
+                testCases: [
+                    { input: "n = 64", expected: "1 (true)" },
+                    { input: "n = 0", expected: "0 (false)" },
+                    { input: "n = 18", expected: "0 (false)" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasBitwiseAnd = /&/.test(clean) && /n\s*-\s*1/.test(clean);
+                    const hasZeroCheck = /n\s*>\s*0|n\s*!=\s*0|n\s*==\s*0|n\s*&&/.test(clean);
+                    return {
+                        passed: hasBitwiseAnd && hasZeroCheck,
+                        error: !hasBitwiseAnd ? "Use the bitwise trick `n & (n - 1)`." :
+                               "Ensure you handle the edge case `n == 0`."
+                    };
+                },
+                twist: {
+                    title: "Isolate Lowest Set Bit (Fenwick / Kernighan Trick)",
+                    description: "Extract ONLY the lowest set bit (rightmost 1-bit) of an unsigned integer `x` using two's complement negation.",
+                    codeTemplate: `unsigned int lowest_set_bit(unsigned int x) {\n    /* In two's complement, -x equals (~x + 1) */\n    return [BLANK_1] & [BLANK_2];\n}`,
+                    blanks: [
+                        {
+                            prompt: "First operand (the original unsigned value):",
+                            accepted: ["x"],
+                            displayAnswer: "x",
+                            hint: "The variable `x`"
+                        },
+                        {
+                            prompt: "Second operand using unary negation or `(~x + 1)`:",
+                            accepted: ["-x", "(~x + 1)", "~x + 1"],
+                            displayAnswer: "-x",
+                            hint: "Two's complement negation: `-x`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 5,
+                title: "Struct Student Grade Average",
+                skill: "Structs",
+                elo: 600,
+                description: "Given `typedef struct { int id; float scores[4]; } Student;`, implement `float compute_gpa(const Student *s)` using the structure pointer arrow operator (`->`).",
+                signature: "float compute_gpa(const Student *s);",
+                starterCode: `typedef struct {\n    int id;\n    float scores[4];\n} Student;\n\nfloat compute_gpa(const Student *s) {\n    float sum = 0.0f;\n    for (int i = 0; i < 4; i++) {\n        sum += s->scores[i];\n    }\n    return sum / 4.0f;\n}`,
+                emptyTemplate: `typedef struct {\n    int id;\n    float scores[4];\n} Student;\n\nfloat compute_gpa(const Student *s) {\n    // Access s->scores[i] to compute the mean of all 4 scores\n    \n}`,
+                hintStage1: "Use `s->scores[i]` inside a loop from `0` to `3` and divide the total by `4.0f`.",
+                testCases: [
+                    { input: "scores = {80.0, 90.0, 85.0, 95.0}", expected: "87.50" },
+                    { input: "scores = {100.0, 100.0, 100.0, 100.0}", expected: "100.00" },
+                    { input: "scores = {70.0, 75.0, 80.0, 75.0}", expected: "75.00" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasArrow = /s\s*->\s*scores|\(\s*\*\s*s\s*\)\s*\.\s*scores/.test(clean);
+                    const hasDiv4 = /\/\s*4/.test(clean) || /\*\s*0\.25/.test(clean);
+                    return {
+                        passed: hasArrow && hasDiv4,
+                        error: !hasArrow ? "Access the struct member via pointer arrow `s->scores`." :
+                               "Divide the accumulated sum by `4` (or `4.0f`)."
+                    };
+                },
+                twist: {
+                    title: "Compile-Time Struct Member Offset (offsetof Macro)",
+                    description: "Complete the standard C `<stddef.h>` macro implementation that computes the byte offset of `member` inside `type` by casting address `0`.",
+                    codeTemplate: `#define MY_OFFSETOF(type, member) \\\n    ((size_t) [BLANK_1](([BLANK_2] *)0)->[BLANK_3])`,
+                    blanks: [
+                        {
+                            prompt: "Unary operator to take the address of the member:",
+                            accepted: ["&"],
+                            displayAnswer: "&",
+                            hint: "Address-of operator: `&`"
+                        },
+                        {
+                            prompt: "Macro parameter representing the struct type:",
+                            accepted: ["type"],
+                            displayAnswer: "type",
+                            hint: "The `type` parameter"
+                        },
+                        {
+                            prompt: "Macro parameter representing the field name:",
+                            accepted: ["member"],
+                            displayAnswer: "member",
+                            hint: "The `member` parameter"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 6,
+                title: "Dynamic Array Allocation (malloc / NULL Check)",
+                skill: "Memory",
+                elo: 650,
+                description: "Implement `int* create_sequence(size_t n)` that dynamically allocates an array of `n` integers on the heap using `malloc`, returns `NULL` if allocation fails, and fills `arr[i] = i + 1`.",
+                signature: "int* create_sequence(size_t n);",
+                starterCode: `#include <stdlib.h>\n\nint* create_sequence(size_t n) {\n    int *arr = (int *)malloc(n * sizeof(int));\n    if (arr == NULL) {\n        return NULL;\n    }\n    for (size_t i = 0; i < n; i++) {\n        arr[i] = (int)(i + 1);\n    }\n    return arr;\n}`,
+                emptyTemplate: `#include <stdlib.h>\n\nint* create_sequence(size_t n) {\n    // Allocate n ints with malloc, guard against NULL, initialize 1..n\n    \n}`,
+                hintStage1: "Call `malloc(n * sizeof(int))`, verify `if (!arr) return NULL;`, populate `arr[i] = i + 1;`, and `return arr;`.",
+                testCases: [
+                    { input: "n = 5", expected: "Heap block [1, 2, 3, 4, 5]" },
+                    { input: "n = 1", expected: "Heap block [1]" },
+                    { input: "OOM Simulation", expected: "Returns NULL safely" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasMalloc = /\b(malloc|calloc)\s*\(/.test(clean);
+                    const hasSizeof = /\bsizeof\s*\(/.test(clean);
+                    const hasNullCheck = /NULL|!\s*\w+/.test(clean);
+                    return {
+                        passed: hasMalloc && hasSizeof && hasNullCheck,
+                        error: !hasMalloc ? "Must allocate heap memory using `malloc`." :
+                               !hasSizeof ? "Multiply `n` by `sizeof(int)` or `sizeof(*arr)`." :
+                               "Always check if the returned pointer is `NULL` before writing."
+                    };
+                },
+                twist: {
+                    title: "Safe Dangling-Pointer Free Wrapper",
+                    description: "Write `safe_free(void **pp)` which frees the heap block and immediately zeroes out the caller's pointer to prevent use-after-free bugs.",
+                    codeTemplate: `void safe_free(void **pp) {\n    if (pp != NULL && [BLANK_1] != NULL) {\n        free([BLANK_2]);\n        [BLANK_3] = NULL;\n    }\n}`,
+                    blanks: [
+                        {
+                            prompt: "Dereference `pp` to check if the underlying pointer is non-null:",
+                            accepted: ["*pp"],
+                            displayAnswer: "*pp",
+                            hint: "Dereference double pointer once: `*pp`"
+                        },
+                        {
+                            prompt: "Pass the single-dereferenced pointer to `free()`:",
+                            accepted: ["*pp"],
+                            displayAnswer: "*pp",
+                            hint: "`free(*pp)`"
+                        },
+                        {
+                            prompt: "Target to set to `NULL` so the caller's pointer is cleared:",
+                            accepted: ["*pp"],
+                            displayAnswer: "*pp",
+                            hint: "`*pp = NULL;`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 7,
+                title: "Recursive GCD (Euclidean Algorithm)",
+                skill: "Recursion",
+                elo: 700,
+                description: "Implement `int gcd(int a, int b)` using Euclid's recursive relation: if `b == 0`, return `a`; otherwise recurse with `(b, a % b)`.",
+                signature: "int gcd(int a, int b);",
+                starterCode: `int gcd(int a, int b) {\n    if (b == 0) {\n        return a;\n    }\n    return gcd(b, a % b);\n}`,
+                emptyTemplate: `int gcd(int a, int b) {\n    // Base case and recursive Euclidean step\n    \n}`,
+                hintStage1: "Base case: `if (b == 0) return a;` Recursive step: `return gcd(b, a % b);`",
+                testCases: [
+                    { input: "a = 48, b = 18", expected: "6" },
+                    { input: "a = 101, b = 10", expected: "1" },
+                    { input: "a = 270, b = 192", expected: "6" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasMod = /a\s*%\s*b/.test(clean);
+                    const hasBase = /b\s*==\s*0|!\s*b/.test(clean);
+                    const hasRecurse = /\bgcd\s*\(\s*b\s*,\s*a\s*%\s*b\s*\)/.test(clean);
+                    return {
+                        passed: hasMod && hasBase && hasRecurse,
+                        error: "Ensure base case `b == 0` and recursive call `gcd(b, a % b)` are present."
+                    };
+                },
+                twist: {
+                    title: "Iterative Tail-Call Elimination (Zero Stack Frames)",
+                    description: "Convert the recursive Euclidean GCD into a constant-space `O(1)` iterative loop suitable for embedded microcontrollers.",
+                    codeTemplate: `int gcd_iter(int a, int b) {\n    while ([BLANK_1]) {\n        int r = [BLANK_2];\n        a = b;\n        b = [BLANK_3];\n    }\n    return a;\n}`,
+                    blanks: [
+                        {
+                            prompt: "Loop condition while remainder `b` is non-zero:",
+                            accepted: ["b != 0", "b > 0", "b"],
+                            displayAnswer: "b != 0",
+                            hint: "`b != 0`"
+                        },
+                        {
+                            prompt: "Compute remainder of `a` divided by `b`:",
+                            accepted: ["a % b"],
+                            displayAnswer: "a % b",
+                            hint: "Modulo operator: `a % b`"
+                        },
+                        {
+                            prompt: "Update `b` with the newly computed remainder variable:",
+                            accepted: ["r"],
+                            displayAnswer: "r",
+                            hint: "Assign `r`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 8,
+                title: "Linked List Node Insertion at Head",
+                skill: "Linked Lists",
+                elo: 750,
+                description: "Given a singly linked list `Node`, allocate a new node with `malloc`, set `node->data = val`, link `node->next` to the current head, and update `*head_ref`.",
+                signature: "int push_head(Node **head_ref, int val);",
+                starterCode: `#include <stdlib.h>\n\ntypedef struct Node {\n    int data;\n    struct Node *next;\n} Node;\n\nint push_head(Node **head_ref, int val) {\n    Node *new_node = (Node *)malloc(sizeof(Node));\n    if (!new_node) return 0;\n    new_node->data = val;\n    new_node->next = *head_ref;\n    *head_ref = new_node;\n    return 1;\n}`,
+                emptyTemplate: `#include <stdlib.h>\n\ntypedef struct Node {\n    int data;\n    struct Node *next;\n} Node;\n\nint push_head(Node **head_ref, int val) {\n    // Allocate Node, link next to *head_ref, update *head_ref\n    \n}`,
+                hintStage1: "Set `new_node->next = *head_ref;` and `*head_ref = new_node;`, then `return 1;`.",
+                testCases: [
+                    { input: "head = [20 -> 30], val = 10", expected: "head = [10 -> 20 -> 30], returns 1" },
+                    { input: "head = NULL, val = 42", expected: "head = [42 -> NULL], returns 1" },
+                    { input: "Allocation check", expected: "Links pointers without losing list tail" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasMalloc = /\bmalloc\s*\(/.test(clean);
+                    const hasNextLink = /->\s*next\s*=\s*\*\s*head_ref/.test(clean);
+                    const hasHeadUpdate = /\*\s*head_ref\s*=/.test(clean);
+                    return {
+                        passed: hasMalloc && hasNextLink && hasHeadUpdate,
+                        error: !hasMalloc ? "Allocate the new node with `malloc(sizeof(Node))`." :
+                               !hasNextLink ? "Point `new_node->next` to `*head_ref`." :
+                               "Update `*head_ref = new_node;`."
+                    };
+                },
+                twist: {
+                    title: "Linus Torvalds' Double-Pointer Node Removal",
+                    description: "Delete the first node containing `target` using indirect pointer `Node **indir` without needing a separate `prev` pointer.",
+                    codeTemplate: `void remove_target(Node **head, int target) {\n    Node **indir = head;\n    while (*indir && (*indir)->data != target) {\n        indir = [BLANK_1];\n    }\n    if (*indir) {\n        Node *dead = [BLANK_2];\n        *indir = dead->[BLANK_3];\n        free(dead);\n    }\n}`,
+                    blanks: [
+                        {
+                            prompt: "Advance `indir` to hold the address of the current node's `next` pointer:",
+                            accepted: ["&(*indir)->next", "&((*indir)->next)"],
+                            displayAnswer: "&(*indir)->next",
+                            hint: "Address of `(*indir)->next`: `&(*indir)->next`"
+                        },
+                        {
+                            prompt: "Save the pointer to the node to be freed:",
+                            accepted: ["*indir"],
+                            displayAnswer: "*indir",
+                            hint: "Dereference `indir`: `*indir`"
+                        },
+                        {
+                            prompt: "Bypass `dead` by linking `*indir` to `dead`'s successor field:",
+                            accepted: ["next"],
+                            displayAnswer: "next",
+                            hint: "Field name: `next`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 9,
+                title: "Function Pointer Calculator Dispatch",
+                skill: "Function Pointers",
+                elo: 800,
+                description: "Implement `int compute(int a, int b, int (*op)(int, int))` that safely invokes the callback function pointer `op` with arguments `(a, b)` if `op != NULL`.",
+                signature: "int compute(int a, int b, int (*op)(int, int));",
+                starterCode: `#include <stddef.h>\n\nint compute(int a, int b, int (*op)(int, int)) {\n    if (op == NULL) {\n        return 0;\n    }\n    return op(a, b);\n}`,
+                emptyTemplate: `#include <stddef.h>\n\nint compute(int a, int b, int (*op)(int, int)) {\n    // Return 0 if op is NULL, otherwise invoke op(a, b)\n    \n}`,
+                hintStage1: "Check `if (!op) return 0;` then `return op(a, b);` (or `(*op)(a, b)`).",
+                testCases: [
+                    { input: "a = 12, b = 8, op = &add", expected: "20" },
+                    { input: "a = 12, b = 8, op = &mul", expected: "96" },
+                    { input: "a = 12, b = 8, op = NULL", expected: "0 (Safe guard)" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasNullGuard = /NULL|!\s*op/.test(clean);
+                    const hasCall = /\bop\s*\(\s*a\s*,\s*b\s*\)|\(\s*\*\s*op\s*\)\s*\(\s*a\s*,\s*b\s*\)/.test(clean);
+                    return {
+                        passed: hasNullGuard && hasCall,
+                        error: !hasNullGuard ? "Guard against `op == NULL` before invoking." :
+                               "Invoke the function pointer as `op(a, b)` or `(*op)(a, b)`."
+                    };
+                },
+                twist: {
+                    title: "Typedef & Constant Dispatch Jump Table",
+                    description: "Declare a `typedef` for a binary operation function pointer and initialize an array of 4 operations in O(1) table lookup.",
+                    codeTemplate: `typedef int (*[BLANK_1])(int, int);\n\nint dispatch_op(int opcode, int x, int y) {\n    static const MathOp table[4] = { add, sub, mul, [BLANK_2] };\n    return [BLANK_3](x, y);\n}`,
+                    blanks: [
+                        {
+                            prompt: "Type alias name used on line 4 (`static const ... table[4]`):",
+                            accepted: ["MathOp"],
+                            displayAnswer: "MathOp",
+                            hint: "Match the typedef identifier used below: `MathOp`"
+                        },
+                        {
+                            prompt: "Fourth function identifier for division (`div_op`) in the table:",
+                            accepted: ["div_op", "div"],
+                            displayAnswer: "div_op",
+                            hint: "Enter `div_op` (or `div`)"
+                        },
+                        {
+                            prompt: "Index into `table` using `opcode` to call the function:",
+                            accepted: ["table[opcode]", "table[opcode & 3]"],
+                            displayAnswer: "table[opcode]",
+                            hint: "Array lookup: `table[opcode]`"
+                        }
+                    ]
+                }
+            },
+            {
+                id: 10,
+                title: "Circular Buffer / Ring Queue Push",
+                skill: "Data Structures",
+                elo: 850,
+                description: "Implement `int ring_push(RingBuf *rb, int val)` for a fixed-capacity ring buffer. Return `0` if `rb->count == rb->capacity`, otherwise write `val` at `rb->head`, advance `head` modulo `capacity`, and increment `count`.",
+                signature: "int ring_push(RingBuf *rb, int val);",
+                starterCode: `typedef struct {\n    int *buf;\n    int head;\n    int tail;\n    int count;\n    int capacity;\n} RingBuf;\n\nint ring_push(RingBuf *rb, int val) {\n    if (rb->count == rb->capacity) {\n        return 0;\n    }\n    rb->buf[rb->head] = val;\n    rb->head = (rb->head + 1) % rb->capacity;\n    rb->count++;\n    return 1;\n}`,
+                emptyTemplate: `typedef struct {\n    int *buf;\n    int head;\n    int tail;\n    int count;\n    int capacity;\n} RingBuf;\n\nint ring_push(RingBuf *rb, int val) {\n    // Check full, insert at head, wrap head with %, increment count\n    \n}`,
+                hintStage1: "Check `if (rb->count == rb->capacity) return 0;`, store `rb->buf[rb->head] = val;`, wrap `rb->head = (rb->head + 1) % rb->capacity;`, increment `rb->count++`, and `return 1;`.",
+                testCases: [
+                    { input: "head = 3, cap = 4, push(99)", expected: "buf[3]=99, head wraps to 0, returns 1" },
+                    { input: "count = 4, cap = 4, push(10)", expected: "Buffer full, returns 0" },
+                    { input: "head = 0, cap = 4, push(7)", expected: "buf[0]=7, head=1, count++, returns 1" }
+                ],
+                validateStage1: (code) => {
+                    const clean = stripComments(code);
+                    const hasFullCheck = /rb\s*->\s*count\s*(==|>=)\s*rb\s*->\s*capacity/.test(clean);
+                    const hasWrap = /%\s*rb\s*->\s*capacity/.test(clean);
+                    const hasCountInc = /rb\s*->\s*count\s*\+\+|rb\s*->\s*count\s*\+=\s*1/.test(clean);
+                    return {
+                        passed: hasFullCheck && hasWrap && hasCountInc,
+                        error: !hasFullCheck ? "Check if buffer is full (`rb->count == rb->capacity`)." :
+                               !hasWrap ? "Wrap `rb->head` using `% rb->capacity`." :
+                               "Increment `rb->count` after inserting."
+                    };
+                },
+                twist: {
+                    title: "Lock-Free Power-of-2 Bitmask Ring Wrap",
+                    description: "When `capacity` is guaranteed to be a power of 2 (e.g., 256), replace the slow CPU division instruction `% capacity` with a single-cycle bitwise AND mask.",
+                    codeTemplate: `void fast_ring_advance(RingBuf *rb) {\n    /* capacity is a power of 2 (e.g. 256) */\n    int mask = [BLANK_1];\n    rb->head = ([BLANK_2]) & [BLANK_3];\n}`,
+                    blanks: [
+                        {
+                            prompt: "Bitmask expression equivalent to `capacity - 1`:",
+                            accepted: ["rb->capacity - 1", "(rb->capacity - 1)"],
+                            displayAnswer: "rb->capacity - 1",
+                            hint: "Subtract 1 from capacity: `rb->capacity - 1`"
+                        },
+                        {
+                            prompt: "Incremented head index before masking:",
+                            accepted: ["rb->head + 1", "1 + rb->head"],
+                            displayAnswer: "rb->head + 1",
+                            hint: "`rb->head + 1`"
+                        },
+                        {
+                            prompt: "Apply the precomputed mask variable:",
+                            accepted: ["mask"],
+                            displayAnswer: "mask",
+                            hint: "Variable `mask`"
+                        }
+                    ]
+                }
+            }
+        ];
+
+        /********************************************************************
+         * 2. RIVAL LEADERBOARD COMPETITORS
+         ********************************************************************/
+        const RIVAL_PLAYERS = [
+            { name: "torvalds_kern", specialty: "Pointers", solved: 10, integrity: "100%", elo: 940 },
+            { name: "dennis_ritchie_c", specialty: "Memory", solved: 10, integrity: "100%", elo: 915 },
+            { name: "valgrind_zero", specialty: "Memory", solved: 9, integrity: "98%", elo: 845 },
+            { name: "bit_hack_wizard", specialty: "Bit Manipulation", solved: 9, integrity: "96%", elo: 790 },
+            { name: "ringbuf_architect", specialty: "Data Structures", solved: 8, integrity: "100%", elo: 735 },
+            { name: "segfault_hunter", specialty: "Pointers", solved: 7, integrity: "94%", elo: 670 },
+            { name: "struct_padding_64", specialty: "Structs", solved: 6, integrity: "95%", elo: 610 },
+            { name: "malloc_arena", specialty: "Memory", solved: 5, integrity: "91%", elo: 540 },
+            { name: "void_star_caster", specialty: "Pointers", solved: 3, integrity: "88%", elo: 465 },
+            { name: "null_terminator", specialty: "Data Structures", solved: 2, integrity: "90%", elo: 415 }
+        ];
+
+        /********************************************************************
+         * 3. APPLICATION STATE & PERSISTENCE
+         ********************************************************************/
+        const STORAGE_KEY = "coderank_c_pro_state_v1";
+
+        let state = {
+            elo: 400,
+            streak: 0,
+            currentQIndex: 0,
+            currentStage: 1,
+            audioEnabled: true,
+            totalPenaltySecondsAllTime: 0,
+            totalViolationsAllTime: 0,
+            leaderboardSkillFilter: "All",
+            // Per-question state keyed by question id (1..10)
+            progress: {}
+        };
+
+        // Active runtime timer state
+        let timerSecondsLeft = 300; // 5:00
+        let timerPaused = false;
+        let timerInterval = null;
+        let lastBlurTimestamp = 0;
+
+        function initDefaultProgress() {
+            QUESTIONS.forEach(q => {
+                if (!state.progress[q.id]) {
+                    state.progress[q.id] = {
+                        stage1Passed: false,
+                        stage2Passed: false,
+                        currentBlankIndex: 0,
+                        solvedBlanks: [],
+                        userCode: q.starterCode,
+                        penaltySeconds: 0,
+                        violationCount: 0,
+                        eloAwarded: 0
+                    };
+                }
+            });
+        }
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    state = { ...state, ...parsed };
+                }
+            } catch (e) {
+                console.warn("Failed to load saved state:", e);
+            }
+            initDefaultProgress();
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {
+                console.warn("Failed to save state:", e);
+            }
+        }
+
+        /********************************************************************
+         * 4. WEB AUDIO SYNTH SOUND ENGINE
+         ********************************************************************/
+        let audioCtx = null;
+
+        function playSynthSound(type) {
+            if (!state.audioEnabled) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'pass') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'complete') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.setValueAtTime(554.37, now + 0.09);
+                    osc.frequency.setValueAtTime(659.25, now + 0.18);
+                    osc.frequency.setValueAtTime(880, now + 0.27);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+                    osc.start(now);
+                    osc.stop(now + 0.55);
+                } else if (type === 'penalty' || type === 'fail') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(190, now);
+                    osc.frequency.linearRampToValueAtTime(115, now + 0.25);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+                    osc.start(now);
+                    osc.stop(now + 0.28);
+                }
+            } catch (e) {
+                // Ignore audio errors if blocked
+            }
+        }
+
+        function toggleAudio() {
+            state.audioEnabled = !state.audioEnabled;
+            const icon = document.getElementById('icon-audio');
+            const btn = document.getElementById('btn-audio');
+            if (state.audioEnabled) {
+                icon.className = 'fa-solid fa-volume-high text-xs';
+                btn.classList.replace('text-slate-500', 'text-emerald-400');
+                playSynthSound('pass');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-xs';
+                btn.classList.replace('text-emerald-400', 'text-slate-500');
+            }
+            saveState();
+        }
+
+        /********************************************************************
+         * 5. HELPER UTILITIES & RANK TIER CALCULATOR
+         ********************************************************************/
+        function stripComments(code) {
+            return code
+                .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/\/\/.*/g, '')
+                .trim();
+        }
+
+        function normalizeToken(str) {
+            return str.replace(/\s+/g, '').trim();
+        }
+
+        function getRankTier(elo) {
+            if (elo >= 800) return { name: "Grandmaster Compiler", color: "text-amber-300" };
+            if (elo >= 650) return { name: "Gold Kernel", color: "text-emerald-300" };
+            if (elo >= 500) return { name: "Silver Pointer", color: "text-cyan-300" };
+            return { name: "Bronze Coder", color: "text-slate-300" };
+        }
+
+        /********************************************************************
+         * 6. 5:00 TIMER & LIVE INTEGRITY ENGINE
+         ********************************************************************/
+        function startQuestionTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerSecondsLeft = 300;
+            timerPaused = false;
+            updateTimerUI();
+
+            timerInterval = setInterval(() => {
+                if (timerPaused) return;
+                const q = QUESTIONS[state.currentQIndex];
+                const qProg = state.progress[q.id];
+                if (qProg.stage1Passed && qProg.stage2Passed) return; // Stop ticking once completed
+
+                if (timerSecondsLeft > 0) {
+                    timerSecondsLeft--;
+                    updateTimerUI();
+                }
+            }, 1000);
+        }
+
+        function togglePauseTimer() {
+            timerPaused = !timerPaused;
+            const btn = document.getElementById('btn-timer-pause');
+            if (timerPaused) {
+                btn.innerHTML = `<i class="fa-solid fa-play mr-1 text-emerald-400"></i>Resume`;
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-pause mr-1"></i>Pause`;
+            }
+        }
+
+        function updateTimerUI() {
+            const mins = Math.floor(timerSecondsLeft / 60);
+            const secs = timerSecondsLeft % 60;
+            const display = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            const timerEl = document.getElementById('timer-display');
+            const barEl = document.getElementById('timer-progress-bar');
+
+            timerEl.textContent = display;
+            const pct = Math.max(0, (timerSecondsLeft / 300) * 100);
+            barEl.style.width = `${pct}%`;
+
+            if (timerSecondsLeft <= 60) {
+                timerEl.className = "font-mono font-extrabold text-3xl sm:text-4xl text-rose-400 tracking-tight animate-pulse";
+                barEl.className = "h-full bg-rose-500 transition-all duration-300";
+            } else if (timerSecondsLeft <= 150) {
+                timerEl.className = "font-mono font-extrabold text-3xl sm:text-4xl text-amber-300 tracking-tight";
+                barEl.className = "h-full bg-amber-400 transition-all duration-300";
+            } else {
+                timerEl.className = "font-mono font-extrabold text-3xl sm:text-4xl text-white tracking-tight";
+                barEl.className = "h-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-300";
+            }
+        }
+
+        function triggerIntegrityPenalty(code, seconds, reasonText) {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+
+            // Deduct from timer
+            timerSecondsLeft = Math.max(0, timerSecondsLeft - seconds);
+            qProg.penaltySeconds += seconds;
+            qProg.violationCount += 1;
+            state.totalPenaltySecondsAllTime += seconds;
+            state.totalViolationsAllTime += 1;
+
+            updateTimerUI();
+            updatePenaltyBadgeUI();
+            playSynthSound('penalty');
+            saveState();
+
+            // Flash screen border
+            const body = document.getElementById('app-body');
+            body.classList.remove('penalty-screen-flash');
+            void body.offsetWidth;
+            body.classList.add('penalty-screen-flash');
+
+            // Update Integrity Status Pill temporarily to Red
+            const badge = document.getElementById('integrity-status-badge');
+            const dot = document.getElementById('integrity-dot');
+            const txt = document.getElementById('integrity-status-text');
+
+            badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/20 border border-rose-500 text-rose-300 text-[11px] font-mono font-bold";
+            dot.className = "w-2 h-2 rounded-full bg-rose-500 animate-ping";
+            txt.textContent = `VIOLATION: -${seconds}s`;
+
+            setTimeout(() => {
+                badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono font-semibold";
+                dot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+                txt.textContent = "INTEGRITY: SECURE";
+            }, 3200);
+
+            // Show floating toast
+            const toast = document.getElementById('penalty-toast');
+            document.getElementById('penalty-toast-title').textContent = `INTEGRITY PENALTY: ${code}`;
+            document.getElementById('penalty-toast-desc').textContent = `${reasonText} • Timer reduced by -${seconds}s`;
+            toast.classList.remove('opacity-0', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', '-translate-y-4');
+            }, 3000);
+
+            // Append to live violation log
+            const logEl = document.getElementById('integrity-log');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = "text-rose-400 font-semibold";
+            entry.textContent = `[${timestamp}] ${code}: ${reasonText}`;
+            logEl.prepend(entry);
+        }
+
+        function updatePenaltyBadgeUI() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            const el = document.getElementById('penalty-total-badge');
+            if (qProg.violationCount === 0) {
+                el.textContent = "0s deducted (0 violations)";
+                el.className = "text-xs font-mono font-bold text-emerald-400";
+            } else {
+                el.textContent = `-${qProg.penaltySeconds}s deducted (${qProg.violationCount} violation${qProg.violationCount > 1 ? 's' : ''})`;
+                el.className = "text-xs font-mono font-bold text-rose-400";
+            }
+        }
+
+        function setupIntegrityListeners() {
+            // 1. Leaving the tab or window (-15s)
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    const now = Date.now();
+                    if (now - lastBlurTimestamp > 1500) {
+                        lastBlurTimestamp = now;
+                        triggerIntegrityPenalty('TAB_LEFT', 15, 'Left tab or minimized browser window (-15s)');
+                    }
+                }
+            });
+
+            window.addEventListener('blur', () => {
+                const now = Date.now();
+                if (now - lastBlurTimestamp > 1500) {
+                    lastBlurTimestamp = now;
+                    triggerIntegrityPenalty('WINDOW_BLUR', 15, 'Focus left CodeRank window (-15s)');
+                }
+            });
+
+            // 2. Pasting or dropping text into the editors (-30s)
+            const codeEditor = document.getElementById('c-code-editor');
+            const twistInput = document.getElementById('twist-blank-input');
+
+            [codeEditor, twistInput].forEach(inputEl => {
+                inputEl.addEventListener('paste', () => {
+                    triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Pasted clipboard text into code editor (-30s)');
+                });
+                inputEl.addEventListener('drop', () => {
+                    triggerIntegrityPenalty('DROP_DETECTED', 30, 'Dropped external text into code editor (-30s)');
+                });
+            });
+
+            // 3. Copying text from the page (-10s)
+            document.addEventListener('copy', () => {
+                triggerIntegrityPenalty('PAGE_COPY', 10, 'Copied text from assessment page (-10s)');
+            });
+        }
+
+        /********************************************************************
+         * 7. UI RENDERING & QUESTION NAVIGATION
+         ********************************************************************/
+        function updateHUD() {
+            document.getElementById('hud-elo').textContent = state.elo;
+            document.getElementById('hud-streak').textContent = state.streak;
+
+            const tier = getRankTier(state.elo);
+            const tierEl = document.getElementById('hud-rank-tier');
+            tierEl.textContent = tier.name;
+            tierEl.className = `text-[10px] font-semibold leading-none ${tier.color}`;
+
+            let solvedCount = 0;
+            QUESTIONS.forEach(q => {
+                const p = state.progress[q.id];
+                if (p && p.stage1Passed && p.stage2Passed) solvedCount++;
+            });
+            document.getElementById('hud-solved').textContent = `${solvedCount}/10`;
+        }
+
+        function renderQuestionBar() {
+            const bar = document.getElementById('question-selector-bar');
+            bar.innerHTML = '';
+
+            QUESTIONS.forEach((q, idx) => {
+                const p = state.progress[q.id];
+                const isActive = idx === state.currentQIndex;
+                const isFullDone = p.stage1Passed && p.stage2Passed;
+                const isHalfDone = p.stage1Passed && !p.stage2Passed;
+
+                const btn = document.createElement('button');
+                btn.onclick = () => selectQuestion(idx);
+
+                let borderClass = "border-slate-800 bg-obsidian/70 text-slate-400 hover:border-slate-700";
+                let statusIcon = `<span class="w-2 h-2 rounded-full bg-slate-600"></span>`;
+
+                if (isFullDone) {
+                    borderClass = "border-emerald-500/40 bg-emerald-500/10 text-emerald-300";
+                    statusIcon = `<i class="fa-solid fa-circle-check text-emerald-400 text-[11px]"></i>`;
+                } else if (isHalfDone) {
+                    borderClass = "border-cyan-500/40 bg-cyan-500/10 text-cyan-300";
+                    statusIcon = `<i class="fa-solid fa-circle-half-stroke text-cyan-400 text-[11px]"></i>`;
+                }
+
+                if (isActive) {
+                    borderClass += " ring-2 ring-emerald-400/70 text-white";
+                }
+
+                btn.className = `flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-mono whitespace-nowrap transition-all ${borderClass}`;
+                btn.innerHTML = `
+                    ${statusIcon}
+                    <span class="font-bold">Q${q.id}</span>
+                    <span class="text-[11px] opacity-80">${q.skill}</span>
+                `;
+                bar.appendChild(btn);
+            });
+        }
+
+        function selectQuestion(index) {
+            // Save current editor code before switching
+            saveCurrentEditorCode();
+
+            state.currentQIndex = index;
+            const q = QUESTIONS[index];
+            const qProg = state.progress[q.id];
+
+            // Populate Left Problem Panel
+            document.getElementById('prob-number').textContent = `Q${q.id} / 10`;
+            document.getElementById('prob-skill-tag').textContent = q.skill;
+            document.getElementById('prob-elo-tag').textContent = `Target Elo: ${q.elo}`;
+            document.getElementById('prob-title').textContent = q.title;
+            document.getElementById('prob-desc').textContent = q.description;
+            document.getElementById('prob-signature').textContent = q.signature;
+            document.getElementById('editor-filename').textContent = `solution_q${q.id}.c`;
+
+            // Status badge
+            const statusBadge = document.getElementById('prob-status-badge');
+            if (qProg.stage1Passed && qProg.stage2Passed) {
+                statusBadge.textContent = "Mastered (Stage 1 & 2)";
+                statusBadge.className = "text-[11px] font-mono px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+            } else if (qProg.stage1Passed) {
+                statusBadge.textContent = "Stage 1 Cleared";
+                statusBadge.className = "text-[11px] font-mono px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40";
+            } else {
+                statusBadge.textContent = "Unsolved";
+                statusBadge.className = "text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 border border-slate-700";
+            }
+
+            // Test Cases list
+            const tcContainer = document.getElementById('prob-testcases');
+            tcContainer.innerHTML = q.testCases.map((tc, i) => `
+                <div class="bg-obsidian/70 border border-slate-800/90 rounded-xl p-2.5 font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                    <div><span class="text-slate-500">Case #${i + 1}:</span> <span class="text-slate-300">${tc.input}</span></div>
+                    <div class="text-emerald-400">→ ${tc.expected}</div>
+                </div>
+            `).join('');
+
+            // Load Editor Code
+            const editor = document.getElementById('c-code-editor');
+            editor.value = qProg.userCode || q.starterCode;
+            updateEditorLineNumbers();
+
+            // Hide hint drawer & reset console
+            document.getElementById('stage1-hint-box').classList.add('hidden');
+            document.getElementById('stage1-console').innerHTML = `<div class="text-slate-500">// Ready to compile and verify solution_q${q.id}.c against 3 test cases.</div>`;
+            document.getElementById('compiler-exec-time').textContent = "Ready";
+
+            // Update Stage 1 & 2 Header Buttons
+            updateStageButtonsUI();
+
+            // Render Stage 2 Twist Panel
+            renderTwistStage();
+
+            // Show/hide completion banner
+            updateCompletionCardUI();
+
+            // Switch to appropriate active stage
+            if (qProg.stage1Passed && !qProg.stage2Passed) {
+                setStageView(2);
+            } else {
+                setStageView(1);
+            }
+
+            updatePenaltyBadgeUI();
+            renderQuestionBar();
+            startQuestionTimer();
+            saveState();
+        }
+
+        function saveCurrentEditorCode() {
+            const q = QUESTIONS[state.currentQIndex];
+            if (!q) return;
+            const editor = document.getElementById('c-code-editor');
+            if (editor && state.progress[q.id]) {
+                state.progress[q.id].userCode = editor.value;
+            }
+        }
+
+        function updateStageButtonsUI() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+
+            const check1 = document.getElementById('stage1-check');
+            const lock2 = document.getElementById('stage2-lock-icon');
+
+            if (qProg.stage1Passed) {
+                check1.classList.remove('hidden');
+                lock2.className = qProg.stage2Passed
+                    ? "fa-solid fa-circle-check text-emerald-400"
+                    : "fa-solid fa-unlock text-cyan-400";
+            } else {
+                check1.classList.add('hidden');
+                lock2.className = "fa-solid fa-lock text-[11px] text-slate-500";
+            }
+        }
+
+        function setStageView(stageNum) {
+            state.currentStage = stageNum;
+            const s1Panel = document.getElementById('stage-1-panel');
+            const s2Panel = document.getElementById('stage-2-panel');
+            const btn1 = document.getElementById('btn-stage-1');
+            const btn2 = document.getElementById('btn-stage-2');
+
+            if (stageNum === 1) {
+                s1Panel.classList.remove('hidden');
+                s2Panel.classList.add('hidden');
+                btn1.className = "px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+                btn2.className = "px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-slate-800/70 text-slate-400 border border-slate-700/70 hover:text-white";
+            } else {
+                s1Panel.classList.add('hidden');
+                s2Panel.classList.remove('hidden');
+                btn1.className = "px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-slate-800/70 text-slate-400 border border-slate-700/70 hover:text-white";
+                btn2.className = "px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center gap-2 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40";
+                renderTwistStage();
+            }
+        }
+
+        /********************************************************************
+         * 8. STAGE 1: C CODE EDITOR & VERIFICATION ENGINE
+         ********************************************************************/
+        function updateEditorLineNumbers() {
+            const editor = document.getElementById('c-code-editor');
+            const lines = editor.value.split('\n').length;
+            const lineNumEl = document.getElementById('editor-line-numbers');
+            let html = '';
+            for (let i = 1; i <= Math.max(lines, 10); i++) {
+                html += `<div>${i}</div>`;
+            }
+            lineNumEl.innerHTML = html;
+        }
+
+        function setupCodeEditorEvents() {
+            const editor = document.getElementById('c-code-editor');
+            editor.addEventListener('input', () => {
+                updateEditorLineNumbers();
+                saveCurrentEditorCode();
+            });
+
+            // Support Tab key for 4 spaces
+            editor.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    const start = editor.selectionStart;
+                    const end = editor.selectionEnd;
+                    editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
+                    editor.selectionStart = editor.selectionEnd = start + 4;
+                    updateEditorLineNumbers();
+                }
+            });
+        }
+
+        function loadReferenceStarter() {
+            const q = QUESTIONS[state.currentQIndex];
+            const editor = document.getElementById('c-code-editor');
+            editor.value = q.emptyTemplate;
+            updateEditorLineNumbers();
+            saveCurrentEditorCode();
+        }
+
+        function fillSolutionHint() {
+            const q = QUESTIONS[state.currentQIndex];
+            const hintBox = document.getElementById('stage1-hint-box');
+            const hintText = document.getElementById('stage1-hint-text');
+            hintText.textContent = q.hintStage1;
+            hintBox.classList.remove('hidden');
+        }
+
+        function runStage1Verification() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            const code = document.getElementById('c-code-editor').value;
+            qProg.userCode = code;
+
+            const consoleEl = document.getElementById('stage1-console');
+            const execTimeEl = document.getElementById('compiler-exec-time');
+
+            // Basic syntax sanity check (balanced braces)
+            const openBraces = (code.match(/\{/g) || []).length;
+            const closeBraces = (code.match(/\}/g) || []).length;
+
+            if (openBraces === 0 || openBraces !== closeBraces) {
+                playSynthSound('fail');
+                execTimeEl.textContent = "Compilation Failed";
+                consoleEl.innerHTML = `
+                    <div class="text-rose-400 font-bold">[GCC Error] solution_q${q.id}.c: Unbalanced curly braces '{' and '}' detected.</div>
+                `;
+                return;
+            }
+
+            const result = q.validateStage1(code);
+            const simMs = (Math.random() * 1.8 + 0.4).toFixed(2);
+            execTimeEl.textContent = `Exec Time: ${simMs} ms`;
+
+            if (result.passed) {
+                qProg.stage1Passed = true;
+                playSynthSound('pass');
+                updateStageButtonsUI();
+                renderQuestionBar();
+                saveState();
+
+                consoleEl.innerHTML = `
+                    <div class="text-emerald-400 font-bold flex items-center justify-between">
+                        <span>✓ STAGE 1 VERIFIED — All 3 C Test Cases Passed (${simMs} ms)</span>
+                        <button onclick="setStageView(2)" class="px-3 py-1 rounded-lg bg-cyan-500 text-obsidian font-extrabold text-[11px] hover:bg-cyan-400 transition">
+                            Proceed to Stage 2: The Twist →
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+                        ${q.testCases.map((tc, idx) => `
+                            <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-lg p-2">
+                                <div class="text-emerald-300 font-bold text-[11px]">✓ Test Case #${idx + 1} PASS</div>
+                                <div class="text-slate-400 text-[10px] truncate">${tc.input}</div>
+                                <div class="text-emerald-400 text-[10px]">Output: ${tc.expected}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                playSynthSound('fail');
+                consoleEl.innerHTML = `
+                    <div class="text-rose-400 font-bold">✕ STAGE 1 VERIFICATION FAILED</div>
+                    <div class="text-amber-300 text-xs">${result.error}</div>
+                    <div class="text-slate-500 text-[11px]">Tip: Click "Concept Hint" above if you need a pointer on the required C construct.</div>
+                `;
+            }
+        }
+
+        /********************************************************************
+         * 9. STAGE 2: SEQUENTIAL FILL-IN-THE-BLANKS ("THE TWIST")
+         ********************************************************************/
+        function renderTwistStage() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            const twist = q.twist;
+
+            document.getElementById('twist-title').textContent = twist.title;
+            document.getElementById('twist-desc').textContent = twist.description;
+
+            const totalBlanks = twist.blanks.length;
+            const solvedCount = qProg.solvedBlanks.length;
+            document.getElementById('twist-progress-badge').textContent = `${solvedCount} / ${totalBlanks} Blanks Solved`;
+
+            // Render code template with interactive pills for [BLANK_1], [BLANK_2], etc.
+            let formattedCode = escapeHtml(twist.codeTemplate);
+            twist.blanks.forEach((b, idx) => {
+                const token = `[BLANK_${idx + 1}]`;
+                let replacement = '';
+                if (idx < solvedCount) {
+                    replacement = `<span class="blank-slot blank-solved">✓ ${escapeHtml(qProg.solvedBlanks[idx])}</span>`;
+                } else if (idx === solvedCount) {
+                    replacement = `<span class="blank-slot blank-active">▶ BLANK #${idx + 1}</span>`;
+                } else {
+                    replacement = `<span class="blank-slot blank-locked">🔒 BLANK #${idx + 1}</span>`;
+                }
+                formattedCode = formattedCode.replace(token, replacement);
+            });
+            document.getElementById('twist-code-display').innerHTML = formattedCode;
+
+            // Active Blank Controls
+            const controlsBox = document.getElementById('twist-active-controls');
+            const inputEl = document.getElementById('twist-blank-input');
+            const feedbackEl = document.getElementById('twist-feedback-msg');
+            feedbackEl.classList.add('hidden');
+
+            if (solvedCount < totalBlanks) {
+                controlsBox.classList.remove('hidden');
+                const currentBlankObj = twist.blanks[solvedCount];
+                document.getElementById('active-blank-badge').textContent = `BLANK #${solvedCount + 1} OF ${totalBlanks}`;
+                document.getElementById('active-blank-prompt').textContent = currentBlankObj.prompt;
+                inputEl.value = '';
+                inputEl.focus();
+            } else {
+                controlsBox.classList.add('hidden');
+            }
+
+            // Render Sequential Step Cards
+            const stepsList = document.getElementById('twist-steps-list');
+            stepsList.innerHTML = twist.blanks.map((b, idx) => {
+                const isSolved = idx < solvedCount;
+                const isCurrent = idx === solvedCount;
+                let cardStyle = "bg-obsidian/50 border-slate-800 text-slate-500";
+                let statusLabel = "LOCKED";
+                if (isSolved) {
+                    cardStyle = "bg-emerald-950/25 border-emerald-500/40 text-emerald-300";
+                    statusLabel = `SOLVED: ${qProg.solvedBlanks[idx]}`;
+                } else if (isCurrent) {
+                    cardStyle = "bg-cyan-950/25 border-cyan-500/40 text-cyan-300";
+                    statusLabel = "ACTIVE NOW";
+                }
+                return `
+                    <div class="border rounded-xl p-3 font-mono text-xs ${cardStyle}">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold">Blank #${idx + 1}</span>
+                            <span class="text-[10px] uppercase">${escapeHtml(statusLabel)}</span>
+                        </div>
+                        <div class="text-[11px] opacity-80 truncate">${escapeHtml(b.prompt)}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function verifyCurrentTwistBlank() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            const twist = q.twist;
+            const idx = qProg.solvedBlanks.length;
+
+            if (idx >= twist.blanks.length) return;
+
+            const userRaw = document.getElementById('twist-blank-input').value.trim();
+            const feedbackEl = document.getElementById('twist-feedback-msg');
+            feedbackEl.classList.remove('hidden');
+
+            if (!userRaw) {
+                feedbackEl.className = "mt-2.5 text-xs font-mono text-amber-400";
+                feedbackEl.textContent = "Please enter a C expression before verifying.";
+                return;
+            }
+
+            const currentBlank = twist.blanks[idx];
+            const normUser = normalizeToken(userRaw);
+            const matched = currentBlank.accepted.some(ans => normalizeToken(ans) === normUser);
+
+            if (matched) {
+                qProg.solvedBlanks.push(currentBlank.displayAnswer);
+                playSynthSound('pass');
+
+                // Check if all blanks are now solved
+                if (qProg.solvedBlanks.length === twist.blanks.length) {
+                    qProg.stage2Passed = true;
+                    // Auto-pass Stage 1 if user jumped straight to Stage 2 and solved it
+                    if (!qProg.stage1Passed) {
+                        qProg.stage1Passed = true;
+                    }
+                    finalizeQuestionMastery();
+                }
+
+                renderTwistStage();
+                updateStageButtonsUI();
+                renderQuestionBar();
+                saveState();
+            } else {
+                playSynthSound('fail');
+                feedbackEl.className = "mt-2.5 text-xs font-mono text-rose-400";
+                feedbackEl.textContent = `✕ Not quite matching expected C token for Blank #${idx + 1}. Click "Show Blank Hint" if stuck!`;
+            }
+        }
+
+        function showTwistBlankHint() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            const idx = qProg.solvedBlanks.length;
+            if (idx >= q.twist.blanks.length) return;
+
+            const currentBlank = q.twist.blanks[idx];
+            const feedbackEl = document.getElementById('twist-feedback-msg');
+            feedbackEl.classList.remove('hidden');
+            feedbackEl.className = "mt-2.5 text-xs font-mono text-amber-300";
+            feedbackEl.textContent = `💡 Hint for Blank #${idx + 1}: ${currentBlank.hint}`;
+        }
+
+        /********************************************************************
+         * 10. ELO RATING ENGINE & COMPLETION SUMMARY
+         ********************************************************************/
+        function finalizeQuestionMastery() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+
+            if (qProg.eloAwarded === 0) {
+                // Base Elo gain scaled by question difficulty, time bonus, minus integrity penalty
+                const baseGain = 24 + Math.round((q.elo - 400) / 35);
+                const timeBonus = Math.floor(timerSecondsLeft / 30);
+                const penaltyDeduction = Math.floor(qProg.penaltySeconds / 5);
+                const netDelta = Math.max(8, baseGain + timeBonus - penaltyDeduction);
+
+                qProg.eloAwarded = netDelta;
+                state.elo += netDelta;
+                state.streak += 1;
+
+                // Show animated delta in HUD
+                const deltaEl = document.getElementById('hud-elo-delta');
+                deltaEl.textContent = `+${netDelta}`;
+                deltaEl.className = "text-[11px] font-mono font-bold text-emerald-400 animate-bounce";
+                deltaEl.classList.remove('hidden');
+                setTimeout(() => deltaEl.classList.add('hidden'), 4000);
+            }
+
+            playSynthSound('complete');
+            updateHUD();
+            updateCompletionCardUI();
+            saveState();
+        }
+
+        function updateCompletionCardUI() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            const card = document.getElementById('completion-card');
+
+            if (qProg.stage1Passed && qProg.stage2Passed) {
+                card.classList.remove('hidden');
+                document.getElementById('completion-title').textContent = `Q${q.id}: ${q.title} — Both Stages Cleared!`;
+                document.getElementById('completion-metrics').textContent =
+                    `Skill Tag: ${q.skill} • Penalties: -${qProg.penaltySeconds}s (${qProg.violationCount} violations)`;
+                document.getElementById('completion-elo-change').textContent = `+${qProg.eloAwarded || 25} ELO`;
+            } else {
+                card.classList.add('hidden');
+            }
+        }
+
+        function goToNextQuestion() {
+            const nextIdx = (state.currentQIndex + 1) % QUESTIONS.length;
+            selectQuestion(nextIdx);
+        }
+
+        /********************************************************************
+         * 11. LEADERBOARD & SKILL FILTER VIEW
+         ********************************************************************/
+        function switchMainView(view) {
+            const arena = document.getElementById('view-arena');
+            const lb = document.getElementById('view-leaderboard');
+            const qBar = document.getElementById('question-bar-section');
+            const tabArena = document.getElementById('tab-arena');
+            const tabLb = document.getElementById('tab-leaderboard');
+
+            if (view === 'arena') {
+                arena.classList.remove('hidden');
+                qBar.classList.remove('hidden');
+                lb.classList.add('hidden');
+                tabArena.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30";
+                tabLb.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200";
+            } else {
+                arena.classList.add('hidden');
+                qBar.classList.add('hidden');
+                lb.classList.remove('hidden');
+                tabLb.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 bg-emerald-500/15 text-emerald-300 border border-emerald-500/30";
+                tabArena.className = "px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200";
+                renderSkillMasteryGrid();
+                renderLeaderboard();
+            }
+        }
+
+        function renderSkillMasteryGrid() {
+            const grid = document.getElementById('skill-mastery-grid');
+            const integrityScore = Math.max(50, 100 - state.totalViolationsAllTime * 4);
+            document.getElementById('telemetry-integrity').textContent = `${integrityScore}%`;
+            document.getElementById('telemetry-penalties').textContent = `-${state.totalPenaltySecondsAllTime}s`;
+
+            const categories = ["Pointers", "Arrays", "Strings", "Bit Manipulation", "Structs", "Memory", "Recursion", "Linked Lists", "Function Pointers", "Data Structures"];
+
+            grid.innerHTML = categories.map(cat => {
+                const matchingQs = QUESTIONS.filter(q => q.skill === cat);
+                let points = 0;
+                matchingQs.forEach(q => {
+                    const p = state.progress[q.id];
+                    if (p.stage1Passed) points += 50;
+                    if (p.stage2Passed) points += 50;
+                });
+                const pct = matchingQs.length ? Math.round(points / matchingQs.length) : 0;
+
+                return `
+                    <div class="bg-obsidian/80 border border-slate-800 rounded-xl p-3">
+                        <div class="flex items-center justify-between text-xs font-mono mb-1.5">
+                            <span class="text-slate-300 font-semibold truncate">${cat}</span>
+                            <span class="${pct === 100 ? 'text-emerald-400' : pct > 0 ? 'text-cyan-400' : 'text-slate-500'} font-bold">${pct}%</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-400" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setLeaderboardSkillFilter(skill) {
+            state.leaderboardSkillFilter = skill;
+            document.querySelectorAll('.lb-filter-btn').forEach(btn => {
+                if (btn.dataset.skill === skill) {
+                    btn.className = "lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+                } else {
+                    btn.className = "lb-filter-btn px-3 py-1 rounded-lg text-xs font-mono bg-obsidian text-slate-400 border border-slate-800 hover:text-white";
+                }
+            });
+            renderLeaderboard();
+        }
+
+        function renderLeaderboard() {
+            const search = (document.getElementById('leaderboard-search').value || '').toLowerCase();
+            const skillFilter = state.leaderboardSkillFilter;
+
+            let solvedCount = 0;
+            QUESTIONS.forEach(q => {
+                if (state.progress[q.id].stage1Passed && state.progress[q.id].stage2Passed) solvedCount++;
+            });
+            const userIntegrity = `${Math.max(50, 100 - state.totalViolationsAllTime * 4)}%`;
+
+            const userEntry = {
+                name: "you_coderank_pro (You)",
+                isUser: true,
+                specialty: "Pointers",
+                solved: solvedCount,
+                integrity: userIntegrity,
+                elo: state.elo
+            };
+
+            let combined = [...RIVAL_PLAYERS, userEntry].sort((a, b) => b.elo - a.elo);
+
+            combined = combined.filter(row => {
+                const matchesSearch = row.name.toLowerCase().includes(search);
+                const matchesSkill = skillFilter === 'All' || row.specialty === skillFilter || row.isUser;
+                return matchesSearch && matchesSkill;
+            });
+
+            const tbody = document.getElementById('leaderboard-tbody');
+            tbody.innerHTML = combined.map((row, idx) => {
+                const tier = getRankTier(row.elo);
+                const highlight = row.isUser
+                    ? "bg-emerald-500/10 border-l-4 border-l-emerald-400 text-white"
+                    : "hover:bg-obsidian/60 text-slate-300";
+
+                return `
+                    <tr class="${highlight} transition">
+                        <td class="py-3.5 px-4 font-bold">#${idx + 1}</td>
+                        <td class="py-3.5 px-4 font-semibold">
+                            ${escapeHtml(row.name)}
+                            ${row.isUser ? '<span class="ml-2 text-[10px] px-2 py-0.5 rounded bg-emerald-500 text-obsidian font-extrabold">LIVE</span>' : ''}
+                        </td>
+                        <td class="py-3.5 px-4 ${tier.color}">${tier.name}</td>
+                        <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-obsidian border border-slate-800 text-slate-300">${row.specialty}</span></td>
+                        <td class="py-3.5 px-4">${row.solved}/10</td>
+                        <td class="py-3.5 px-4 text-emerald-400">${row.integrity}</td>
+                        <td class="py-3.5 px-4 text-right font-extrabold text-emerald-400">${row.elo}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        /********************************************************************
+         * 12. RESET MODAL & INITIALIZATION
+         ********************************************************************/
+        function openResetModal() {
+            const m = document.getElementById('reset-modal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeResetModal() {
+            const m = document.getElementById('reset-modal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+
+        function confirmResetProgress() {
+            localStorage.removeItem(STORAGE_KEY);
+            state = {
+                elo: 400,
+                streak: 0,
+                currentQIndex: 0,
+                currentStage: 1,
+                audioEnabled: state.audioEnabled,
+                totalPenaltySecondsAllTime: 0,
+                totalViolationsAllTime: 0,
+                leaderboardSkillFilter: "All",
+                progress: {}
+            };
+            initDefaultProgress();
+            closeResetModal();
+            updateHUD();
+            selectQuestion(0);
+            document.getElementById('integrity-log').innerHTML = `<div class="text-slate-500">[SYSTEM] Progress reset. Integrity monitor re-armed at 400 Elo.</div>`;
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        window.onload = function () {
+            loadState();
+            setupCodeEditorEvents();
+            setupIntegrityListeners();
+            updateHUD();
+            selectQuestion(state.currentQIndex || 0);
+        };
+    </script>
+</body>
+</html>
