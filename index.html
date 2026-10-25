@@ -301,45 +301,45 @@
                             <!-- Populated dynamically -->
                         </div>
                     </div>
-                </div>
-
-                <!-- Live Integrity Monitor Panel -->
+                    <!-- Live Integrity Monitor Panel -->
                 <div class="bg-slatepanel border border-slate-800 rounded-2xl p-4 shadow-lg">
                     <div class="flex items-center justify-between mb-3">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-shield-halved text-emerald-400 text-sm"></i>
-                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Live Anti-Cheat & Integrity Engine</h3>
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Live Anti-Cheat & Malpractice Engine</h3>
                         </div>
-                        <span class="text-[10px] font-mono text-slate-400">ACTIVE</span>
+                        <div id="tab-switch-counter-pill" class="px-2 py-0.5 rounded-full bg-obsidian border border-slate-700 text-[10px] font-mono text-amber-300 font-bold">
+                            Tab Switches: 0 / 5
+                        </div>
                     </div>
 
                     <!-- Rule Matrix -->
                     <div class="grid grid-cols-3 gap-2 mb-3 text-center">
                         <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
-                            <div class="text-[10px] text-slate-400">Tab / Blur</div>
-                            <div class="font-mono font-bold text-xs text-rose-400">-15s</div>
+                            <div class="text-[10px] text-slate-400">Tab Switch</div>
+                            <div class="font-mono font-bold text-[11px] text-rose-400">-15s (&gt;5: -10 ELO)</div>
                         </div>
                         <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
                             <div class="text-[10px] text-slate-400">Paste / Drop</div>
-                            <div class="font-mono font-bold text-xs text-rose-400">-30s</div>
+                            <div class="font-mono font-bold text-[11px] text-rose-400">-30s Timer</div>
                         </div>
                         <div class="bg-obsidian/70 border border-slate-800/80 rounded-xl p-2">
-                            <div class="text-[10px] text-slate-400">Page Copy</div>
-                            <div class="font-mono font-bold text-xs text-rose-400">-10s</div>
+                            <div class="text-[10px] text-slate-400">Copy Question</div>
+                            <div class="font-mono font-bold text-[11px] text-rose-400">-10 ELO &amp; -10s</div>
                         </div>
                     </div>
 
                     <!-- Simulate Penalty Test Controls -->
                     <div class="flex flex-wrap items-center gap-1.5 mb-3">
-                        <span class="text-[11px] text-slate-400 mr-1">Simulate Test:</span>
-                        <button onclick="triggerIntegrityPenalty('TAB_SWITCH', 15, 'Simulated Tab/Window Blur (-15s)')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
-                            Tab Blur (-15s)
+                        <span class="text-[11px] text-slate-400 mr-1">Simulate:</span>
+                        <button onclick="handleTabSwitchViolation('Simulated Tab Switch')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Tab Switch (-15s / &gt;5: -10 ELO)
                         </button>
-                        <button onclick="triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Simulated Code Paste/Drop (-30s)')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                        <button onclick="handleCopyQuestionViolation('Simulated Question Copy')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+                            Copy Question (-10 ELO)
+                        </button>
+                        <button onclick="triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Simulated Code Paste/Drop (-30s)', 0)" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
                             Paste (-30s)
-                        </button>
-                        <button onclick="triggerIntegrityPenalty('COPY_DETECTED', 10, 'Simulated Page Copy (-10s)')" class="text-[11px] font-mono px-2 py-1 rounded bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
-                            Copy (-10s)
                         </button>
                     </div>
 
@@ -392,10 +392,10 @@
                             <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
                             <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
                             <span id="editor-filename" class="ml-2 font-mono text-xs text-slate-300">solution_q1.c</span>
-                            <span class="text-[11px] font-mono text-slate-500 hidden sm:inline">• GCC C11 Standard (-O2 -Wall)</span>
+                            <span class="text-[11px] font-mono text-emerald-400/80 hidden sm:inline">• Auto-Indent &amp; Smart Braces Active</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span class="text-[11px] font-mono text-slate-400 hidden md:inline">Tab key inserts 4 spaces</span>
+                            <span class="text-[11px] font-mono text-slate-400 hidden md:inline">Enter: Auto-Index • Tab: 4 spaces</span>
                             <button onclick="runStage1Verification()" id="btn-run-stage1" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-obsidian font-mono font-bold text-xs shadow-lg transition flex items-center gap-2">
                                 <i class="fa-solid fa-play"></i>
                                 <span>Run & Verify Stage 1</span>
@@ -403,10 +403,27 @@
                         </div>
                     </div>
 
-                    <!-- Line-Numbered Code Editor -->
-                    <div class="code-editor-wrapper flex bg-obsidian/95 min-h-[270px] max-h-[360px] overflow-y-auto p-4">
-                        <div id="editor-line-numbers" class="line-numbers font-mono select-none">1</div>
-                        <textarea id="c-code-editor" class="c-editor flex-1 pl-4 font-mono" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
+                    <!-- Line-Numbered Code Editor with Read-First Lock Overlay -->
+                    <div class="relative">
+                        <!-- Read-First Start Overlay -->
+                        <div id="read-first-overlay" class="absolute inset-0 z-20 bg-obsidian/85 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center transition-all">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl mb-3 shadow-lg glow-emerald">
+                                <i class="fa-solid fa-book-open-reader"></i>
+                            </div>
+                            <h3 class="text-base sm:text-lg font-extrabold text-white mb-1">Read the Initial Problem Statement First</h3>
+                            <p class="text-xs text-slate-300 max-w-md mb-5 leading-relaxed">
+                                Review the problem specification, function prototype, and 3 verification test cases on the left. Your <strong>05:00 stage timer</strong> will remain paused until you click Start below.
+                            </p>
+                            <button onclick="beginCodingSession()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-obsidian font-mono font-extrabold text-xs sm:text-sm shadow-xl glow-emerald transition transform hover:scale-105 flex items-center gap-2.5">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Start Coding &amp; Start 05:00 Timer</span>
+                            </button>
+                        </div>
+
+                        <div class="code-editor-wrapper flex bg-obsidian/95 min-h-[270px] max-h-[360px] overflow-y-auto p-4" id="editor-scroll-container">
+                            <div id="editor-line-numbers" class="line-numbers font-mono select-none">1</div>
+                            <textarea id="c-code-editor" class="c-editor flex-1 pl-4 font-mono" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" disabled></textarea>
+                        </div>
                     </div>
 
                     <!-- Stage 1 Hint Drawer (Hidden by default) -->
@@ -1162,7 +1179,7 @@
         /********************************************************************
          * 3. APPLICATION STATE & PERSISTENCE
          ********************************************************************/
-        const STORAGE_KEY = "coderank_c_pro_state_v1";
+        const STORAGE_KEY = "coderank_c_pro_state_v2";
 
         let state = {
             elo: 400,
@@ -1172,6 +1189,7 @@
             audioEnabled: true,
             totalPenaltySecondsAllTime: 0,
             totalViolationsAllTime: 0,
+            tabSwitchCount: 0,
             leaderboardSkillFilter: "All",
             // Per-question state keyed by question id (1..10)
             progress: {}
@@ -1179,7 +1197,8 @@
 
         // Active runtime timer state
         let timerSecondsLeft = 300; // 5:00
-        let timerPaused = false;
+        let timerPaused = true;
+        let timerStartedForCurrentQ = false;
         let timerInterval = null;
         let lastBlurTimestamp = 0;
 
@@ -1187,6 +1206,7 @@
             QUESTIONS.forEach(q => {
                 if (!state.progress[q.id]) {
                     state.progress[q.id] = {
+                        stage1Started: false,
                         stage1Passed: false,
                         stage2Passed: false,
                         currentBlankIndex: 0,
@@ -1313,17 +1333,26 @@
         /********************************************************************
          * 6. 5:00 TIMER & LIVE INTEGRITY ENGINE
          ********************************************************************/
-        function startQuestionTimer() {
+        function startQuestionTimer(autoStartNow = false) {
             if (timerInterval) clearInterval(timerInterval);
             timerSecondsLeft = 300;
-            timerPaused = false;
+
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            const isAlreadyActive = autoStartNow || qProg.stage1Started || qProg.stage1Passed;
+
+            timerStartedForCurrentQ = isAlreadyActive;
+            timerPaused = !isAlreadyActive;
+
+            updateReadFirstOverlayUI();
+            updatePauseButtonUI();
             updateTimerUI();
 
             timerInterval = setInterval(() => {
-                if (timerPaused) return;
-                const q = QUESTIONS[state.currentQIndex];
-                const qProg = state.progress[q.id];
-                if (qProg.stage1Passed && qProg.stage2Passed) return; // Stop ticking once completed
+                if (!timerStartedForCurrentQ || timerPaused) return;
+                const currQ = QUESTIONS[state.currentQIndex];
+                const currProg = state.progress[currQ.id];
+                if (currProg.stage1Passed && currProg.stage2Passed) return; // Stop ticking once completed
 
                 if (timerSecondsLeft > 0) {
                     timerSecondsLeft--;
@@ -1332,14 +1361,60 @@
             }, 1000);
         }
 
-        function togglePauseTimer() {
-            timerPaused = !timerPaused;
+        function beginCodingSession() {
+            const q = QUESTIONS[state.currentQIndex];
+            const qProg = state.progress[q.id];
+            qProg.stage1Started = true;
+            timerStartedForCurrentQ = true;
+            timerPaused = false;
+
+            updateReadFirstOverlayUI();
+            updatePauseButtonUI();
+            updateTimerUI();
+            playSynthSound('pass');
+            saveState();
+
+            const editor = document.getElementById('c-code-editor');
+            editor.disabled = false;
+            editor.focus();
+        }
+
+        function updateReadFirstOverlayUI() {
+            const overlay = document.getElementById('read-first-overlay');
+            const editor = document.getElementById('c-code-editor');
+            const runBtn = document.getElementById('btn-run-stage1');
+
+            if (timerStartedForCurrentQ) {
+                overlay.classList.add('hidden');
+                editor.disabled = false;
+                runBtn.disabled = false;
+                runBtn.classList.remove('opacity-50', 'pointer-events-none');
+            } else {
+                overlay.classList.remove('hidden');
+                editor.disabled = true;
+                runBtn.disabled = true;
+                runBtn.classList.add('opacity-50', 'pointer-events-none');
+            }
+        }
+
+        function updatePauseButtonUI() {
             const btn = document.getElementById('btn-timer-pause');
-            if (timerPaused) {
+            if (!timerStartedForCurrentQ) {
+                btn.innerHTML = `<i class="fa-solid fa-hourglass-start mr-1 text-cyan-400"></i>Waiting Start`;
+            } else if (timerPaused) {
                 btn.innerHTML = `<i class="fa-solid fa-play mr-1 text-emerald-400"></i>Resume`;
             } else {
                 btn.innerHTML = `<i class="fa-solid fa-pause mr-1"></i>Pause`;
             }
+        }
+
+        function togglePauseTimer() {
+            if (!timerStartedForCurrentQ) {
+                beginCodingSession();
+                return;
+            }
+            timerPaused = !timerPaused;
+            updatePauseButtonUI();
         }
 
         function updateTimerUI() {
@@ -1365,7 +1440,63 @@
             }
         }
 
-        function triggerIntegrityPenalty(code, seconds, reasonText) {
+        function applyDirectEloPenalty(amount) {
+            if (amount <= 0) return;
+            state.elo = Math.max(100, state.elo - amount);
+            updateHUD();
+
+            const deltaEl = document.getElementById('hud-elo-delta');
+            deltaEl.textContent = `-${amount}`;
+            deltaEl.className = "text-[11px] font-mono font-bold text-rose-400 animate-bounce";
+            deltaEl.classList.remove('hidden');
+            setTimeout(() => deltaEl.classList.add('hidden'), 4000);
+        }
+
+        function updateTabSwitchCounterUI() {
+            const pill = document.getElementById('tab-switch-counter-pill');
+            if (!pill) return;
+            const count = state.tabSwitchCount || 0;
+            pill.textContent = `Tab Switches: ${count} / 5`;
+            if (count > 5) {
+                pill.className = "px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500 text-[10px] font-mono text-rose-300 font-bold animate-pulse";
+            } else if (count >= 4) {
+                pill.className = "px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/50 text-[10px] font-mono text-amber-300 font-bold";
+            } else {
+                pill.className = "px-2 py-0.5 rounded-full bg-obsidian border border-slate-700 text-[10px] font-mono text-amber-300 font-bold";
+            }
+        }
+
+        function handleTabSwitchViolation(sourceLabel) {
+            state.tabSwitchCount = (state.tabSwitchCount || 0) + 1;
+            updateTabSwitchCounterUI();
+
+            if (state.tabSwitchCount > 5) {
+                triggerIntegrityPenalty(
+                    'MALPRACTICE_TAB_LIMIT',
+                    15,
+                    `${sourceLabel} (Switch #${state.tabSwitchCount} > 5 limit: -10 ELO & -15s)`,
+                    10
+                );
+            } else {
+                triggerIntegrityPenalty(
+                    'TAB_SWITCH',
+                    15,
+                    `${sourceLabel} (Switch ${state.tabSwitchCount}/5: -15s timer; >5 deducts -10 ELO)`,
+                    0
+                );
+            }
+        }
+
+        function handleCopyQuestionViolation(sourceLabel) {
+            triggerIntegrityPenalty(
+                'MALPRACTICE_COPY',
+                10,
+                `${sourceLabel} — Malpractice: -10 ELO & -10s deducted`,
+                10
+            );
+        }
+
+        function triggerIntegrityPenalty(code, seconds, reasonText, eloDeduction = 0) {
             const q = QUESTIONS[state.currentQIndex];
             const qProg = state.progress[q.id];
 
@@ -1375,6 +1506,10 @@
             qProg.violationCount += 1;
             state.totalPenaltySecondsAllTime += seconds;
             state.totalViolationsAllTime += 1;
+
+            if (eloDeduction > 0) {
+                applyDirectEloPenalty(eloDeduction);
+            }
 
             updateTimerUI();
             updatePenaltyBadgeUI();
@@ -1394,31 +1529,33 @@
 
             badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-500/20 border border-rose-500 text-rose-300 text-[11px] font-mono font-bold";
             dot.className = "w-2 h-2 rounded-full bg-rose-500 animate-ping";
-            txt.textContent = `VIOLATION: -${seconds}s`;
+            txt.textContent = eloDeduction > 0 ? `MALPRACTICE: -${eloDeduction} ELO & -${seconds}s` : `VIOLATION: -${seconds}s`;
 
             setTimeout(() => {
                 badge.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono font-semibold";
                 dot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
                 txt.textContent = "INTEGRITY: SECURE";
-            }, 3200);
+            }, 3500);
 
             // Show floating toast
             const toast = document.getElementById('penalty-toast');
-            document.getElementById('penalty-toast-title').textContent = `INTEGRITY PENALTY: ${code}`;
-            document.getElementById('penalty-toast-desc').textContent = `${reasonText} • Timer reduced by -${seconds}s`;
+            document.getElementById('penalty-toast-title').textContent = eloDeduction > 0
+                ? `MALPRACTICE PENALTY: -${eloDeduction} ELO`
+                : `INTEGRITY PENALTY: ${code}`;
+            document.getElementById('penalty-toast-desc').textContent = reasonText;
             toast.classList.remove('opacity-0', '-translate-y-4');
             toast.classList.add('opacity-100', 'translate-y-0');
 
             setTimeout(() => {
                 toast.classList.remove('opacity-100', 'translate-y-0');
                 toast.classList.add('opacity-0', '-translate-y-4');
-            }, 3000);
+            }, 3400);
 
             // Append to live violation log
             const logEl = document.getElementById('integrity-log');
             const timestamp = new Date().toLocaleTimeString();
             const entry = document.createElement('div');
-            entry.className = "text-rose-400 font-semibold";
+            entry.className = eloDeduction > 0 ? "text-rose-300 font-bold bg-rose-950/60 px-1.5 py-0.5 rounded" : "text-rose-400 font-semibold";
             entry.textContent = `[${timestamp}] ${code}: ${reasonText}`;
             logEl.prepend(entry);
         }
@@ -1437,13 +1574,13 @@
         }
 
         function setupIntegrityListeners() {
-            // 1. Leaving the tab or window (-15s)
+            // 1. Leaving the tab or window (-15s, and -10 Elo when > 5 switches)
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
                     const now = Date.now();
                     if (now - lastBlurTimestamp > 1500) {
                         lastBlurTimestamp = now;
-                        triggerIntegrityPenalty('TAB_LEFT', 15, 'Left tab or minimized browser window (-15s)');
+                        handleTabSwitchViolation('Left tab or minimized browser window');
                     }
                 }
             });
@@ -1452,7 +1589,7 @@
                 const now = Date.now();
                 if (now - lastBlurTimestamp > 1500) {
                     lastBlurTimestamp = now;
-                    triggerIntegrityPenalty('WINDOW_BLUR', 15, 'Focus left CodeRank window (-15s)');
+                    handleTabSwitchViolation('Focus left CodeRank window');
                 }
             });
 
@@ -1462,16 +1599,16 @@
 
             [codeEditor, twistInput].forEach(inputEl => {
                 inputEl.addEventListener('paste', () => {
-                    triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Pasted clipboard text into code editor (-30s)');
+                    triggerIntegrityPenalty('PASTE_DETECTED', 30, 'Pasted clipboard text into code editor (-30s)', 0);
                 });
                 inputEl.addEventListener('drop', () => {
-                    triggerIntegrityPenalty('DROP_DETECTED', 30, 'Dropped external text into code editor (-30s)');
+                    triggerIntegrityPenalty('DROP_DETECTED', 30, 'Dropped external text into code editor (-30s)', 0);
                 });
             });
 
-            // 3. Copying text from the page (-10s)
+            // 3. Copying questions/text from the page (-10 Elo & -10s Malpractice)
             document.addEventListener('copy', () => {
-                triggerIntegrityPenalty('PAGE_COPY', 10, 'Copied text from assessment page (-10s)');
+                handleCopyQuestionViolation('Copied question/page text');
             });
         }
 
@@ -1673,15 +1810,90 @@
                 saveCurrentEditorCode();
             });
 
-            // Support Tab key for 4 spaces
+            // Smart C Editor: Auto-Indentation (Auto-Indexing), Tab, and Bracket Pairing
             editor.addEventListener('keydown', (e) => {
+                const start = editor.selectionStart;
+                const end = editor.selectionEnd;
+                const val = editor.value;
+
+                // 1. Tab key inserts 4 spaces (or indents selection)
                 if (e.key === 'Tab') {
                     e.preventDefault();
-                    const start = editor.selectionStart;
-                    const end = editor.selectionEnd;
-                    editor.value = editor.value.substring(0, start) + "    " + editor.value.substring(end);
-                    editor.selectionStart = editor.selectionEnd = start + 4;
+                    if (e.shiftKey) {
+                        // Unindent current line by up to 4 spaces
+                        const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+                        const currentLinePrefix = val.substring(lineStart, start);
+                        const leadingSpaces = (currentLinePrefix.match(/^ {1,4}/) || [''])[0].length;
+                        if (leadingSpaces > 0) {
+                            editor.value = val.substring(0, lineStart) + val.substring(lineStart + leadingSpaces);
+                            editor.selectionStart = editor.selectionEnd = Math.max(lineStart, start - leadingSpaces);
+                        }
+                    } else {
+                        editor.value = val.substring(0, start) + "    " + val.substring(end);
+                        editor.selectionStart = editor.selectionEnd = start + 4;
+                    }
                     updateEditorLineNumbers();
+                    saveCurrentEditorCode();
+                    return;
+                }
+
+                // 2. Enter key: Automatic Line Indentation (Auto-Indexing)
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+                    const currentLineBeforeCursor = val.substring(lineStart, start);
+                    const baseIndentMatch = currentLineBeforeCursor.match(/^[ \t]*/);
+                    const baseIndent = baseIndentMatch ? baseIndentMatch[0] : '';
+
+                    const trimmedBefore = currentLineBeforeCursor.trimEnd();
+                    const charBefore = trimmedBefore.slice(-1);
+                    const charAfter = val.substring(end, end + 1);
+
+                    // If pressing Enter directly between `{` and `}`, expand into an indented block
+                    if (charBefore === '{' && charAfter === '}') {
+                        const innerIndent = baseIndent + '    ';
+                        const insertion = '\n' + innerIndent + '\n' + baseIndent;
+                        editor.value = val.substring(0, start) + insertion + val.substring(end);
+                        editor.selectionStart = editor.selectionEnd = start + 1 + innerIndent.length;
+                    } else {
+                        // Add extra 4 spaces if line opens a block with '{' or ':'
+                        const extraIndent = (charBefore === '{' || charBefore === ':') ? '    ' : '';
+                        const nextLineIndent = baseIndent + extraIndent;
+                        const insertion = '\n' + nextLineIndent;
+                        editor.value = val.substring(0, start) + insertion + val.substring(end);
+                        editor.selectionStart = editor.selectionEnd = start + insertion.length;
+                    }
+                    updateEditorLineNumbers();
+                    saveCurrentEditorCode();
+                    return;
+                }
+
+                // 3. Auto-outdent closing curly brace `}` when typed on an indented blank line
+                if (e.key === '}' && start === end) {
+                    const lineStart = val.lastIndexOf('\n', start - 1) + 1;
+                    const beforeInLine = val.substring(lineStart, start);
+                    if (/^ {4,}$/.test(beforeInLine)) {
+                        e.preventDefault();
+                        const newIndent = beforeInLine.slice(0, -4);
+                        editor.value = val.substring(0, lineStart) + newIndent + '}' + val.substring(end);
+                        editor.selectionStart = editor.selectionEnd = lineStart + newIndent.length + 1;
+                        updateEditorLineNumbers();
+                        saveCurrentEditorCode();
+                        return;
+                    }
+                }
+
+                // 4. Auto-pair opening curly brace `{`
+                if (e.key === '{' && start === end) {
+                    const nextChar = val.substring(end, end + 1);
+                    if (!nextChar || /[\s\)\};,]/.test(nextChar)) {
+                        e.preventDefault();
+                        editor.value = val.substring(0, start) + '{}' + val.substring(end);
+                        editor.selectionStart = editor.selectionEnd = start + 1;
+                        updateEditorLineNumbers();
+                        saveCurrentEditorCode();
+                        return;
+                    }
                 }
             });
         }
@@ -2096,12 +2308,14 @@
                 audioEnabled: state.audioEnabled,
                 totalPenaltySecondsAllTime: 0,
                 totalViolationsAllTime: 0,
+                tabSwitchCount: 0,
                 leaderboardSkillFilter: "All",
                 progress: {}
             };
             initDefaultProgress();
             closeResetModal();
             updateHUD();
+            updateTabSwitchCounterUI();
             selectQuestion(0);
             document.getElementById('integrity-log').innerHTML = `<div class="text-slate-500">[SYSTEM] Progress reset. Integrity monitor re-armed at 400 Elo.</div>`;
         }
@@ -2119,6 +2333,7 @@
             setupCodeEditorEvents();
             setupIntegrityListeners();
             updateHUD();
+            updateTabSwitchCounterUI();
             selectQuestion(state.currentQIndex || 0);
         };
     </script>
